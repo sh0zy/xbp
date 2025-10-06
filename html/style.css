@@ -1,0 +1,191 @@
+html {
+  /* font-family: 'Dancing Script', cursive; */
+  font-family: 'Noto Sans JP', sans-serif;
+  /* font-family: 'Noto Sans JP', sans-serif; */
+}
+
+.pop {font-family: 'poppins' , sans-serif;}
+
+.container {
+ width: 90%;
+ max-width: 1120px;
+ margin :0 auto;
+ position: relative;
+}
+
+.flex{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+header {
+padding: 27px 0;
+}
+
+.logo{
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.logo span{
+  color: orange;
+}
+.header_menu li{
+  margin-left: 40px
+}
+
+.header_menu li a {
+  transition: .3s;
+}
+.header_menu li a:hover {
+  color: orange;
+  transition: .3s;
+}
+
+#hero{
+  background-image: url(./images/プログラミング.png);
+  background-position: center;
+  background-size: cover;
+  height: 540px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  margin-bottom:90px;
+  overflow: hidden;
+}
+#hero::before {
+ content: '';
+ width: 100% ;
+ height: 100% ;
+ background-color: #000000;
+ position: absolute;
+ top: 0;
+ left: 0;
+ opacity: 0.2;
+ z-index: 1;
+}
+.hero_inner {
+  z-index: 2;
+  color :#ffffff;
+  width: 100%;
+  text-align: center;
+}
+.hero-inner p {
+  font-size: 20px;
+  font-weight:500;
+  margin-bottom: 16px;
+} 
+.hero_inner h1 {
+  font-size: 32px;
+  font-weight: 700px;
+  margin-bottom: 30px;
+}
+
+#html {
+  margin-bottom: 120px;
+}
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: orange;
+  margin-bottom: 60px;
+}
+#html h3 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 60px;
+}
+.column-2{
+  width: 48%;
+}
+.text{
+  line-height: 2;
+}
+.html-img{
+  background-image: url(./images/スクリーンショット\ 2025-10-06\ 161500.png);
+  background-position: center;
+  background-size: cover;
+  height: 340px;
+  border-radius: 20px;
+}
+
+.heading {
+  font-family: 'Dancing Script', cursive;
+  font-size: 200px;
+  font-weight: 700;
+  color: orange;
+  opacity: 0.1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateY(-10%);
+  z-index: -1;
+}
+#details{
+  margin-bottom: 120px;
+}
+.details_inner{
+margin-bottom: 40px;
+position: relative;
+}
+
+.column-40{
+  width:40%;
+}
+
+.column-55{
+  width: 55%;
+}
+
+#details img{
+  border-radius: 20px;
+}
+#details h3{
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+#git {
+  margin-bottom: 120px;
+}
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: orange;
+  margin-bottom: 60px;
+}
+#git h3 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 60px;
+}
+.column-2{
+  width: 48%;
+}
+.text{
+  line-height: 2;
+}
+.git-img{
+  background-image: url(./images/download.png);
+  background-position: center;
+  background-size: cover;
+  height: 340px;
+  border-radius: 20px;
+}
+
+.ing {
+  font-family: 'Dancing Script', cursive;
+  font-size: 200px;
+  font-weight: 700;
+  color: orange;
+  opacity: 0.1;
+  position:absolute;
+  top: 0;
+  right: 0;
+  transform: translateY(-22%);
+  z-index: -1;
+}
