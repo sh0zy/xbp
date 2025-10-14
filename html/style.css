@@ -189,3 +189,7 @@ position: relative;
   transform: translateY(-22%);
   z-index: -1;
 }
+
+.iframe{
+  margin-left:0;
+}
