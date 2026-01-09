@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FOCUS WAVE</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a1a33">
+</head>
+
+<body>
+
+<!-- SVG Wave -->
+<svg id="waveSVG" viewBox="0 0 1440 320" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="waveGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ccfff"/>
+      <stop offset="100%" stop-color="#1e90ff"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#waveGrad)" d="
+    M0,160
+    C120,200 240,120 360,140
+    C480,160 600,220 720,210
+    C840,200 960,140 1080,150
+    C1200,160 1320,210 1440,200
+    L1440,320 L0,320 Z">
+  </path>
+</svg>
+
+<div id="app">
+  <h1>FOCUS WAVE</h1>
+
+  <div class="glass">
+    <div id="timer">02:00:00</div>
+  </div>
+
+  <div class="controls">
+    <button onclick="start()">START</button>
+    <button onclick="useBreak()">BREAK</button>
+  </div>
+
+  <div class="glass">
+    <div class="score" id="score"></div>
+    <div id="rank"></div>
+    <div id="streak"></div>
+    <div id="fail"></div>
+    <div id="predict"></div>
+    <svg id="weekChart" viewBox="0 0 350 120"></svg>
+  </div>
+</div>
+
+<script>
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js");
+}
+
+const TOTAL=7200;
+let remaining=TOTAL,timer,running=false,breakUsed=false;
+
+const data=JSON.parse(localStorage.getItem("focusData")||"{}");
+data.score??=0;
+data.streak??=0;
+data.fail??=0;
+data.week??=Array(7).fill(0);
+
+const timerEl=timer=document.getElementById("timer");
+const scoreEl=document.getElementById("score");
+const rankEl=document.getElementById("rank");
+const streakEl=document.getElementById("streak");
+const failEl=document.getElementById("fail");
+const predictEl=document.getElementById("predict");
+const weekChart=document.getElementById("weekChart");
+const wave=document.getElementById("waveSVG");
+
+function fmt(t){
+  return`${String(t/3600|0).padStart(2,"0")}:${String(t%3600/60|0).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`;
+}
+function rank(s){
+  if(s>=400)return"Ascetic";
+  if(s>=300)return"Monk";
+  if(s>=200)return"Disciplined";
+  if(s>=100)return"Focused";
+  return"Novice";
+}
+function save(){
+  localStorage.setItem("focusData",JSON.stringify(data));
+}
+function renderWeekChart(){
+  weekChart.innerHTML=`
+    <defs>
+      <linearGradient id="barGrad" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="#1e90ff"/>
+        <stop offset="100%" stop-color="#7ccfff"/>
+      </linearGradient>
+    </defs>`;
+  const max=Math.max(...data.week,1);
+  const today=new Date().getDay();
+  data.week.forEach((v,i)=>{
+    const h=(v/max)*90;
+    weekChart.innerHTML+=`
+      <rect x="${10+i*45}" y="${110-h}"
+        width="30" height="${h}"
+        class="bar ${i===today?"today":""}"/>`;
+  });
+}
+function updateUI(){
+  timerEl.textContent=fmt(remaining);
+  scoreEl.textContent=`Score: ${data.score}`;
+  rankEl.textContent=`Rank: ${rank(data.score)}`;
+  streakEl.textContent=`Streak: ${data.streak}`;
+  failEl.textContent=`Failures: ${data.fail}`;
+  predictEl.textContent=`If success: ${data.score+50} / If fail: ${Math.max(0,data.score-30)}`;
+  wave.style.transform=`translateY(${(remaining/TOTAL)*40}%)`;
+  renderWeekChart();
+}
+function fail(){
+  clearInterval(timer);
+  running=false;
+  data.fail++;
+  data.streak=0;
+  data.score=Math.max(0,data.score-30);
+  save();updateUI();
+}
+function success(){
+  clearInterval(timer);
+  running=false;
+  data.score+=50;
+  data.streak++;
+  data.week[new Date().getDay()]+=TOTAL;
+  save();updateUI();
+  wave.style.transform="translateY(-60%)";
+  setTimeout(()=>wave.style.transform="translateY(0%)",1200);
+}
+function start(){
+  if(running)return;
+  running=true;
+  document.documentElement.requestFullscreen();
+  timer=setInterval(()=>{
+    remaining--;
+    updateUI();
+    if(remaining<=0)success();
+  },1000);
+}
+function useBreak(){
+  if(breakUsed||!running)return;
+  breakUsed=true;
+  clearInterval(timer);
+  setTimeout(start,30000);
+}
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden&&running)fail();
+});
+updateUI();
+</script>
+</body>
+</html>
