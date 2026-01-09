@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>集中用スタディタイマー</title>
+<style>
+    body {
+        margin: 0;
+        font-family: sans-serif;
+        background: #0a2540;
+        color: white;
+        overflow: hidden;
+    }
+
+    .container {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    #timer {
+        font-size: 64px;
+        margin: 20px 0;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 6px;
+    }
+
+    .wave {
+        position: absolute;
+        bottom: -100%;
+        left: 0;
+        width: 100%;
+        height: 200%;
+        background: linear-gradient(
+            to top,
+            #1e90ff 40%,
+            rgba(30,144,255,0.5) 60%,
+            transparent 100%
+        );
+        transition: bottom 0.5s linear;
+        z-index: 1;
+    }
+
+    .stats {
+        margin-top: 20px;
+        font-size: 14px;
+        opacity: 0.9;
+    }
+</style>
+</head>
+<body>
+
+<div class="wave" id="wave"></div>
+
+<div class="container">
+    <h1>集中タイマー</h1>
+    <div id="timer">25:00</div>
+    <button id="startBtn">スタート</button>
+
+    <div class="stats" id="stats"></div>
+</div>
+
+<script>
+const STUDY_TIME = 25 * 60; // 25分
+let timeLeft = STUDY_TIME;
+let timerId = null;
+let running = false;
+let startTimestamp = null;
+
+const timerEl = document.getElementById("timer");
+const waveEl = document.getElementById("wave");
+const statsEl = document.getElementById("stats");
+
+function format(sec) {
+    const m = String(Math.floor(sec / 60)).padStart(2, "0");
+    const s = String(sec % 60).padStart(2, "0");
+    return `${m}:${s}`;
+}
+
+function updateWave() {
+    const progress = 1 - timeLeft / STUDY_TIME;
+    waveEl.style.bottom = `${-100 + progress * 100}%`;
+}
+
+function resetTimer(reason = "") {
+    clearInterval(timerId);
+    timerId = null;
+    running = false;
+    timeLeft = STUDY_TIME;
+    timerEl.textContent = format(timeLeft);
+    updateWave();
+    startTimestamp = null;
+    if (reason) alert(reason);
+}
+
+function saveStudyTime(seconds) {
+    const now = new Date();
+    const key = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const data = JSON.parse(localStorage.getItem("study") || "{}");
+    data[key] = (data[key] || 0) + seconds;
+    localStorage.setItem("study", JSON.stringify(data));
+}
+
+function getWeeklyTotal() {
+    const data = JSON.parse(localStorage.getItem("study") || "{}");
+    const now = new Date();
+    let total = 0;
+
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(now);
+        d.setDate(now.getDate() - i);
+        const key = d.toISOString().slice(0, 10);
+        total += data[key] || 0;
+    }
+    return total;
+}
+
+function updateStats() {
+    const weekly = Math.floor(getWeeklyTotal() / 60);
+    statsEl.textContent = `今週の合計学習時間：${weekly} 分`;
+}
+
+document.getElementById("startBtn").onclick = () => {
+    if (running) return;
+    running = true;
+    startTimestamp = Date.now();
+
+    timerId = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = format(timeLeft);
+        updateWave();
+
+        if (timeLeft <= 0) {
+            clearInterval(timerId);
+            const studied = Math.floor((Date.now() - startTimestamp) / 1000);
+            saveStudyTime(studied);
+            updateStats();
+            alert("完了！お疲れさま！");
+            resetTimer();
+        }
+    }, 1000);
+};
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden && running) {
+        resetTimer("他のアプリ・タブを開いたためリセットされました");
+    }
+});
+
+updateStats();
+updateWave();
+</script>
+
+</body>
+</html>
