@@ -140,6 +140,36 @@ function success(){
   localStorage.history=JSON.stringify(history);
   analyze();checkBadges();waveUp();
 }
+let timerInterval = null;
+let timeLeft = totalSeconds;
+
+function startTimer() {
+  if (timerInterval) return; // 二重起動防止
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+
+    if (timeLeft <= 0) {
+      timeLeft = 0;
+      updateTimerDisplay();
+      finishFocus();
+      stopTimer();
+      return;
+    }
+
+    updateTimerDisplay();
+    updateWave();
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+
 
 /* ---- UI ---- */
 function format(s){

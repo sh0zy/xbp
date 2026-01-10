@@ -1,0 +1,28 @@
+body{
+ margin:0;
+ height:100vh;
+ background:#0a1a2a;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ color:#fff;
+ font-family:system-ui;
+}
+.app{
+ backdrop-filter:blur(12px);
+ background:rgba(255,255,255,.08);
+ padding:24px;
+ border-radius:24px;
+ width:320px;
+ text-align:center;
+}
+#wave{margin:10px 0}
+button{
+ width:100%;
+ margin:6px 0;
+ padding:12px;
+ border-radius:14px;
+ border:none;
+ background:#1ecbe1;
+ font-size:1rem;
+}

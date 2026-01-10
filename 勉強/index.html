@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Focus Wave</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="app">
+<h1>Focus Wave</h1>
+
+<div id="time">25:00</div>
+
+<!-- 波 -->
+<svg viewBox="0 0 500 120">
+ <path id="wavePath" fill="rgba(255,255,255,.35)"></path>
+</svg>
+
+<button id="start">START</button>
+<button id="pause">PAUSE</button>
+
+<!-- スコア -->
+<div id="score">集中スコア: 0</div>
+
+<!-- 環境音 -->
+<select id="sound">
+ <option value="wave">🌊 波</option>
+ <option value="rain">🌧 雨</option>
+</select>
+
+<!-- AI分析 -->
+<h2>AI集中分析</h2>
+<div id="ai"></div>
+
+<h2>週</h2>
+<canvas id="week" width="300" height="120"></canvas>
+
+<h2>月</h2>
+<canvas id="month" width="300" height="120"></canvas>
+
+<div id="badges"></div>
+</div>
+
+<!-- 🎧 音源 -->
+<audio id="waveAudio" loop src="https://cdn.pixabay.com/audio/2022/03/15/audio_7c8d0b6f3b.mp3"></audio>
+<audio id="rainAudio" loop src="https://cdn.pixabay.com/audio/2022/02/23/audio_2cbe6c30d0.mp3"></audio>
+
+<script>
+/* ===== 基本 ===== */
+const SESSION=25*60;
+let remaining=SESSION,timerId=null;
+let pauseUsed=false,score=0;
+
+const waveAudio=document.getElementById("waveAudio");
+const rainAudio=document.getElementById("rainAudio");
+
+/* ===== 表示 ===== */
+function render(){
+ const m=String(Math.floor(remaining/60)).padStart(2,"0");
+ const s=String(remaining%60).padStart(2,"0");
+ time.textContent=`${m}:${s}`;
+
+ // 🟢 スコア色変化
+ scoreEl=document.getElementById("score");
+ scoreEl.textContent=`集中スコア: ${score}`;
+ scoreEl.style.color=
+   score<600?"#ef476f":score<1200?"#ffd166":"#06d6a0";
+}
+
+/* ===== 波 ===== */
+function updateWave(){
+ const r=remaining/SESSION;
+ const y=80+r*30;
+ wavePath.setAttribute("d",
+ `M0 ${y} Q125 ${y-10} 250 ${y} T500 ${y} V120 H0 Z`);
+}
+
+/* ===== タイマー ===== */
+start.onclick=()=>{
+ if(timerId) return;
+ playSound();
+ timerId=setInterval(()=>{
+  remaining--;score++;
+  if(remaining<=0){
+    remaining=0;
+    stop();
+    save(true);
+    alert("集中成功！");
+  }
+  render();updateWave();
+ },1000);
+};
+
+pause.onclick=()=>{
+ if(pauseUsed) return;
+ pauseUsed=true;
+ stop();
+};
+
+function stop(){
+ clearInterval(timerId);
+ timerId=null;
+ waveAudio.pause();rainAudio.pause();
+}
+
+
+
+/* ===== ログ ===== */
+function save(success){
+ const log=JSON.parse(localStorage.getItem("log")||"[]");
+ log.push({date:new Date(),score,success});
+ localStorage.setItem("log",JSON.stringify(log));
+ renderGraphs();renderBadges();analyze();
+}
+
+/* ===== グラフ ===== */
+function drawGraph(c,days){
+ const ctx=c.getContext("2d");
+ ctx.clearRect(0,0,c.width,c.height);
+ const log=JSON.parse(localStorage.getItem("log")||"[]");
+ const d=new Array(days).fill(0);
+ log.forEach(l=>{
+  const diff=(Date.now()-new Date(l.date))/86400000|0;
+  if(diff<days) d[days-diff-1]+=l.score;
+ });
+ ctx.beginPath();
+ d.forEach((v,i)=>{
+  const x=i*(c.width/(days-1));
+  const y=c.height-(v/2000)*c.height;
+  i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+ });
+ ctx.strokeStyle="#1ecbe1";
+ ctx.stroke();
+}
+function renderGraphs(){
+ drawGraph(week,7);
+ drawGraph(month,30);
+}
+
+/* ===== バッジ ===== */
+function renderBadges(){
+ const log=JSON.parse(localStorage.getItem("log")||"[]");
+ badges.innerHTML="";
+ if(log.length>=5) badges.innerHTML+="🏆 継続5回 ";
+ if(log.filter(l=>l.success).length>=10)
+   badges.innerHTML+="🔥 集中マスター";
+}
+
+/* ===== 🧠 AI分析 ===== */
+function analyze(){
+ const log=JSON.parse(localStorage.getItem("log")||"[]");
+ if(log.length<3){
+  ai.textContent="データ不足（3回以上で分析）";
+  return;
+ }
+ const avg=log.reduce((a,b)=>a+b.score,0)/log.length;
+ const rate=log.filter(l=>l.success).length/log.length*100;
+ let msg=`平均スコア ${avg.toFixed(0)} / 成功率 ${rate.toFixed(0)}%\n`;
+ msg+= avg>1200?"非常に集中力が高いです🔥":
+       avg>800?"安定しています🙂":
+       "短時間集中を意識しましょう";
+ ai.textContent=msg;
+}
+
+/* ===== 🎧 音 ===== */
+function playSound(){
+ waveAudio.pause();rainAudio.pause();
+ (sound.value==="wave"?waveAudio:rainAudio).play();
+}
+
+/* 初期 */
+render();updateWave();renderGraphs();analyze();
+
+if("serviceWorker"in navigator){
+ navigator.serviceWorker.register("sw.js");
+}
+</script>
+</body>
+</html>
