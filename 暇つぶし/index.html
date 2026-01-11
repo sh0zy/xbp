@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wave Talk - 英会話AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- 背景の波 -->
+    <svg class="wave-bg" viewBox="0 0 800 600" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="waveGrad" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.7" />
+          <stop offset="50%" stop-color="#6366f1" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#a855f7" stop-opacity="0.55" />
+        </linearGradient>
+      </defs>
+      <path fill="url(#waveGrad)">
+        <animate attributeName="d" dur="12s" repeatCount="indefinite"
+          values="
+          M0,320 C160,260 320,380 480,330 C640,280 720,180 800,210 L800,600 L0,600 Z;
+          M0,310 C180,360 320,260 480,310 C640,360 680,220 800,250 L800,600 L0,600 Z;
+          M0,340 C200,300 320,390 500,320 C650,260 700,210 800,230 L800,600 L0,600 Z;
+          M0,320 C160,260 320,380 480,330 C640,280 720,180 800,210 L800,600 L0,600 Z
+          " />
+      </path>
+    </svg>
+
+    <header>
+      <div class="app-icon"></div>
+      <div class="app-title-block">
+        <div class="app-title">Wave Talk</div>
+        <div class="app-subtitle">声で話す英会話AI</div>
+      </div>
+      <div class="status-pill" id="status-pill">
+        <span class="status-dot"></span>
+        <span id="status-text">Idle</span>
+      </div>
+    </header>
+
+    <!-- テーマ選択 -->
+    <section class="theme-row" id="theme-row">
+      <button class="chip active" data-theme="daily">Daily</button>
+      <button class="chip" data-theme="travel">Travel</button>
+      <button class="chip" data-theme="business">Business</button>
+      <button class="chip" data-theme="roleplay">Roleplay</button>
+    </section>
+
+    <!-- チャット -->
+    <main class="chat" id="chat"></main>
+
+    <!-- 今日の成果 -->
+    <section class="today-panel">
+      <div class="today-header">
+        <span class="today-title">Today’s Wave</span>
+        <span class="today-level" id="today-level">Calm</span>
+      </div>
+      <div class="today-stats">
+        <div class="today-stat">
+          <span class="label">Turns</span>
+          <span class="value" id="today-turns">0</span>
+        </div>
+        <div class="today-stat">
+          <span class="label">Time</span>
+          <span class="value" id="today-minutes">0 min</span>
+        </div>
+        <div class="today-stat">
+          <span class="label">Streak</span>
+          <span class="value" id="today-streak">1 day</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 入力エリア -->
+    <section class="input-area">
+      <div class="hint">🎤 Mic を押して英語で話すと AI が返事します。</div>
+
+      <div class="controls-row">
+        <button class="mic-btn" id="mic-btn">
+          <div class="mic-dot"></div>
+          <div class="icon-mic"></div>
+          <span id="mic-label">Tap to speak</span>
+        </button>
+
+        <button class="speak-btn" id="speak-btn">
+          <div class="tiny-wave"><span></span><span></span><span></span></div>
+        </button>
+      </div>
+
+      <div class="note" id="note"></div>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
