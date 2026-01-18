@@ -1,0 +1,57 @@
+<body>
+  <!-- モード切り替え -->
+  <header class="top-bar">
+    <div class="left">
+      <span class="logo">Wave App Builder</span>
+    </div>
+    <div class="right">
+      <label class="mode-switch">
+        <input type="checkbox" id="minimalModeToggle" checked>
+        ミニマムモード
+      </label>
+      <button id="guideModeToggle">ガイドモード ON</button>
+    </div>
+  </header>
+
+  <!-- ガイドエリア -->
+  <div id="guideArea" class="guide-area">
+    💡 次は「アプリの説明」を書いてみよう。あなたの言葉で大丈夫だよ。
+  </div>
+
+  <!-- メインレイアウト -->
+  <div class="main-layout">
+
+    <!-- 入力エリア -->
+    <section id="inputArea" class="input-area">
+      <h3>📝 あなたのアプリについて教えてください</h3>
+      <textarea id="appInput"
+        placeholder="例：メモアプリを作りたい。タイトルと内容を保存したい。"></textarea>
+      <div class="input-actions">
+        <span id="autoSaveStatus">自動保存済み</span>
+        <button id="undoBtn">Undo</button>
+        <button id="redoBtn">Redo</button>
+      </div>
+    </section>
+
+    <!-- プレビューエリア -->
+    <section id="previewArea" class="preview-area">
+      <h3>📱 プレビュー</h3>
+      <div id="previewFrame" class="preview-frame">
+        <div class="preview-placeholder">
+          ここにあなたのアプリが表示されます。
+        </div>
+      </div>
+      <button id="installPWABtn">ホーム画面に追加（PWA）</button>
+    </section>
+
+  </div>
+
+  <!-- ミニマムでは隠す領域たち -->
+  <section id="advancedPanels" class="hidden-minimal">
+    <div id="treeView">（階層構造ツリー）</div>
+    <div id="propertyPanel">（プロパティ編集パネル）</div>
+    <div id="screenFlowArea">（画面遷移フロー）</div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
