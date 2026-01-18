@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>Wave App Builder – Prototype</title>
+<style>
+  body {
+    margin: 0;
+    background: #05081b;
+    color: #fff;
+    font-family: system-ui;
+  }
+
+  /* トップバー */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: #070b23;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .mode-switch {
+    margin-right: 12px;
+  }
+
+  /* ガイドエリア */
+  .guide-area {
+    background: rgba(77, 124, 255, 0.18);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin: 10px 20px;
+    font-size: 15px;
+  }
+
+  /* メインレイアウト */
+  .main-layout {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  /* 入力エリア */
+  .input-area {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 220px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: #fff;
+    resize: none;
+  }
+
+  .input-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #9aa4ff;
+  }
+
+  /* プレビュー */
+  .preview-area {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .preview-frame {
+    width: 360px;
+    height: 640px;
+    background: #11152f;
+    border-radius: 20px;
+    padding: 20px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+
+  .preview-placeholder {
+    opacity: 0.6;
+    font-size: 14px;
+  }
+
+  /* 次にやること */
+  .next-actions {
+    padding: 20px;
+  }
+
+  /* プロモードパネル */
+  .pro-panels {
+    display: none;
+    grid-template-columns: 260px 1fr 300px;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .panel {
+    background: rgba(255,255,255,0.05);
+    border-radius: 14px;
+    padding: 16px;
+    backdrop-filter: blur(6px);
+    height: 520px;
+    overflow-y: auto;
+  }
+
+  /* 遷移フロー */
+  .flow-panel {
+    display: none;
+    background: rgba(255,255,255,0.04);
+    margin: 20px;
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  /* ヘルプ */
+  .help {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    padding: 40px;
+    display: none;
+  }
+
+  button {
+    background: #4d7cff;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- トップバー -->
+<header class="top-bar">
+  <div class="left">
+    <span class="logo">Wave App Builder</span>
+  </div>
+
+  <div class="right">
+    <label class="mode-switch">
+      <input type="checkbox" id="minimalModeToggle" checked>
+      ミニマムモード
+    </label>
+
+    <button id="guideModeToggle">ガイドモード ON</button>
+    <button id="helpBtn">ヘルプ</button>
+  </div>
+</header>
+
+<!-- ガイドエリア -->
+<div id="guideArea" class="guide-area">
+   次は「アプリの説明」を書いてみよう。あなたの言葉で大丈夫だよ。
+</div>
+
+<!-- メインレイアウト -->
+<div class="main-layout">
+
+  <!-- 入力エリア -->
+  <section id="inputArea" class="input-area">
+    <h3>📝 あなたのアプリについて教えてください</h3>
+
+    <textarea id="appInput"
+      placeholder="例：メモアプリを作りたい。タイトルと内容を保存したい。"></textarea>
+
+    <div class="input-actions">
+      <span id="autoSaveStatus">自動保存済み</span>
+      <button id="undoBtn">Undo</button>
+      <button id="redoBtn">Redo</button>
+    </div>
+  </section>
+
+  <!-- プレビューエリア -->
+  <section id="previewArea" class="preview-area">
+    <h3>📱 プレビュー</h3>
+
+    <div id="previewFrame" class="preview-frame">
+      <div class="preview-placeholder">
+        ここにあなたのアプリが表示されます。
+      </div>
+    </div>
+
+    <button id="installPWABtn">ホーム画面に追加（PWA）</button>
+  </section>
+
+</div>
+
+<!-- 次にやること -->
+<section id="nextActionsArea" class="next-actions">
+  <h3>✨ 次にできること</h3>
+  <ul id="nextActions"></ul>
+</section>
+
+<!-- プロモードパネル -->
+<section id="proModePanels" class="pro-panels">
+  <div id="treeView" class="panel">📂 階層構造</div>
+  <div id="canvasPanel" class="panel">🖥️ キャンバス</div>
+  <div id="propertyPanel" class="panel">⚙️ プロパティ</div>
+</section>
+
+<!-- 遷移フロー -->
+<section id="screenFlowArea" class="flow-panel">
+  <h3>🔗 画面遷移フロー</h3>
+  <div id="screenFlowCanvas"></div>
+</section>
+
+<!-- ヘルプ -->
+<div id="helpPage" class="help">
+  <h2>5分で分かる Wave App Builder</h2>
+  <p>文章を書く → アプリができる → 触って育てる</p>
+  <button id="closeHelp">閉じる</button>
+</div>
+
+<script>
+let appState = {
+  structure: null,
+  history: [],
+  future: [],
+  minimalMode: true,
+  guideMode: true
+};
+
+/* ミニマムモード切替 */
+document.getElementById("minimalModeToggle").addEventListener("change", e => {
+  appState.minimalMode = e.target.checked;
+  setMinimalMode(appState.minimalMode);
+});
+
+function setMinimalMode(isMinimal) {
+  document.getElementById("proModePanels").style.display = isMinimal ? "none" : "grid";
+  document.getElementById("screenFlowArea").style.display = isMinimal ? "none" : "block";
+  renderGuideMessage();
+}
+
+/* ガイドモード切替 */
+document.getElementById("guideModeToggle").addEventListener("click", () => {
+  appState.guideMode = !appState.guideMode;
+  document.getElementById("guideModeToggle").textContent =
+    appState.guideMode ? "ガイドモード ON" : "ガイドモード OFF";
+  renderGuideMessage();
+});
+
+/* ガイドメッセージ */
+function renderGuideMessage() {
+  const guide = document.getElementById("guideArea");
+
+  if (!appState.guideMode) {
+    guide.textContent = "プロモード：自由に編集できます。";
+    return;
+  }
+
+  if (!appState.structure) {
+    guide.textContent = "💡 次は「アプリの説明」を書いてみよう。あなたの言葉で大丈夫だよ。";
+  } else {
+    guide.textContent = "💡 プレビューを触ってみよう。次に画面を増やしたくなったら教えてね。";
+  }
+}
+
+/* 入力 → 自動生成 */
+document.getElementById("appInput").addEventListener("input", () => {
+  const text = appInput.value.trim();
+
+  if (!text) {
+    appState.structure = null;
+    renderPreview();
+    return;
+  }
+
+  // 仮の構造生成
+  appState.structure = {
+    screens: [
+      {
+        id: "home",
+        name: "ホーム",
+        components: [
+          { type: "title", text: "メモ一覧" },
+          { type: "list", items: ["サンプル1", "サンプル2"] },
+          { type: "button", text: "新しいメモ" }
+        ]
+      }
+    ]
+  };
+
+  renderPreview();
+  suggestNextActions();
+  renderGuideMessage();
+});
+
+/* プレビュー描画 */
+function renderPreview() {
+  const frame = document.getElementById("previewFrame");
+
+  if (!appState.structure) {
+    frame.innerHTML = `<div class="preview-placeholder">ここにあなたのアプリが表示されます。</div>`;
+    return;
+  }
+
+  const home = appState.structure.screens[0];
+  let html = "";
+
+  home.components.forEach(c => {
+    if (c.type === "title") html += `<h2>${c.text}</h2>`;
+    if (c.type === "list") html += `<ul>${c.items.map(i => `<li>${i}</li>`).join("")}</ul>`;
+    if (c.type === "button") html += `<button>${c.text}</button>`;
+  });
+
+  frame.innerHTML = html;
+}
+
+/* 次にやること */
+function suggestNextActions() {
+  const list = document.getElementById("nextActions");
+
+  if (!appState.structure) {
+    list.innerHTML = "<li>アプリの説明を書いてみよう</li>";
+    return;
+  }
+
+  list.innerHTML = `
+    <li>画面をもう1つ追加してみる</li>
+    <li>ボタンに機能をつける</li>
+    <li>アプリのタイトルを変える</li>
+  `;
+}
+
+/* ヘルプ */
+document.getElementById("helpBtn").addEventListener("click", () => {
+  document.getElementById("helpPage").style.display = "block";
+});
+document.getElementById("closeHelp").addEventListener("click", () => {
+  document.getElementById("helpPage").style.display = "none";
+});
+
+/* 初期化 */
+window.addEventListener("load", () => {
+  setMinimalMode(true);
+  renderGuideMessage();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>Wave App Builder – Hybrid Analyze Prototype</title>
+<style>
+  body {
+    margin: 0;
+    background: #05081b;
+    color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: #070b23;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .logo { font-weight: 600; }
+  .mode-switch { margin-right: 12px; font-size: 14px; }
+  .top-bar .right button { margin-left: 6px; }
+
+  .guide-area {
+    background: rgba(77, 124, 255, 0.18);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin: 10px 20px;
+    font-size: 15px;
+    color: #dce3ff;
+    backdrop-filter: blur(6px);
+  }
+
+  .main-layout {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .input-area {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 220px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: #fff;
+    resize: none;
+    font-size: 14px;
+  }
+
+  .input-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #9aa4ff;
+  }
+
+  .preview-area {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .preview-frame {
+    width: 360px;
+    height: 640px;
+    background: #11152f;
+    border-radius: 20px;
+    padding: 20px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.35);
+  }
+
+  .preview-placeholder {
+    opacity: 0.6;
+    font-size: 14px;
+  }
+
+  .next-actions {
+    padding: 0 20px 20px;
+  }
+  .next-actions ul {
+    margin: 6px 0 0;
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  .pro-panels {
+    display: none;
+    grid-template-columns: 260px 1fr 300px;
+    gap: 16px;
+    padding: 0 20px 20px;
+  }
+  .panel {
+    background: rgba(255,255,255,0.05);
+    border-radius: 14px;
+    padding: 16px;
+    backdrop-filter: blur(6px);
+    height: 520px;
+    overflow-y: auto;
+    font-size: 14px;
+  }
+  .panel h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+  #canvasArea {
+    background: #11152f;
+    border-radius: 16px;
+    height: 460px;
+    padding: 20px;
+  }
+
+  #propertyContent label {
+    display: block;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  #propertyContent input {
+    width: 100%;
+    padding: 6px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 4px;
+    font-size: 13px;
+  }
+
+  .flow-panel {
+    display: none;
+    background: rgba(255,255,255,0.04);
+    margin: 0 20px 20px;
+    padding: 20px;
+    border-radius: 16px;
+  }
+  .flow-panel h3 {
+    margin-top: 0;
+    font-size: 14px;
+  }
+  .flow-canvas {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  #flowSvg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  #flowNodes {
+    position: absolute;
+    inset: 0;
+  }
+  .flow-node {
+    position: absolute;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .transition-line {
+    stroke-dasharray: 6 4;
+    animation: waveFlow 4s linear infinite;
+    opacity: 0.85;
+  }
+  @keyframes waveFlow {
+    from { stroke-dashoffset: 0; }
+    to   { stroke-dashoffset: -30; }
+  }
+
+  .help {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    padding: 40px;
+    display: none;
+  }
+  .help-inner {
+    max-width: 480px;
+    margin: 40px auto;
+    background: #11152f;
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  button {
+    background: #4d7cff;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="left">
+    <span class="logo">Wave App Builder</span>
+  </div>
+  <div class="right">
+    <label class="mode-switch">
+      <input type="checkbox" id="minimalModeToggle" checked>
+      ミニマムモード
+    </label>
+    <button id="guideModeToggle">ガイドモード ON</button>
+    <button id="helpBtn">ヘルプ</button>
+  </div>
+</header>
+
+<div id="guideArea" class="guide-area">
+  💡 次は「アプリの説明」を書いてみよう。あなたの言葉で大丈夫だよ。
+</div>
+
+<div class="main-layout">
+  <section id="inputArea" class="input-area">
+    <h3>📝 あなたのアプリについて教えてください</h3>
+    <textarea id="appInput"
+placeholder="例：
+メモの一覧画面と詳細画面を作りたい。
+一覧画面にはメモのタイトルを並べて、タップすると詳細画面へ遷移したい。
+詳細画面ではタイトルと内容を表示して、戻るボタンで一覧に戻りたい。"></textarea>
+    <div class="input-actions">
+      <span id="autoSaveStatus">入力待ち</span>
+    </div>
+  </section>
+
+  <section id="previewArea" class="preview-area">
+    <h3>📱 プレビュー</h3>
+    <div id="previewFrame" class="preview-frame">
+      <div class="preview-placeholder">
+        ここにあなたのアプリが表示されます。
+      </div>
+    </div>
+  </section>
+</div>
+
+<section id="nextActionsArea" class="next-actions">
+  <h3>✨ 次にできること</h3>
+  <ul id="nextActions"></ul>
+</section>
+
+<section id="proModePanels" class="pro-panels">
+  <div id="treeView" class="panel">
+    <h3>📂 階層構造</h3>
+    <div id="treeContent"></div>
+  </div>
+  <div id="canvasPanel" class="panel">
+    <h3>🖥️ キャンバス</h3>
+    <div id="canvasArea"></div>
+  </div>
+  <div id="propertyPanel" class="panel">
+    <h3>⚙️ プロパティ</h3>
+    <div id="propertyContent"></div>
+  </div>
+</section>
+
+<section id="screenFlowArea" class="flow-panel">
+  <h3>🔗 画面遷移フロー</h3>
+  <div id="screenFlowCanvas" class="flow-canvas">
+    <svg id="flowSvg"></svg>
+    <div id="flowNodes"></div>
+  </div>
+</section>
+
+<div id="helpPage" class="help">
+  <div class="help-inner">
+    <h2>5分で分かる Wave App Builder</h2>
+    <p>文章を書く → アプリができる → 触って育てる。</p>
+    <button id="closeHelp">閉じる</button>
+  </div>
+</div>
+
+<script>
+/* ================================
+   アプリ状態
+================================ */
+let appState = {
+  structure: null,
+  minimalMode: true,
+  guideMode: true
+};
+
+/* ================================
+   辞書
+================================ */
+const SCREEN_KEYWORDS = [
+  "画面","ページ","一覧","詳細","設定","プロフィール",
+  "ホーム","トップ","メニュー","ログイン","登録"
+];
+
+const COMPONENT_PATTERNS = [
+  { type: "button", keywords: ["ボタン","押す","クリック","送信","追加","戻る"] },
+  { type: "input", keywords: ["入力","フォーム","記入","書く"] },
+  { type: "list", keywords: ["一覧","リスト","複数","並べる"] },
+  { type: "card", keywords: ["カード","枠"] },
+  { type: "image", keywords: ["画像","写真"] },
+  { type: "toggle", keywords: ["オン","オフ","切り替え"] },
+  { type: "checkbox", keywords: ["チェック","完了"] }
+];
+
+const TRANSITION_PATTERNS = [
+  { pattern: /(.+)を押すと(.+)へ/, label: "navigate" },
+  { pattern: /(.+)を開く/, label: "open" },
+  { pattern: /戻る/, label: "back" },
+  { pattern: /詳細を見る/, label: "detail" }
+];
+
+/* ================================
+   ID 正規化
+================================ */
+function normalizeId(name) {
+  return (name || "screen")
+    .replace(/[^\w一-龠ぁ-んァ-ン]/g, "_")
+    .replace(/_+/g, "_")
+    .toLowerCase();
+}
+
+/* ================================
+   ハイブリッド analyze
+================================ */
+async function analyzeHybrid(userText) {
+  const base = analyzeRuleBased(userText);
+  const refined = await refineStructureWithLLM(userText, base);
+  return sanitizeStructure(refined || base);
+}
+
+/* ================================
+   ルールベース analyze
+================================ */
+function analyzeRuleBased(text) {
+  const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
+  const screens = [];
+  const transitions = [];
+  const models = {};
+
+  let currentScreen = null;
+
+  for (const line of lines) {
+    if (SCREEN_KEYWORDS.some(k => line.includes(k))) {
+      const id = normalizeId(line);
+      currentScreen = { id, name: line, components: [] };
+      screens.push(currentScreen);
+      continue;
+    }
+
+    const comp = detectComponent(line);
+    if (comp && currentScreen) currentScreen.components.push(comp);
+
+    const tr = detectTransition(line, screens);
+    if (tr) transitions.push(tr);
+
+    detectModel(line, models);
+  }
+
+  autoLinkListToDetail(screens, transitions);
+
+  if (screens.length === 0) {
+    screens.push({
+      id: "home",
+      name: "ホーム",
+      components: [{ type: "text", text: "まだ画面が定義されていません。" }]
+    });
+  }
+
+  return { screens, transitions, models };
+}
+
+function detectComponent(line) {
+  for (const pattern of COMPONENT_PATTERNS) {
+    if (pattern.keywords.some(k => line.includes(k))) {
+      return { type: pattern.type, text: line };
+    }
+  }
+  if (line.includes("タイトル")) return { type: "text", text: "タイトル" };
+  if (line.includes("内容")) return { type: "textarea", text: "内容" };
+  return null;
+}
+
+function detectTransition(line, screens) {
+  for (const t of TRANSITION_PATTERNS) {
+    const match = line.match(t.pattern);
+    if (match) {
+      const from = findScreenId(match[1], screens) || screens[0]?.id;
+      const to = findScreenId(match[2], screens);
+      if (from && to) return { from, to, label: t.label };
+    }
+  }
+  if (line.includes("戻る") && screens.length >= 2) {
+    return { from: screens[1].id, to: screens[0].id, label: "戻る" };
+  }
+  return null;
+}
+
+function findScreenId(name, screens) {
+  const s = screens.find(s => s.name.includes(name));
+  return s ? s.id : null;
+}
+
+function detectModel(line, models) {
+  const nouns = line.match(/[一-龠ぁ-んァ-ンa-zA-Z0-9]+/g) || [];
+  nouns.forEach(n => {
+    if (!models[n]) models[n] = { name: n, fields: [] };
+  });
+}
+
+function autoLinkListToDetail(screens, transitions) {
+  const listScreens = screens.filter(s => s.name.includes("一覧"));
+  const detailScreens = screens.filter(s => s.name.includes("詳細"));
+  listScreens.forEach(ls => {
+    detailScreens.forEach(ds => {
+      if (!transitions.find(t => t.from === ls.id && t.to === ds.id)) {
+        transitions.push({ from: ls.id, to: ds.id, label: "詳細へ" });
+      }
+    });
+  });
+}
+
+/* ================================
+   LLM（OpenRouter 無料モデル）
+================================ */
+async function callLLM(prompt) {
+  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": "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",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "meta-llama/llama-3-8b-instruct",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.2,
+      max_tokens: 8000
+    })
+  });
+
+  const data = await response.json();
+  return data?.choices?.[0]?.message?.content || "";
+}
+
+async function refineStructureWithLLM(userText, baseStructure) {
+  const prompt = `
+あなたはアプリ構造を改善するアシスタントです。
+以下の JSON 構造を壊さずに、より自然で使いやすい UI 構造に改善してください。
+
+【ユーザーの文章】
+${userText}
+
+【現在の構造】
+${JSON.stringify(baseStructure, null, 2)}
+
+【ルール】
+- screen の数・id は変更しない
+- components の type は以下のみ:
+  text, input, textarea, button, list, card, image, toggle, checkbox
+- 文言を自然にしてよい
+- role を推定してよい
+- transitions の from/to は変更しない
+- JSON のみ返す
+`;
+
+  const llmText = await callLLM(prompt);
+
+  try {
+    return JSON.parse(llmText);
+  } catch {
+    return baseStructure;
+  }
+}
+
+/* ================================
+   サニタイズ
+================================ */
+function sanitizeStructure(struct) {
+  if (!struct || !Array.isArray(struct.screens)) {
+    return { screens: [], transitions: [], models: [] };
+  }
+
+  const allowed = ["text","input","textarea","button","list","card","image","toggle","checkbox"];
+  const ids = new Set();
+
+  struct.screens.forEach(s => {
+    if (!s.id) s.id = normalizeId(s.name);
+    if (ids.has(s.id)) s.id += "_" + Math.random().toString(16).slice(2, 6);
+    ids.add(s.id);
+
+    if (!Array.isArray(s.components)) s.components = [];
+    s.components = s.components.filter(c => c && allowed.includes(c.type));
+  });
+
+  struct.transitions = (struct.transitions || []).filter(tr =>
+    ids.has(tr.from) && ids.has(tr.to)
+  );
+
+  return struct;
+}
+
+/* ================================
+   UI ロジック
+================================ */
+document.getElementById("minimalModeToggle").addEventListener("change", e => {
+  appState.minimalMode = e.target.checked;
+  setMinimalMode(appState.minimalMode);
+});
+
+document.getElementById("guideModeToggle").addEventListener("click", () => {
+  appState.guideMode = !appState.guideMode;
+  document.getElementById("guideModeToggle").textContent =
+    appState.guideMode ? "ガイドモード ON" : "ガイドモード OFF";
+  renderGuideMessage();
+});
+
+document.getElementById("helpBtn").addEventListener("click", () => {
+    document.getElementById("helpPage").style.display = "block";
+});
+
+
+document.getElementById("closeHelp").addEventListener("click", () => {
+  document.getElementById("helpPage").style.display = "none";
+});
+
+/* ================================
+   ミニマム / プロモード切り替え
+================================ */
+function setMinimalMode(isMinimal) {
+  document.getElementById("proModePanels").style.display = isMinimal ? "none" : "grid";
+  document.getElementById("screenFlowArea").style.display = isMinimal ? "none" : "block";
+  renderGuideMessage();
+}
+
+/* ================================
+   ガイドメッセージ
+================================ */
+function renderGuideMessage() {
+  const guide = document.getElementById("guideArea");
+
+  if (!appState.guideMode) {
+    guide.textContent = appState.minimalMode
+      ? "ミニマムモード：シンプルに編集できます。"
+      : "プロモード：階層・キャンバス・遷移フローを自由に編集できます。";
+    return;
+  }
+
+  if (!appState.structure) {
+    guide.textContent = "💡 次は「アプリの説明」を書いてみよう。あなたの言葉で大丈夫だよ。";
+  } else {
+    guide.textContent = "💡 プレビューやキャンバスを触ってみよう。少しずつ育てていけばOK。";
+  }
+}
+
+/* ================================
+   入力 → analyzeHybrid
+================================ */
+const appInput = document.getElementById("appInput");
+let inputTimer = null;
+
+appInput.addEventListener("input", () => {
+  if (inputTimer) clearTimeout(inputTimer);
+  document.getElementById("autoSaveStatus").textContent = "解析中…";
+
+  inputTimer = setTimeout(async () => {
+    const text = appInput.value.trim();
+
+    if (!text) {
+      appState.structure = null;
+      document.getElementById("autoSaveStatus").textContent = "入力待ち";
+      rerenderAll();
+      return;
+    }
+
+    appState.structure = await analyzeHybrid(text);
+    document.getElementById("autoSaveStatus").textContent = "構造生成済み";
+    rerenderAll();
+  }, 600);
+});
+
+/* ================================
+   全体再描画
+================================ */
+function rerenderAll() {
+  renderPreview();
+  renderTree(appState.structure);
+  renderCanvas(appState.structure);
+  renderPropertyPanel(null);
+  renderScreenFlow();
+  suggestNextActions();
+  renderGuideMessage();
+}
+
+/* ================================
+   プレビュー（ミニマム）
+================================ */
+function renderPreview() {
+  const frame = document.getElementById("previewFrame");
+
+  if (!appState.structure) {
+    frame.innerHTML = `<div class="preview-placeholder">ここにあなたのアプリが表示されます。</div>`;
+    return;
+  }
+
+  const home = appState.structure.screens[0];
+  let html = "";
+
+  home.components.forEach(c => {
+    if (c.type === "text") html += `<p>${c.text}</p>`;
+    if (c.type === "textarea") html += `<p>${c.text}</p>`;
+    if (c.type === "input") html += `<input placeholder="${c.text || ""}" style="width:100%;margin-bottom:8px;">`;
+    if (c.type === "list") html += `<ul>${["アイテム1","アイテム2"].map(i => `<li>${i}</li>`).join("")}</ul>`;
+    if (c.type === "button") html += `<button>${c.text}</button>`;
+  });
+
+  frame.innerHTML = html;
+}
+
+/* ================================
+   次にやること
+================================ */
+function suggestNextActions() {
+  const list = document.getElementById("nextActions");
+
+  if (!appState.structure) {
+    list.innerHTML = "<li>アプリの説明を書いてみよう</li>";
+    return;
+  }
+
+  list.innerHTML = `
+    <li>ミニマムモードをOFFにしてプロモードを試してみる</li>
+    <li>画面の説明をもう少し具体的に書き足す</li>
+    <li>「一覧」「詳細」「設定」など画面名をはっきり書いてみる</li>
+  `;
+}
+
+/* ================================
+   階層ツリー
+================================ */
+function renderTree(struct) {
+  const area = document.getElementById("treeContent");
+  if (!area) return;
+
+  if (!struct) {
+    area.innerHTML = "<p>構造がありません。</p>";
+    return;
+  }
+
+  const html = struct.screens
+    .map((s, si) => `
+      <div class="tree-screen" data-screen="${si}" style="margin-bottom:6px;">
+        <strong>${s.name}</strong>
+        <span style="opacity:0.7;font-size:12px;">(${s.role || "role未推定"})</span>
+        <ul style="list-style:none; padding-left:10px; margin:2px 0 0;">
+          ${s.components.map((c, ci) => `<li class="tree-comp" data-screen="${si}" data-index="${ci}">・${c.type}</li>`).join("")}
+        </ul>
+      </div>
+    `)
+    .join("");
+
+  area.innerHTML = html;
+
+  area.querySelectorAll(".tree-comp").forEach(el => {
+    el.addEventListener("click", () => {
+      const si = Number(el.dataset.screen);
+      const ci = Number(el.dataset.index);
+      appState.selectedComponent = { screen: si, index: ci };
+      renderPropertyPanel(struct.screens[si].components[ci]);
+    });
+  });
+}
+
+/* ================================
+   キャンバス（プロモード）
+================================ */
+function renderCanvas(struct) {
+  const area = document.getElementById("canvasArea");
+  if (!area) return;
+
+  if (!struct) {
+    area.innerHTML = "<p>画面がありません。</p>";
+    return;
+  }
+
+  const home = struct.screens[0];
+  area.innerHTML = "";
+
+  home.components.forEach((c, ci) => {
+    const el = document.createElement(c.type === "button" ? "button" : "div");
+    el.className = "canvas-item";
+    el.textContent = c.text || c.type;
+    el.style.marginBottom = "8px";
+    el.style.padding = "6px 10px";
+    el.style.borderRadius = "8px";
+    el.style.background = "rgba(255,255,255,0.08)";
+
+    el.addEventListener("click", () => {
+      appState.selectedComponent = { screen: 0, index: ci };
+      renderPropertyPanel(c);
+    });
+
+    area.appendChild(el);
+  });
+}
+
+/* ================================
+   プロパティパネル
+================================ */
+function renderPropertyPanel(comp) {
+  const panel = document.getElementById("propertyContent");
+  if (!panel) return;
+
+  if (!comp) {
+    panel.innerHTML = "<p>キャンバス上の要素を選択すると詳細が表示されます。</p>";
+    return;
+  }
+
+  panel.innerHTML = `
+    <label>テキスト</label>
+    <input id="prop-text" value="${comp.text || ""}">
+  `;
+
+  document.getElementById("prop-text").addEventListener("input", e => {
+    comp.text = e.target.value;
+    rerenderAll();
+  });
+}
+
+/* ================================
+   画面遷移フロー（SVG）
+================================ */
+function renderScreenFlow() {
+  const struct = appState.structure;
+  const svg = document.getElementById("flowSvg");
+  const nodesLayer = document.getElementById("flowNodes");
+  const canvas = document.getElementById("screenFlowCanvas");
+
+  if (!svg || !nodesLayer || !canvas) return;
+
+  nodesLayer.innerHTML = "";
+  svg.innerHTML = "";
+
+  if (!struct || !struct.screens || struct.screens.length === 0) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const width = rect.width;
+  const height = rect.height;
+
+  svg.setAttribute("width", width);
+  svg.setAttribute("height", height);
+
+  const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+  const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+  marker.setAttribute("id", "arrow");
+  marker.setAttribute("markerWidth", "10");
+  marker.setAttribute("markerHeight", "10");
+  marker.setAttribute("refX", "10");
+  marker.setAttribute("refY", "3");
+  marker.setAttribute("orient", "auto");
+  marker.setAttribute("markerUnits", "strokeWidth");
+
+  const pathMarker = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  pathMarker.setAttribute("d", "M0,0 L0,6 L9,3 z");
+  pathMarker.setAttribute("fill", "#4d7cff");
+  marker.appendChild(pathMarker);
+  defs.appendChild(marker);
+  svg.appendChild(defs);
+
+  const centerX = width / 2;
+  const centerY = height / 2;
+  const radius = Math.min(width, height) / 2.5;
+  const nodeCenters = {};
+
+  struct.screens.forEach((s, i) => {
+    const angle = (2 * Math.PI * i) / struct.screens.length;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+    nodeCenters[s.id] = { x, y };
+
+    const div = document.createElement("div");
+    div.className = "flow-node";
+    div.textContent = s.name || s.id;
+    div.style.left = (x - 30) + "px";
+    div.style.top = (y - 12) + "px";
+    nodesLayer.appendChild(div);
+  });
+
+  (struct.transitions || []).forEach(tr => {
+    const from = nodeCenters[tr.from];
+    const to = nodeCenters[tr.to];
+    if (!from || !to) return;
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const cx1 = from.x + dx * 0.3 - dy * 0.15;
+    const cy1 = from.y + dy * 0.3 + dx * 0.15;
+    const cx2 = from.x + dx * 0.7 - dy * 0.15;
+    const cy2 = from.y + dy * 0.7 + dx * 0.15;
+
+    const d = `M ${from.x} ${from.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${to.x} ${to.y}`;
+    path.setAttribute("d", d);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", "#4d7cff");
+    path.setAttribute("stroke-width", "2");
+    path.setAttribute("marker-end", "url(#arrow)");
+    path.setAttribute("class", "transition-line");
+
+    svg.appendChild(path);
+
+    if (tr.label) {
+      const midX = (from.x + to.x) / 2;
+      const midY = (from.y + to.y) / 2;
+      const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      text.setAttribute("x", midX);
+      text.setAttribute("y", midY - 6);
+      text.setAttribute("fill", "#9aa4ff");
+      text.setAttribute("font-size", "12");
+      text.setAttribute("text-anchor", "middle");
+      text.textContent = tr.label;
+      svg.appendChild(text);
+    }
+  });
+}
+
+/* ================================
+   初期化
+================================ */
+window.addEventListener("load", () => {
+  setMinimalMode(true);
+  renderGuideMessage();
+});
+</script>
+
+</body>
+</html>
