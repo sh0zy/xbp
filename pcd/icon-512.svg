@@ -1,0 +1,85 @@
+<svg
+  width="512"
+  height="512"
+  viewBox="0 0 512 512"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- 背景：ネイビー -->
+  <rect width="512" height="512" fill="#0f172a" />
+
+  <!-- PDCAサイクルの円（白） -->
+  <circle
+    cx="256"
+    cy="210"
+    r="150"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="22"
+    stroke-linecap="round"
+    stroke-dasharray="660"
+    stroke-dashoffset="120"
+  />
+
+  <!-- 猫のシルエット（薄いグレー） -->
+  <g transform="translate(0, 30)">
+    <!-- 体 -->
+    <path
+      d="
+        M 230 320
+        C 230 290, 250 260, 280 260
+        C 310 260, 330 290, 330 320
+        C 330 360, 310 390, 280 390
+        C 250 390, 230 360, 230 320
+        Z
+      "
+      fill="#e5e7eb"
+    />
+    <!-- 頭 -->
+    <path
+      d="
+        M 270 240
+        C 255 240, 245 230, 245 215
+        C 245 200, 255 190, 270 190
+        C 285 190, 295 200, 295 215
+        C 295 230, 285 240, 270 240
+        Z
+      "
+      fill="#e5e7eb"
+    />
+    <!-- 耳 -->
+    <path
+      d="M252 196 L244 182 L252 184 Z"
+      fill="#e5e7eb"
+    />
+    <path
+      d="M288 196 L296 182 L288 184 Z"
+      fill="#e5e7eb"
+    />
+
+    <!-- しっぽ（円とつながるライン） -->
+    <path
+      d="
+        M 310 340
+        C 340 340, 365 330, 380 310
+        C 395 290, 400 265, 392 245
+      "
+      fill="none"
+      stroke="#e5e7eb"
+      stroke-width="20"
+      stroke-linecap="round"
+    />
+  </g>
+
+  <!-- テキスト：PDCA -->
+  <text
+    x="256"
+    y="470"
+    text-anchor="middle"
+    fill="#e5e7eb"
+    font-size="64"
+    font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    letter-spacing="10"
+  >
+    PDCA
+  </text>
+</svg>

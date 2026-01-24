@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0ea5e9">
+  <meta charset="UTF-8" />
+  <title>PDCAサイクル管理</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      padding: 12px 16px;
+      background: #020617;
+      border-bottom: 1px solid #1f2937;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 18px;
+      margin: 0;
+    }
+    header button {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: none;
+      background: #22c55e;
+      color: #020617;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: calc(100vh - 48px);
+    }
+    aside {
+      border-right: 1px solid #1f2937;
+      padding: 12px;
+      background: radial-gradient(circle at top, #1d283a, #020617);
+    }
+    .cycle-list-title {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #9ca3af;
+    }
+    .cycle-item {
+      padding: 8px 10px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .cycle-item.active {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px #0ea5e9;
+    }
+    .cycle-item-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .cycle-item-meta {
+      font-size: 11px;
+      color: #9ca3af;
+      display: flex;
+      justify-content: space-between;
+    }
+    .status-pill {
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+    }
+    .status-not-started { background: #111827; color: #9ca3af; }
+    .status-doing { background: #1d4ed8; color: #e5e7eb; }
+    .status-done { background: #16a34a; color: #e5e7eb; }
+
+    section {
+      padding: 16px 20px;
+    }
+    .field-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: #9ca3af;
+    }
+    input[type="text"],
+    input[type="date"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+    textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      border-bottom: 1px solid #1f2937;
+    }
+    .tab {
+      padding: 6px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 999px 999px 0 0;
+      background: transparent;
+      border: none;
+      color: #9ca3af;
+    }
+    .tab.active {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #1f2937;
+      border-bottom: none;
+    }
+    .tab-panel {
+      display: none;
+      padding-top: 8px;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+    }
+    .btn-primary {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      background: #0ea5e9;
+      color: #020617;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-danger {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #ef4444;
+      background: transparent;
+      color: #fca5a5;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .helper-text {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>PDCAサイクル管理</h1>
+    <button id="newCycleBtn">＋ 新しいサイクル</button>
+  </header>
+  <main>
+    <aside>
+      <div class="cycle-list-title">サイクル一覧</div>
+      <div id="cycleList"></div>
+    </aside>
+    <section>
+      <div class="field-group">
+        <label for="title">サイクル名</label>
+        <input id="title" type="text" placeholder="例：4月の学習計画" />
+      </div>
+      <div class="field-group">
+        <label for="goal">目的・ゴール</label>
+        <textarea id="goal" placeholder="何を達成したいか、できるだけ具体的に"></textarea>
+      </div>
+      <div class="field-group">
+        <label for="kpi">達成基準（KPIなど）</label>
+        <input id="kpi" type="text" placeholder="例：毎日1時間勉強、TOEIC◯点 など" />
+      </div>
+      <div class="field-group">
+        <label for="deadline">期限</label>
+        <input id="deadline" type="date" />
+      </div>
+      <div class="field-group">
+        <label for="status">ステータス</label>
+        <select id="status">
+          <option value="not-started">未着手</option>
+          <option value="doing">進行中</option>
+          <option value="done">完了</option>
+        </select>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="plan">Plan</button>
+        <button class="tab" data-tab="do">Do</button>
+        <button class="tab" data-tab="check">Check</button>
+        <button class="tab" data-tab="action">Action</button>
+      </div>
+
+      <div id="tab-plan" class="tab-panel active">
+        <div class="field-group">
+          <label for="planNotes">計画の詳細・前提条件</label>
+          <textarea id="planNotes" placeholder="前提・制約・想定リスクなど"></textarea>
+        </div>
+      </div>
+
+      <div id="tab-do" class="tab-panel">
+        <div class="field-group">
+          <label for="doLog">実行ログ</label>
+          <textarea id="doLog" placeholder="日付＋やったことを簡単に記録"></textarea>
+          <div class="helper-text">例：4/3 - 参考書30ページ、4/4 - 模試1回 など</div>
+        </div>
+      </div>
+
+      <div id="tab-check" class="tab-panel">
+        <div class="field-group">
+          <label for="result">結果・達成度</label>
+          <textarea id="result" placeholder="どのくらい達成できたか、事実ベースで"></textarea>
+        </div>
+        <div class="field-group">
+          <label for="good">うまくいったこと</label>
+          <textarea id="good"></textarea>
+        </div>
+        <div class="field-group">
+          <label for="bad">うまくいかなかったこと</label>
+          <textarea id="bad"></textarea>
+        </div>
+      </div>
+
+      <div id="tab-action" class="tab-panel">
+        <div class="field-group">
+          <label for="nextAction">次サイクルへの改善案</label>
+          <textarea id="nextAction" placeholder="次はどう変えるか、具体的に"></textarea>
+        </div>
+        <div class="field-group">
+          <label for="memo">メモ</label>
+          <textarea id="memo"></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" id="saveBtn">保存</button>
+        <button class="btn-danger" id="deleteBtn">削除</button>
+      </div>
+</div>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "pdca-cycles-v1";
+
+    let cycles = [];
+    let activeId = null;
+
+    function loadFromStorage() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        if (Array.isArray(data)) {
+          cycles = data;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function saveToStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cycles));
+    }
+
+    function createEmptyCycle() {
+      return {
+        id: Date.now().toString(),
+        title: "",
+        goal: "",
+        kpi: "",
+        deadline: "",
+        status: "not-started",
+        planNotes: "",
+        doLog: "",
+        result: "",
+        good: "",
+        bad: "",
+        nextAction: "",
+        memo: ""
+      };
+    }
+
+    function renderList() {
+      const listEl = document.getElementById("cycleList");
+      listEl.innerHTML = "";
+      if (cycles.length === 0) {
+        const empty = document.createElement("div");
+        empty.textContent = "まだサイクルがありません";
+        empty.style.fontSize = "12px";
+        empty.style.color = "#6b7280";
+        listEl.appendChild(empty);
+        return;
+      }
+      cycles.forEach(cycle => {
+        const item = document.createElement("div");
+        item.className = "cycle-item" + (cycle.id === activeId ? " active" : "");
+        item.onclick = () => {
+          activeId = cycle.id;
+          renderList();
+          loadToForm(cycle.id);
+        };
+
+        const title = document.createElement("div");
+        title.className = "cycle-item-title";
+        title.textContent = cycle.title || "無題のサイクル";
+
+        const meta = document.createElement("div");
+        meta.className = "cycle-item-meta";
+
+        const deadline = document.createElement("span");
+        deadline.textContent = cycle.deadline || "期限未設定";
+
+        const status = document.createElement("span");
+        const pill = document.createElement("span");
+        pill.className = "status-pill";
+        if (cycle.status === "not-started") {
+          pill.classList.add("status-not-started");
+          pill.textContent = "未着手";
+        } else if (cycle.status === "doing") {
+          pill.classList.add("status-doing");
+          pill.textContent = "進行中";
+        } else {
+          pill.classList.add("status-done");
+          pill.textContent = "完了";
+        }
+        status.appendChild(pill);
+
+        meta.appendChild(deadline);
+        meta.appendChild(status);
+
+        item.appendChild(title);
+        item.appendChild(meta);
+        listEl.appendChild(item);
+      });
+    }
+
+    function loadToForm(id) {
+      const cycle = cycles.find(c => c.id === id);
+      if (!cycle) return;
+      document.getElementById("title").value = cycle.title;
+      document.getElementById("goal").value = cycle.goal;
+      document.getElementById("kpi").value = cycle.kpi;
+      document.getElementById("deadline").value = cycle.deadline;
+      document.getElementById("status").value = cycle.status;
+      document.getElementById("planNotes").value = cycle.planNotes;
+      document.getElementById("doLog").value = cycle.doLog;
+      document.getElementById("result").value = cycle.result;
+      document.getElementById("good").value = cycle.good;
+      document.getElementById("bad").value = cycle.bad;
+      document.getElementById("nextAction").value = cycle.nextAction;
+      document.getElementById("memo").value = cycle.memo;
+    }
+
+    function readFromForm() {
+      return {
+        title: document.getElementById("title").value.trim(),
+        goal: document.getElementById("goal").value.trim(),
+        kpi: document.getElementById("kpi").value.trim(),
+        deadline: document.getElementById("deadline").value,
+        status: document.getElementById("status").value,
+        planNotes: document.getElementById("planNotes").value.trim(),
+        doLog: document.getElementById("doLog").value.trim(),
+        result: document.getElementById("result").value.trim(),
+        good: document.getElementById("good").value.trim(),
+        bad: document.getElementById("bad").value.trim(),
+        nextAction: document.getElementById("nextAction").value.trim(),
+        memo: document.getElementById("memo").value.trim()
+      };
+    }
+
+    function clearForm() {
+      document.querySelectorAll("input[type='text'], input[type='date'], textarea").forEach(el => el.value = "");
+      document.getElementById("status").value = "not-started";
+    }
+
+    // タブ切り替え
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById("tab-" + target).classList.add("active");
+      });
+    });
+
+    document.getElementById("newCycleBtn").addEventListener("click", () => {
+      const newCycle = createEmptyCycle();
+      cycles.unshift(newCycle);
+      activeId = newCycle.id;
+      clearForm();
+      loadToForm(newCycle.id);
+      renderList();
+      saveToStorage();
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      if (!activeId) {
+        const newCycle = createEmptyCycle();
+        activeId = newCycle.id;
+        cycles.unshift(newCycle);
+      }
+      const idx = cycles.findIndex(c => c.id === activeId);
+      if (idx === -1) return;
+      const formData = readFromForm();
+      cycles[idx] = { ...cycles[idx], ...formData };
+      saveToStorage();
+      renderList();
+      alert("保存しました");
+    });
+
+    document.getElementById("deleteBtn").addEventListener("click", () => {
+      if (!activeId) return;
+      if (!confirm("このサイクルを削除しますか？")) return;
+      cycles = cycles.filter(c => c.id !== activeId);
+      activeId = cycles[0]?.id ?? null;
+      clearForm();
+      if (activeId) loadToForm(activeId);
+      renderList();
+      saveToStorage();
+    });
+
+    // 初期化
+    loadFromStorage();
+    renderList();
+    if (cycles[0]) {
+      activeId = cycles[0].id;
+      loadToForm(activeId);
+      renderList();
+    }
+  </script>
+  <script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js");
+  }
+</script>
+</body>
+</html>
