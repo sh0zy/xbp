@@ -1,0 +1,52 @@
+/* スマホ最適化 */
+@media (max-width: 768px) {
+  main {
+    display: block;
+  }
+
+  aside {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #1f2937;
+  }
+
+  section {
+    padding: 12px;
+  }
+
+  /* タブを横スクロール可能に */
+  .tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+  }
+  .tab {
+    flex: 0 0 auto;
+    margin-right: 6px;
+  }
+
+  /* ボタンを大きく */
+  .btn-primary,
+  .btn-danger {
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+
+  /* 入力欄のタップ領域を広げる */
+  input[type="text"],
+  input[type="date"],
+  textarea,
+  select {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+}
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  background: #020617;
+  border-top: 1px solid #1f2937;
+}
