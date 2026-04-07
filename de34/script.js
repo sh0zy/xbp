@@ -23,6 +23,30 @@ const apps = [
         href: "./apps/mor.apk",
         meta: ["2.90 MB", "Updated 2026.04.07"],
     },
+    {
+        id: "04",
+        type: "Android APK",
+        title: "Screen Release",
+        description: "画面構成や見え方の確認に向いた、軽やかに共有できる release APK です。",
+        href: "./apps/screen-release.apk",
+        meta: ["3.09 MB", "Updated 2026.04.04"],
+    },
+    {
+        id: "05",
+        type: "Android APK",
+        title: "Noteh",
+        description: "ノートアプリです。アンドロイドであればインストール可能です。",
+        href: "../noteh.apk",
+        meta: ["Updated 2026.04.07"],
+    },
+    {
+        id: "06",
+        type: "Android APK",
+        title: "World Pla",
+        description: "ワールドアプリです。アンドロイドであればインストール可能です。",
+        href: "../world pla.apk",
+        meta: ["Updated 2026.04.07"],
+    },
 ];
 
 const isAndroid = /Android/i.test(navigator.userAgent);

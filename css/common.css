@@ -1,0 +1,725 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+/* ============================================================
+   XBP Design System — Glass UI
+   全ページ共通の統一デザイントークンとコンポーネント
+   ============================================================ */
+
+/* ---------- Design Tokens ---------- */
+:root {
+    /* Background */
+    --bg-base: #edeaf2;
+    --bg-deep: #e4e0ec;
+
+    /* Surface (glass) */
+    --surface: rgba(255, 255, 255, 0.52);
+    --surface-hover: rgba(255, 255, 255, 0.72);
+    --surface-strong: rgba(255, 255, 255, 0.82);
+    --surface-muted: rgba(255, 255, 255, 0.38);
+
+    /* Text */
+    --text: #1a1a2e;
+    --text-muted: #6b6b80;
+    --text-faint: #a0a0b4;
+
+    /* Accent */
+    --accent: #3d3d6b;
+    --accent-soft: rgba(61, 61, 107, 0.12);
+    --accent-line: rgba(61, 61, 107, 0.35);
+
+    /* Border */
+    --line: rgba(255, 255, 255, 0.5);
+    --line-outer: rgba(0, 0, 0, 0.06);
+
+    /* Shadow */
+    --shadow: 0 8px 32px rgba(30, 20, 60, 0.07), 0 2px 8px rgba(30, 20, 60, 0.04);
+    --shadow-hover: 0 16px 48px rgba(30, 20, 60, 0.1), 0 4px 12px rgba(30, 20, 60, 0.05);
+    --shadow-soft: 0 2px 12px rgba(30, 20, 60, 0.04);
+    --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+    /* Radius */
+    --radius-xl: 24px;
+    --radius-lg: 18px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+
+    /* Blur */
+    --blur: 18px;
+    --blur-strong: 28px;
+
+    /* Layout */
+    --max-width: 880px;
+    --max-width-narrow: 720px;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+/* ---------- Body & Background ---------- */
+body {
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+    background:
+        radial-gradient(ellipse at 20% 0%, rgba(200, 190, 220, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 10%, rgba(180, 190, 220, 0.3) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 100%, rgba(210, 200, 230, 0.25) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg-base) 0%, var(--bg-deep) 100%);
+    background-attachment: fixed;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.25), transparent 40%),
+        radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.15), transparent 35%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a, button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent-line);
+    outline-offset: 3px;
+}
+
+/* ---------- Header (Glass Nav) ---------- */
+.header {
+    position: sticky;
+    top: 12px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--max-width);
+    width: calc(100% - 2rem);
+    margin: 12px auto 0;
+    padding: 0.9rem 1.5rem;
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur-strong));
+    -webkit-backdrop-filter: blur(var(--blur-strong));
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow), var(--shadow-inset-top);
+    transition: box-shadow 0.3s ease;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: transform 0.25s ease;
+}
+
+.logo-link:hover {
+    transform: scale(1.04);
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-nav a {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    transition: color 0.2s;
+}
+
+.header-nav a:hover {
+    color: var(--text);
+}
+
+/* ---------- Breadcrumb ---------- */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-faint);
+}
+
+.breadcrumb a {
+    color: var(--text-faint);
+    transition: color 0.2s;
+    padding: 0.25rem 0;
+}
+
+.breadcrumb a:hover {
+    color: var(--text);
+}
+
+.breadcrumb .sep {
+    margin: 0 0.5rem;
+    color: var(--text-faint);
+    opacity: 0.5;
+}
+
+.breadcrumb > span:last-child {
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* ---------- Main Container ---------- */
+.main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    max-width: var(--max-width);
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.main--narrow {
+    max-width: var(--max-width-narrow);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+    padding: 4.5rem 0 3rem;
+    animation: fadeUp 0.8s ease both;
+}
+
+.hero--center {
+    text-align: center;
+}
+
+.hero-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.75rem;
+}
+
+.hero-title {
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+}
+
+.hero-title--gradient {
+    background: linear-gradient(135deg, var(--text) 0%, #5a5a8a 60%, #8888aa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    margin-top: 0.75rem;
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+}
+
+.hero-line {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--text-faint));
+    margin-top: 1.75rem;
+    border-radius: 2px;
+}
+
+.hero--center .hero-line {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ---------- Section ---------- */
+.section {
+    margin-bottom: 3rem;
+    animation: fadeUp 0.6s ease both;
+}
+
+.section-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 1.5rem;
+    padding-left: 0.15rem;
+}
+
+/* ---------- Glass Card (Grid) ---------- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 1.75rem 1.5rem;
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft), var(--shadow-inset-top);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+    animation-delay: calc(var(--delay, 0) * 0.08s);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), #8888aa);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    background: var(--surface-hover);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: var(--shadow-hover), var(--shadow-inset-top);
+}
+
+.card:hover::before {
+    transform: scaleX(1);
+}
+
+.card:active {
+    transform: translateY(-1px);
+}
+
+.card-number {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    margin-bottom: 0.75rem;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--text);
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.01em;
+}
+
+.card-label {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--text-faint);
+    letter-spacing: 0.02em;
+}
+
+.card-arrow {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.75rem;
+    font-size: 1.15rem;
+    color: var(--text-faint);
+    transition: all 0.3s ease;
+}
+
+.card:hover .card-arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+}
+
+/* ---------- Glass Card (List / Horizontal) ---------- */
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.card--row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem;
+}
+
+.card--row::before {
+    display: none;
+}
+
+.card--row:hover {
+    transform: translateX(5px) translateY(0);
+}
+
+.card-left {
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+}
+
+/* ---------- Content Card (Article pages) ---------- */
+.content-card {
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow-soft), var(--shadow-inset-top);
+    animation: fadeUp 0.5s ease both;
+}
+
+.content-card p,
+.content-card div {
+    line-height: 1.9;
+    font-size: 0.93rem;
+    color: var(--text-muted);
+}
+
+.content-card img {
+    max-width: 100%;
+    border-radius: var(--radius-md);
+    margin: 1rem 0;
+    box-shadow: var(--shadow);
+}
+
+.content-card ul,
+.content-card ol {
+    padding-left: 1.5rem;
+    line-height: 2;
+    color: var(--text-muted);
+    font-size: 0.93rem;
+}
+
+.content-card h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+}
+
+.content-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0.75rem 0 0.5rem;
+}
+
+.content-card a {
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.content-card a:hover {
+    border-bottom-color: var(--accent);
+}
+
+/* ---------- Section Heading (within content) ---------- */
+.content-section {
+    margin-bottom: 2rem;
+    animation: fadeUp 0.5s ease both;
+}
+
+.content-section > h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.15rem;
+    border-bottom: 1px solid var(--line-outer);
+    letter-spacing: -0.01em;
+}
+
+/* ---------- Link Card ---------- */
+.link-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem;
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft), var(--shadow-inset-top);
+    transition: all 0.3s ease;
+    color: var(--text);
+    animation: fadeUp 0.5s ease both;
+}
+
+.link-card:hover {
+    transform: translateX(5px);
+    background: var(--surface-hover);
+    box-shadow: var(--shadow);
+}
+
+.link-card span:first-child {
+    font-weight: 600;
+    font-size: 0.93rem;
+}
+
+.link-card .arrow {
+    color: var(--text-faint);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.link-card:hover .arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+}
+
+/* ---------- Photo Grid ---------- */
+.photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.photo-grid img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+}
+
+.data-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 0.75rem;
+    margin-bottom: 0.15rem;
+}
+
+.data-value {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+/* ---------- Insight / Note / Demo Boxes ---------- */
+.insight-box {
+    background: rgba(61, 61, 107, 0.06);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-md);
+    padding: 1.15rem 1.5rem;
+    border-left: 3px solid var(--accent);
+    margin-top: 1rem;
+}
+
+.insight-box p {
+    font-weight: 500;
+    color: var(--text) !important;
+    line-height: 1.8;
+}
+
+.note-box {
+    background: rgba(200, 160, 80, 0.08);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.5rem;
+    border-left: 3px solid #c8a050;
+    margin: 0.75rem 0;
+    font-size: 0.88rem;
+}
+
+.note-box p {
+    color: var(--text-muted) !important;
+}
+
+.demo-box {
+    background: var(--surface-muted);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.5rem;
+    margin: 0.75rem 0;
+    border-left: 3px solid var(--accent-line);
+}
+
+/* ---------- Flow Box ---------- */
+.flow-box {
+    background: var(--surface-muted);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    margin: 1.25rem 0;
+}
+
+.flow-item {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text) !important;
+    padding: 0.4rem 0;
+}
+
+.flow-arrow {
+    color: var(--text-faint) !important;
+    font-size: 1.1rem;
+}
+
+/* ---------- Video ---------- */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    margin: 1rem 0;
+    box-shadow: var(--shadow);
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+    .header {
+        top: 8px;
+        width: calc(100% - 1.25rem);
+        padding: 0.75rem 1.15rem;
+        border-radius: 20px;
+    }
+
+    .logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+    }
+
+    .main {
+        padding: 0 1.15rem;
+    }
+
+    .hero {
+        padding: 3.5rem 0 2rem;
+    }
+
+    .hero-title {
+        font-size: clamp(1.8rem, 8vw, 2.6rem);
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 1.5rem 1.5rem 1.25rem;
+    }
+
+    .card--row {
+        padding: 1rem 1.25rem;
+    }
+
+    .content-card {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .photo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .breadcrumb {
+        font-size: 0.7rem;
+    }
+
+    .header-title {
+        font-size: 0.7rem;
+    }
+}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
