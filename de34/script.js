@@ -1,42 +1,3 @@
-const works = [
-    {
-        id: "01",
-        type: "Observation",
-        title: "観察テーマ",
-        description: "身の回りを観察し、気づきを静かに積み上げたフィールドワークのページです。",
-        href: "../観察テーマ/index.html",
-        cta: "ページを開く",
-        meta: ["Field Note", "Existing Page"],
-    },
-    {
-        id: "02",
-        type: "Interview",
-        title: "インタビュー",
-        description: "対話から課題の輪郭を探り、次の制作へつなげるための整理をまとめています。",
-        href: "../インタビュー/index.html",
-        cta: "ページを開く",
-        meta: ["Dialogue", "Existing Page"],
-    },
-    {
-        id: "03",
-        type: "Analysis",
-        title: "分析",
-        description: "観察と対話の内容を可視化し、判断の軸に変える分析メモへアクセスできます。",
-        href: "../bunnseki/index.html",
-        cta: "ページを開く",
-        meta: ["Insight", "Existing Page"],
-    },
-    {
-        id: "04",
-        type: "Prototype",
-        title: "試作アプリ",
-        description: "アプリ体験の骨格を確かめるための、既存プロトタイプへの導線です。",
-        href: "../アプリ的な/index.html",
-        cta: "ページを開く",
-        meta: ["Prototype", "Existing Page"],
-    },
-];
-
 const apps = [
     {
         id: "01",
@@ -101,7 +62,6 @@ function renderCards(items, containerSelector) {
         .join("");
 }
 
-renderCards(works, "[data-work-grid]");
 renderCards(apps, "[data-app-grid]");
 
 const noteElement = document.querySelector("[data-platform-note]");
