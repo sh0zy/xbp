@@ -1,39 +1,158 @@
 <!DOCTYPE html>
-<html lang="jp">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>XBP_HPsample</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デザイン演習 I・II</title>
     <link rel="stylesheet" href="./css/css/style.css">
     <link rel="shortcut icon" href="./images/xbp.ico">
 </head>
 <body>
-    <logotohome>
-    <a href="../index.html"><img src="./images/0_XBlogo.png" alt=""></a>
-    </logotohome>
-    <h1>デザイン演習Ⅰ・Ⅱ</h1>
-        <h2>HTMLに関すること</h2>
-        <ol>
-            <li><a href="./hp1.html" target="_blank">htmlの基礎知識</a></li>
-            <li><a href="./hp2.html" target="_blank">htmlのwork</a></li>
-            <li><a href="./test.html" target="_blank">テストページ</a></li>
-        </ol>
-        <h2>演習ノート一覧</h2>
-        <ol>
-        <li><a href="../html/index.html"target="_blank">第一回</a></li>
-         <li><a href="../完/index.html"target="_blank">　看板　</a></li>
-        <li><a href="../観察テーマ/index.html"target="_blank">観察テーマ</a></li>
-        <li><a href="../アプリ的な/"target="_blank">英会話アプリ</a></li>
-        <li><a href="../de12/python/work6.py"target="_blank">ごはん</a></li>
-        <li><a href="../bunnseki/"target="_blank">分析</a></li>
-         <li><a href="../インタビュー/index.html"target="_blank">インタビュー</a></li>
-         <li><a href="../新しいフォルダー (3)/index.html"target="_blank">＋a</a></li>
-        </ol>
+    <header class="header">
+        <a href="../index.html" class="logo-link">
+            <img src="./images/0_XBlogo.png" alt="XB Logo" class="logo">
+        </a>
+        <nav class="breadcrumb">
+            <a href="../index.html">Portfolio</a>
+            <span class="sep">/</span>
+            <span>Design I・II</span>
+        </nav>
+    </header>
 
+    <main class="main">
+        <section class="hero">
+            <span class="hero-tag">01 &mdash; Design Practice</span>
+            <h1 class="hero-title">デザイン演習<br>I・II</h1>
+            <div class="hero-line"></div>
+        </section>
 
-    
-<br>
-<br>
+        <!-- HTML Section -->
+        <section class="notes-section">
+            <h2 class="section-title">HTML</h2>
+            <div class="card-list">
+                <a href="./hp1.html" target="_blank" class="card" style="--delay: 0">
+                    <div class="card-left">
+                        <span class="card-number">01</span>
+                        <div>
+                            <h3 class="card-title">HTMLの基礎知識</h3>
+                            <p class="card-label">HTML Basics</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="./hp2.html" target="_blank" class="card" style="--delay: 1">
+                    <div class="card-left">
+                        <span class="card-number">02</span>
+                        <div>
+                            <h3 class="card-title">HTMLのWork</h3>
+                            <p class="card-label">HTML Workshop</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="./test.html" target="_blank" class="card" style="--delay: 2">
+                    <div class="card-left">
+                        <span class="card-number">03</span>
+                        <div>
+                            <h3 class="card-title">テストページ</h3>
+                            <p class="card-label">Test Page</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+            </div>
+        </section>
 
+        <!-- Notes Section -->
+        <section class="notes-section">
+            <h2 class="section-title">演習ノート</h2>
+            <div class="card-list">
+                <a href="../html/index.html" target="_blank" class="card" style="--delay: 0">
+                    <div class="card-left">
+                        <span class="card-number">01</span>
+                        <div>
+                            <h3 class="card-title">第一回</h3>
+                            <p class="card-label">Session 1</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="../完/index.html" target="_blank" class="card" style="--delay: 1">
+                    <div class="card-left">
+                        <span class="card-number">02</span>
+                        <div>
+                            <h3 class="card-title">看板</h3>
+                            <p class="card-label">Signboard</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="../観察テーマ/index.html" target="_blank" class="card" style="--delay: 2">
+                    <div class="card-left">
+                        <span class="card-number">03</span>
+                        <div>
+                            <h3 class="card-title">観察テーマ</h3>
+                            <p class="card-label">Observation Theme</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="../アプリ的な/" target="_blank" class="card" style="--delay: 3">
+                    <div class="card-left">
+                        <span class="card-number">04</span>
+                        <div>
+                            <h3 class="card-title">英会話アプリ</h3>
+                            <p class="card-label">English Conversation App</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="../de12/python/work6.py" target="_blank" class="card" style="--delay: 4">
+                    <div class="card-left">
+                        <span class="card-number">05</span>
+                        <div>
+                            <h3 class="card-title">ごはん</h3>
+                            <p class="card-label">Python Script</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="../bunnseki/" target="_blank" class="card" style="--delay: 5">
+                    <div class="card-left">
+                        <span class="card-number">06</span>
+                        <div>
+                            <h3 class="card-title">分析</h3>
+                            <p class="card-label">Analysis</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="../インタビュー/index.html" target="_blank" class="card" style="--delay: 6">
+                    <div class="card-left">
+                        <span class="card-number">07</span>
+                        <div>
+                            <h3 class="card-title">インタビュー</h3>
+                            <p class="card-label">Interview</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="../新しいフォルダー (3)/index.html" target="_blank" class="card" style="--delay: 7">
+                    <div class="card-left">
+                        <span class="card-number">08</span>
+                        <div>
+                            <h3 class="card-title">+α</h3>
+                            <p class="card-label">Extra</p>
+                        </div>
+                    </div>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+            </div>
+        </section>
+    </main>
 
+    <footer class="footer">
+        <p>&copy; 2026 sh0zy &mdash; XBP</p>
+    </footer>
 </body>
 </html>

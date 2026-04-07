@@ -1,22 +1,101 @@
-<header>
-<link rel="stylesheet" href="../css/style.css">
-</header>
-
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>観察テーマ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; color: #1a1a2e; background: #fafafa; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+        a { color: #4a5ad0; text-decoration: none; }
+        .header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 100; }
+        .breadcrumb { font-size: 0.8rem; font-weight: 500; color: #aaa; }
+        .breadcrumb a { color: #aaa; transition: color 0.2s; }
+        .breadcrumb a:hover { color: #1a1a2e; }
+        .breadcrumb .sep { margin: 0 0.5rem; color: #ddd; }
+        .breadcrumb span:last-child { color: #1a1a2e; }
+        .main { flex: 1; max-width: 760px; width: 100%; margin: 0 auto; padding: 0 2rem 4rem; }
+        .hero { padding: 4rem 0 3rem; animation: fadeUp 0.8s ease both; }
+        .hero-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 0.75rem; display: block; }
+        .hero-title { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; line-height: 1.2; background: linear-gradient(135deg, #1a1a2e, #4a4a6a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-line { width: 48px; height: 2px; background: linear-gradient(90deg, #1a1a2e, #8888aa); margin-top: 1.5rem; border-radius: 2px; }
+        .content-card { background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; padding: 2rem; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
+        .content-card img { max-width: 100%; border-radius: 12px; margin-bottom: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .content-card p { line-height: 1.9; font-size: 0.95rem; color: #444; }
+        .data-label { font-size: 0.85rem; font-weight: 600; color: #1a1a2e; margin-bottom: 0.25rem; }
+        .data-value { font-size: 0.9rem; color: #666; margin-bottom: 1rem; }
+        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+        .photo-grid img { width: 100%; }
+        .insight-box { background: #f0f2ff; border-radius: 10px; padding: 1.25rem 1.5rem; border-left: 3px solid #4a5ad0; margin-top: 1rem; }
+        .insight-box p { font-weight: 500; color: #1a1a2e; }
+        .footer { text-align: center; padding: 2rem; font-size: 0.75rem; color: #bbb; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 600px) { .header { padding: 1rem 1.5rem; } .main { padding: 0 1.25rem 3rem; } .photo-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
 <body>
-    <img src="../images/IMG_20251026_174200_421.jpg"width="50%" alt="">
-    移動観察　柄36　
-    　　　　　柄なし58
-<img src="../images/IMG_20251026_174159_304.jpg"width="50%" alt="">
-    移動観察　色あり59
-    　　　　　色なし35
-    <img src="../images/IMG_20251026_174154_939.jpg"width="50%" alt="">
-    定点観察　柄10
-    　　　　　柄なし85
-<img src="../images/IMG_20251026_174147_234.jpg"width="50%" alt="">
-    　　　　　色あり67
-    　　　　　色なし28
-    <p><b>＜考察＞</b></p>
-   <p><b> 定点観察の方が移動観察より少し後に撮ったが差があまりないことから </b> </p>
-    <p> <b> 昼の時間は子ずれが多くおしゃれをしない傾向があるといえる　</b> </p>
-   <p> <b>また違った時間では違った結果を得られそうであるため気になる </b> </p>
+    <header class="header">
+        <nav class="breadcrumb">
+            <a href="../index.html">Portfolio</a>
+            <span class="sep">/</span>
+            <a href="../de12/index.html">Design I・II</a>
+            <span class="sep">/</span>
+            <span>観察テーマ</span>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <span class="hero-tag">Observation Theme</span>
+            <h1 class="hero-title">観察テーマ</h1>
+            <div class="hero-line"></div>
+        </section>
+
+        <div class="content-card">
+            <h2 style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem;">移動観察</h2>
+            <div class="photo-grid">
+                <div>
+                    <img src="../images/IMG_20251026_174200_421.jpg" alt="移動観察 柄">
+                    <p class="data-label">柄あり / 柄なし</p>
+                    <p class="data-value">36 / 58</p>
+                </div>
+                <div>
+                    <img src="../images/IMG_20251026_174159_304.jpg" alt="移動観察 色">
+                    <p class="data-label">色あり / 色なし</p>
+                    <p class="data-value">59 / 35</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2 style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem;">定点観察</h2>
+            <div class="photo-grid">
+                <div>
+                    <img src="../images/IMG_20251026_174154_939.jpg" alt="定点観察 柄">
+                    <p class="data-label">柄あり / 柄なし</p>
+                    <p class="data-value">10 / 85</p>
+                </div>
+                <div>
+                    <img src="../images/IMG_20251026_174147_234.jpg" alt="定点観察 色">
+                    <p class="data-label">色あり / 色なし</p>
+                    <p class="data-value">67 / 28</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2 style="font-size:1.1rem; font-weight:700; margin-bottom:1rem;">考察</h2>
+            <div class="insight-box">
+                <p>定点観察の方が移動観察より少し後に撮ったが差があまりないことから、昼の時間は子連れが多くおしゃれをしない傾向があるといえる。</p>
+                <p style="margin-top:0.5rem;">また違った時間では違った結果を得られそうであるため気になる。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 sh0zy &mdash; XBP</p>
+    </footer>
 </body>
+</html>

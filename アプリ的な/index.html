@@ -1,4 +1,73 @@
-英会話アプリです
-モードを選んで会話ができます
-apiキーがないため回答が1通りになっています
- <li><a href="../暇つぶし/"target="_blank">アプリ　apiキー挿入で可能</a></li>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英会話アプリ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; color: #1a1a2e; background: #fafafa; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+        a { color: #4a5ad0; text-decoration: none; transition: color 0.2s; }
+        a:hover { color: #1a1a2e; }
+        .header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 100; }
+        .breadcrumb { font-size: 0.8rem; font-weight: 500; color: #aaa; }
+        .breadcrumb a { color: #aaa; transition: color 0.2s; }
+        .breadcrumb a:hover { color: #1a1a2e; }
+        .breadcrumb .sep { margin: 0 0.5rem; color: #ddd; }
+        .breadcrumb span:last-child { color: #1a1a2e; }
+        .main { flex: 1; max-width: 720px; width: 100%; margin: 0 auto; padding: 0 2rem 4rem; }
+        .hero { padding: 4rem 0 3rem; animation: fadeUp 0.8s ease both; }
+        .hero-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 0.75rem; display: block; }
+        .hero-title { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; line-height: 1.2; background: linear-gradient(135deg, #1a1a2e, #4a4a6a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-line { width: 48px; height: 2px; background: linear-gradient(90deg, #1a1a2e, #8888aa); margin-top: 1.5rem; border-radius: 2px; }
+        .content-card { background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; padding: 2rem; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
+        .content-card p { line-height: 1.9; font-size: 0.95rem; color: #444; margin-bottom: 1rem; }
+        .link-card { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.75rem; background: #f8f8fb; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; transition: all 0.3s ease; color: #1a1a2e; }
+        .link-card:hover { transform: translateX(6px); box-shadow: 0 6px 20px rgba(0,0,0,0.06); background: #fff; }
+        .link-card span { font-weight: 600; font-size: 0.95rem; }
+        .link-card .arrow { color: #ccc; font-size: 1.15rem; transition: all 0.3s; }
+        .link-card:hover .arrow { color: #1a1a2e; transform: translateX(4px); }
+        .note-box { background: #fff8f0; border-radius: 10px; padding: 1rem 1.5rem; border-left: 3px solid #e8a040; font-size: 0.85rem; color: #666; }
+        .footer { text-align: center; padding: 2rem; font-size: 0.75rem; color: #bbb; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 600px) { .header { padding: 1rem 1.5rem; } .main { padding: 0 1.25rem 3rem; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="breadcrumb">
+            <a href="../index.html">Portfolio</a>
+            <span class="sep">/</span>
+            <a href="../de12/index.html">Design I・II</a>
+            <span class="sep">/</span>
+            <span>英会話アプリ</span>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <span class="hero-tag">English Conversation App</span>
+            <h1 class="hero-title">英会話アプリ</h1>
+            <div class="hero-line"></div>
+        </section>
+
+        <div class="content-card">
+            <p>英会話アプリです。モードを選んで会話ができます。</p>
+            <div class="note-box">
+                <p style="margin:0; color:#666;">APIキーがないため回答が1通りになっています。APIキー挿入で完全動作可能です。</p>
+            </div>
+        </div>
+
+        <a href="../暇つぶし/" target="_blank" class="link-card">
+            <span>アプリを開く</span>
+            <span class="arrow">&rarr;</span>
+        </a>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 sh0zy &mdash; XBP</p>
+    </footer>
+</body>
+</html>

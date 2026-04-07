@@ -1,29 +1,61 @@
 <!DOCTYPE html>
-<html lang="jp">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>XBP_HPsample</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XBP Portfolio</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <logotohome>
-    <a href="./index.html"><img src="./images/0_XBlogo.png" alt=""></a>
-    </logotohome>
-    <h1>XBP</h1>
-        <h2>sh0zyポートフォリオ一覧</h2>
-        <!-- このようにするとコードとして認識されない。（メモができる）-->
-        <!--番号付きのリスト-->
-        <ol>
-            <li><a href="./de12/index.html">デザイン演習Ⅰ・Ⅱ</a></li>
-            <li><a href="./digi_fab/index.html">デジタルファブリケーション</a></li>
-            <li><a href="./de34/index.html">デザイン演習Ⅲ・Ⅳ</a></li>
-            <li><a href="./de56/index.html">デザイン演習Ⅴ・Ⅵ</a></li>
-        </ol>
+    <header class="header">
+        <a href="./index.html" class="logo-link">
+            <img src="./images/0_XBlogo.png" alt="XB Logo" class="logo">
+        </a>
+        <nav class="header-nav">
+            <span class="header-title">XBP</span>
+        </nav>
+    </header>
 
-            
-        <br>
-        <br>
+    <main class="main">
+        <section class="hero">
+            <h1 class="hero-title">XBP</h1>
+            <p class="hero-subtitle">sh0zy Portfolio</p>
+            <div class="hero-line"></div>
+        </section>
 
+        <section class="portfolio-section">
+            <h2 class="section-title">Works</h2>
+            <div class="card-grid">
+                <a href="./de12/index.html" class="card" style="--delay: 0">
+                    <span class="card-number">01</span>
+                    <h3 class="card-title">Design Practice I & II</h3>
+                    <p class="card-label">Design Practice I / II</p>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="./digi_fab/index.html" class="card" style="--delay: 1">
+                    <span class="card-number">02</span>
+                    <h3 class="card-title">Digital Fabrication</h3>
+                    <p class="card-label">Digital Fabrication</p>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="./de34/index.html" class="card" style="--delay: 2">
+                    <span class="card-number">03</span>
+                    <h3 class="card-title">Design Practice III & IV</h3>
+                    <p class="card-label">Design Practice III / IV</p>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="./de56/index.html" class="card" style="--delay: 3">
+                    <span class="card-number">04</span>
+                    <h3 class="card-title">Design Practice V & VI</h3>
+                    <p class="card-label">Design Practice V / VI</p>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+            </div>
+        </section>
+    </main>
 
+    <footer class="footer">
+        <p>&copy; 2026 sh0zy &mdash; XBP</p>
+    </footer>
 </body>
 </html>
