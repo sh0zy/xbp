@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>de34 | XBP</title>
+    <meta name="description" content="de34の制作物と+αのAndroidアプリを、ひとつの上質な導線でつなぐポータルページです。">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <a href="../index.html" class="brand" aria-label="Portfolioトップへ戻る">
+                <img src="../images/0_XBlogo.png" alt="" class="brand-logo">
+                <span class="brand-copy">
+                    <span class="brand-eyebrow">XBP Portfolio</span>
+                    <span class="brand-title">de34</span>
+                </span>
+            </a>
+
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="../index.html">Portfolio</a>
+                <span>/</span>
+                <span aria-current="page">Design Practice III &amp; IV</span>
+            </nav>
+
+            <a href="#plus-alpha" class="header-link">+α</a>
+        </header>
+
+        <main class="main-content">
+            <section class="hero">
+                <div class="hero-copy">
+                    <p class="eyebrow">03 / 04 Design Practice</p>
+                    <h1 class="hero-title">
+                        観察から試作へ、
+                        <span>de34</span>
+                        を静かにつなぐ。
+                    </h1>
+                    <p class="hero-description">
+                        de34で積み上げたリサーチ、対話、分析、そしてプロトタイプ。
+                        その流れを壊さずに、最後は実機で触れられるアプリ体験へとつなぐための入口です。
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#plus-alpha" class="primary-action">+α</a>
+                        <a href="../index.html" class="secondary-action">Portfolioへ戻る</a>
+                    </div>
+                </div>
+
+                <aside class="hero-panel" aria-label="de34 overview">
+                    <p class="panel-label">Curated Flow</p>
+                    <div class="flow-list">
+                        <span>Observe</span>
+                        <span>Interview</span>
+                        <span>Analyze</span>
+                        <span>Prototype</span>
+                        <span>+α Apps</span>
+                    </div>
+
+                    <dl class="hero-metrics">
+                        <div>
+                            <dt>Works</dt>
+                            <dd>4</dd>
+                        </div>
+                        <div>
+                            <dt>Apps</dt>
+                            <dd>3</dd>
+                        </div>
+                        <div>
+                            <dt>Layout</dt>
+                            <dd>Mobile First</dd>
+                        </div>
+                    </dl>
+                </aside>
+            </section>
+
+            <section class="section-block">
+                <div class="section-heading">
+                    <p class="section-kicker">de34</p>
+                    <div>
+                        <h2>既存制作物</h2>
+                        <p>
+                            de34の世界観を崩さないように、既存ページへの導線は情報量を抑えたカードで整理しました。
+                            まずは制作の流れを追い、その先にある <strong>+α</strong> でアプリへ進めます。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-grid" data-work-grid></div>
+            </section>
+
+            <section class="section-block plus-alpha-block" id="plus-alpha">
+                <div class="section-heading">
+                    <p class="section-kicker">+α</p>
+                    <div>
+                        <h2>アプリを開くための追加導線</h2>
+                        <p>
+                            ここから3つのAndroidアプリへ進めます。ローカル確認でもリンク切れしないよう、
+                            APKはde34配下の相対パスで参照しています。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="platform-note">
+                    <p class="platform-note-title">Open on Device</p>
+                    <p data-platform-note>
+                        Androidではタップ後にAPKを開いてインストール確認へ進めます。PCでは取得用リンクとして使えます。
+                    </p>
+                </div>
+
+                <div class="card-grid app-grid" data-app-grid></div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>&copy; <span data-current-year>2026</span> sh0zy &mdash; XBP</p>
+        </footer>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
