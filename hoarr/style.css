@@ -1,0 +1,312 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1a0000 0%, #0a0a0a 100%);
+}
+
+.screen {
+    width: 90%;
+    max-width: 800px;
+    height: 90vh;
+    background: rgba(20, 20, 30, 0.95);
+    border: 3px solid #666;
+    border-radius: 10px;
+    padding: 40px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    animation: fadeIn 0.5s ease-in;
+}
+
+.screen.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* タイトル画面 */
+#titleScreen {
+    text-align: center;
+}
+
+#titleScreen h1 {
+    font-size: 4em;
+    color: #ff4444;
+    text-shadow: 0 0 20px #ff0000, 0 0 40px #aa0000;
+    margin-bottom: 30px;
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 20px #ff4444, 0 0 40px #aa0000;
+    }
+    50% {
+        text-shadow: 0 0 30px #ff6666, 0 0 60px #ff0000;
+    }
+}
+
+#titleScreen p {
+    font-size: 1.2em;
+    margin: 20px 0;
+    color: #ccc;
+    line-height: 1.8;
+}
+
+button {
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    color: white;
+    border: 2px solid #ff0000;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px 10px;
+    transition: all 0.3s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #ff6666 0%, #dd2222 100%);
+    box-shadow: 0 0 20px #ff0000;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* ゲーム画面 */
+#gameScreen {
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+.game-header {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(50, 20, 20, 0.8);
+    border: 2px solid #666;
+    border-radius: 5px;
+}
+
+.health-bar {
+    width: 100%;
+    height: 30px;
+    background: #333;
+    border: 2px solid #666;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.health-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff00 0%, #ffff00 50%, #ff4444 100%);
+    width: 100%;
+    transition: width 0.3s;
+}
+
+.room-name {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1em;
+    color: #fff;
+}
+
+.room-name p {
+    margin: 5px 0;
+}
+
+.game-area {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.game-content {
+    flex: 1;
+    background: rgba(30, 30, 40, 0.9);
+    border: 2px solid #555;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.game-content h2 {
+    color: #ff6666;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    text-shadow: 0 0 10px #ff0000;
+}
+
+.game-content p {
+    color: #ddd;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+#ghostArea {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.ghost {
+    font-size: 4em;
+    animation: ghostFloat 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px #ff0000);
+}
+
+@keyframes ghostFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.ghost.scare {
+    animation: scareBounce 0.5s ease-in-out;
+    filter: drop-shadow(0 0 20px #ff0000);
+}
+
+@keyframes scareBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    75% {
+        transform: scale(1.15);
+    }
+}
+
+.choice-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.choice-btn {
+    width: 100%;
+    text-align: left;
+    padding: 15px 20px;
+    background: rgba(50, 50, 80, 0.8);
+    border: 2px solid #555;
+    color: #aaa;
+    font-size: 1em;
+    transition: all 0.3s;
+    border-radius: 5px;
+}
+
+.choice-btn:hover {
+    background: rgba(70, 50, 120, 0.9);
+    border-color: #ff4444;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+}
+
+/* ゲームオーバー画面 */
+#gameOverScreen {
+    text-align: center;
+}
+
+#gameOverTitle {
+    font-size: 3em;
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000;
+    margin-bottom: 20px;
+}
+
+#gameOverMessage {
+    font-size: 1.2em;
+    color: #ff6666;
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+/* クリア画面 */
+#clearScreen {
+    text-align: center;
+}
+
+#clearScreen h1 {
+    font-size: 3em;
+    color: #00ff00;
+    text-shadow: 0 0 20px #00ff00;
+    margin-bottom: 20px;
+    animation: clearGlow 1s ease-in-out infinite;
+}
+
+@keyframes clearGlow {
+    0%, 100% {
+        text-shadow: 0 0 20px #00ff00;
+    }
+    50% {
+        text-shadow: 0 0 40px #00ff00;
+    }
+}
+
+#clearMessage {
+    font-size: 1.2em;
+    color: #ddd;
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+/* スクロール */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 68, 68, 0.5);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 68, 68, 0.8);
+}

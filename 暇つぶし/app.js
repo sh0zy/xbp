@@ -10,6 +10,13 @@ const statusText = $("#status-text");
 const statusPill = $("#status-pill");
 const appShell = $(".app-shell");
 const themeRow = $("#theme-row");
+const settingsBtn = $("#settings-btn");
+const settingsPanel = $("#settings-panel");
+const settingsClose = $("#settings-close");
+const formalitySelect = $("#formality-select");
+const levelSelect = $("#level-select");
+const roleplayRow = $("#roleplay-row");
+const roleplaySelect = $("#roleplay-select");
 
 const todayTurnsEl = $("#today-turns");
 const todayMinutesEl = $("#today-minutes");
@@ -21,6 +28,8 @@ let currentTheme = "daily";
 let isListening = false;
 let lastBotReply = "";
 let history = [];
+let currentFormality = "neutral";
+let currentLevel = "B1";
 
 let todayTurns = 0;
 let sessionStart = Date.now();
@@ -131,6 +140,31 @@ function addMessage(text, sender = "bot") {
 
 addMessage("Hi, I'm Wave Talk. Choose a theme and say something in English!", "bot");
 
+/* load saved history and settings */
+function loadSavedState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("waveTalkHistory") || "[]");
+    if (Array.isArray(saved) && saved.length) {
+      history = saved.slice(-200);
+      history.forEach((m) => addMessage(m.content, m.role === 'user' ? 'user' : 'bot'));
+    }
+  } catch (e) {
+    console.warn('Failed to load history', e);
+  }
+
+  try {
+    const s = JSON.parse(localStorage.getItem('waveTalkSettings') || '{}');
+    currentFormality = s.formality || currentFormality;
+    currentLevel = s.level || currentLevel;
+    if (formalitySelect) formalitySelect.value = currentFormality;
+    if (levelSelect) levelSelect.value = currentLevel;
+  } catch (e) {
+    console.warn('Failed to load settings', e);
+  }
+}
+
+loadSavedState();
+
 /* ========== theme select ========== */
 
 themeRow.addEventListener("click", (e) => {
@@ -144,6 +178,8 @@ themeRow.addEventListener("click", (e) => {
   btn.classList.add("active");
 
   addMessage(`Theme switched to ${theme.toUpperCase()}. Say something in English.`, "bot");
+  // show roleplay selector only when needed
+  if (roleplayRow) roleplayRow.style.display = theme === 'roleplay' ? 'block' : 'none';
 });
 
 /* ========== speech recognition ========== */
@@ -229,13 +265,11 @@ async function callLLMApi(userText, theme) {
   const payload = {
     userText,
     theme,
-    formality: theme === "business" ? "polite" : "neutral",
-    level: "B1",
+    formality: currentFormality || (theme === "business" ? "polite" : "neutral"),
+    level: currentLevel || "B1",
     speed: "normal",
     roleplayId:
-      theme === "roleplay"
-        ? "airport_checkin" // とりあえず固定。ここをUIから変えてもいい
-        : null,
+      theme === "roleplay" ? (roleplaySelect ? roleplaySelect.value : "airport_checkin") : null,
     history,
   };
 
@@ -257,21 +291,40 @@ async function callLLMApi(userText, theme) {
   }
 }
 
+function setLoadingMode(on) {
+  if (on) {
+    micBtn.disabled = true;
+    micBtn.classList.add('disabled');
+    statusPill.classList.add('loading');
+    statusText.textContent = 'Thinking...';
+  } else {
+    micBtn.disabled = false;
+    micBtn.classList.remove('disabled');
+    statusPill.classList.remove('loading');
+    statusText.textContent = 'Idle';
+  }
+}
+
 /* ========== main conversation flow ========== */
 
 async function handleUserSpeech(text) {
   addMessage(text, "user");
   history.push({ role: "user", content: text });
   saveTurn();
-
-  statusText.textContent = "Thinking";
+  setLoadingMode(true);
 
   const reply = await callLLMApi(text, currentTheme);
   lastBotReply = reply;
   history.push({ role: "assistant", content: reply });
 
+  // persist history (keep recent)
+  try {
+    localStorage.setItem('waveTalkHistory', JSON.stringify(history.slice(-200)));
+  } catch (e) { console.warn('save history failed', e); }
+
+  setLoadingMode(false);
+
   addMessage(reply, "bot");
-  statusText.textContent = "Idle";
   speak(reply);
 }
 
@@ -279,6 +332,7 @@ async function handleUserSpeech(text) {
 
 micBtn.addEventListener("click", () => {
   if (!recognition) return;
+  if (micBtn.disabled) return;
   if (isListening) {
     recognition.stop();
   } else {
@@ -309,3 +363,30 @@ if ("serviceWorker" in navigator) {
 /* ========== init ========== */
 
 loadTodayStats();
+
+// settings panel events
+if (settingsBtn) {
+  settingsBtn.addEventListener('click', () => {
+    settingsPanel.style.display = 'block';
+  });
+}
+if (settingsClose) {
+  settingsClose.addEventListener('click', () => {
+    settingsPanel.style.display = 'none';
+  });
+}
+if (formalitySelect) {
+  formalitySelect.addEventListener('change', (e) => {
+    currentFormality = e.target.value;
+    localStorage.setItem('waveTalkSettings', JSON.stringify({ formality: currentFormality, level: currentLevel }));
+  });
+}
+if (levelSelect) {
+  levelSelect.addEventListener('change', (e) => {
+    currentLevel = e.target.value;
+    localStorage.setItem('waveTalkSettings', JSON.stringify({ formality: currentFormality, level: currentLevel }));
+  });
+}
+
+// update roleplay visibility on initial load
+if (roleplayRow) roleplayRow.style.display = currentTheme === 'roleplay' ? 'block' : 'none';

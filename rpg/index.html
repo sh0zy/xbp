@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>簡易RPG</title>
+  <link rel="stylesheet" href="style.css">
+  </head>
+<body>
+  <header>
+    <h1>簡易RPG</h1>
+  </header>
+  <main>
+    <canvas id="map" width="480" height="320"></canvas>
+    <aside id="hud">
+      <div id="stats">HP: <span id="hp">20</span>　Lv: <span id="lv">1</span></div>
+      <div id="quest">クエスト: <span id="questTitle">討伐クエスト</span> (<span id="questProgress">0</span>/3)</div>
+      <div id="inventory">アイテム: <ul id="items"></ul></div>
+      <div id="log"></div>
+      <div class="controls">
+        <div class="slots">
+          <div class="slotBlock">
+            <div class="slotButtons">
+              <button class="saveSlot" data-slot="1">セーブ1</button>
+              <button class="loadSlot" data-slot="1">ロード1</button>
+            </div>
+            <div class="slotTime" id="slotTime1">—</div>
+          </div>
+          <div class="slotBlock">
+            <div class="slotButtons">
+              <button class="saveSlot" data-slot="2">セーブ2</button>
+              <button class="loadSlot" data-slot="2">ロード2</button>
+            </div>
+            <div class="slotTime" id="slotTime2">—</div>
+          </div>
+          <div class="slotBlock">
+            <div class="slotButtons">
+              <button class="saveSlot" data-slot="3">セーブ3</button>
+              <button class="loadSlot" data-slot="3">ロード3</button>
+            </div>
+            <div class="slotTime" id="slotTime3">—</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Battle UI -->
+    <div id="battle" class="hidden">
+      <div id="enemyStatus">敵: <span id="enemyHp">0</span>HP</div>
+      <div class="battle-actions">
+        <button id="btnAttack">攻撃</button>
+        <button id="btnUse">アイテム使用</button>
+        <button id="btnRun">逃げる</button>
+      </div>
+    </div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>

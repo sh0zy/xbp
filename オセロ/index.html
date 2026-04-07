@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>オセロ</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  </head>
+  <body>
+    <!-- マッチング画面 -->
+    <div id="matchscreen" class="matchscreen">
+      <main class="match-container">
+        <h1>オセロ オンライン</h1>
+        <div class="match-content">
+          <p>相手を探して対戦しようください</p>
+          <button id="search-btn" class="search-btn">相手を探す</button>
+          <p id="match-status"></p>
+        </div>
+        <div class="mode-selector">
+          <button id="local-btn" class="mode-btn">ローカル対戦</button>
+        </div>
+      </main>
+    </div>
+
+    <!-- ゲーム画面 -->
+    <div id="gamescreen" class="gamescreen hidden">
+      <main class="container">
+        <div class="game-header">
+          <h1>オセロ</h1>
+          <button id="menu-btn" class="menu-btn">メニューに戻る</button>
+        </div>
+        
+        <div class="hud">
+          <div class="score">
+            <div class="black-score">黒: <span id="black-score">2</span></div>
+            <div class="white-score">白: <span id="white-score">2</span></div>
+          </div>
+          <div class="turn" id="turn">
+            順番: 黒
+          </div>
+          <div class="status" id="status"></div>
+        </div>
+
+        <div id="board" class="board"></div>
+
+        <div class="controls">
+          <button id="pass-btn">パス</button>
+          <button id="reset-btn">リセット</button>
+        </div>
+
+        <div id="player-info" class="player-info"></div>
+        <div class="footer">クリックして石を置いてください</div>
+      </main>
+    </div>
+
+    <script src="game-online.js"></script>
+  </body>
+</html>

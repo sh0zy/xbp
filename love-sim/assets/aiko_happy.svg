@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600">
+  <rect width="100%" height="100%" fill="#fff0f6"/>
+  <g transform="translate(200,260)">
+    <circle cx="0" cy="-100" r="70" fill="#ffb6d5" stroke="#e89" stroke-width="4"/>
+    <rect x="-70" y="-20" width="140" height="240" rx="20" fill="#ffdce6" stroke="#e89" stroke-width="4"/>
+    <path d="M -25 10 q 25 30 50 0" stroke="#b03a6b" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <text x="0" y="340" font-size="28" text-anchor="middle" fill="#b03a6b">相良 愛子（喜）</text>
+  </g>
+</svg>

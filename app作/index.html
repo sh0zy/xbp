@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アプリビルダー - アプリを作るアプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <h1>🚀 アプリビルダー</h1>
+            <p>コード不要でアプリを作成</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 左パネル - フォーム -->
+            <div class="left-panel">
+                <div class="panel-section">
+                    <h2>📋 アプリ情報</h2>
+                    
+                    <div class="form-group">
+                        <label for="appName">アプリ名 *</label>
+                        <input type="text" id="appName" placeholder="例: 計算機" value="マイアプリ">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appDescription">説明</label>
+                        <textarea id="appDescription" placeholder="アプリの説明を入力...">便利なツールです</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appColor">テーマカラー</label>
+                        <input type="color" id="appColor" value="#3498db">
+                    </div>
+                </div>
+
+                <!-- 機能設定 -->
+                <div class="panel-section">
+                    <h2>⚙️ 機能設定</h2>
+
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <input type="checkbox" id="featureCounter" checked>
+                            <label for="featureCounter">カウンター機能</label>
+                        </div>
+                        <div class="feature-item">
+                            <input type="checkbox" id="featureTimer">
+                            <label for="featureTimer">タイマー機能</label>
+                        </div>
+                        <div class="feature-item">
+                            <input type="checkbox" id="featureCalc">
+                            <label for="featureCalc">計算機能</label>
+                        </div>
+                        <div class="feature-item">
+                            <input type="checkbox" id="featureNotePad">
+                            <label for="featureNotePad">メモ帳機能</label>
+                        </div>
+                        <div class="feature-item">
+                            <input type="checkbox" id="featureQuiz">
+                            <label for="featureQuiz">クイズ機能</label>
+                        </div>
+                        <div class="feature-item">
+                            <input type="checkbox" id="featureTodo">
+                            <label for="featureTodo">TODOリスト機能</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- カスタムコンテンツ -->
+                <div class="panel-section">
+                    <h2>✏️ カスタムコンテンツ</h2>
+
+                    <div class="form-group">
+                        <label for="customTitle">タイトル</label>
+                        <input type="text" id="customTitle" placeholder="ページのタイトル">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customText">パネルのテキスト</label>
+                        <textarea id="customText" placeholder="パネル上に表示されるテキスト複数行OK&#10;(HTML使用不可)"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customButton">ボタンのテキスト</label>
+                        <input type="text" id="customButton" placeholder="ボタンに表示するテキスト">
+                    </div>
+                </div>
+
+                <!-- ボタン -->
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="generateApp()">🎨 アプリ生成</button>
+                    <button class="btn btn-success" onclick="downloadCode()">⬇️ コードダウンロード</button>
+                    <button class="btn btn-secondary" onclick="resetForm()">🔄 リセット</button>
+                </div>
+            </div>
+
+            <!-- 右パネル - プレビュー -->
+            <div class="right-panel">
+                <div class="preview-header">
+                    <h2>👁️ プレビュー</h2>
+                    <button class="btn-small" onclick="openPreviewInNewTab()">新しいタブで開く ▶</button>
+                </div>
+                <div class="preview-container">
+                    <iframe id="preview" class="preview-iframe" sandbox="allow-scripts"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- コード生成用の隠し要素 -->
+    <div id="codeTemplate" style="display: none;"></div>
+
+    <script src="builder.js"></script>
+</body>
+</html>

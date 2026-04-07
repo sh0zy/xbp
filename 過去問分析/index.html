@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>過去問分析 - 志望校との距離</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 過去問分析</h1>
+            <p>志望校との距離を逆算</p>
+        </header>
+
+        <main>
+            <!-- 志望校設定セクション -->
+            <section class="section">
+                <h2>志望校の設定</h2>
+                <div class="input-group">
+                    <input type="text" id="universityName" placeholder="大学名を入力（例：〇〇大学）">
+                    <input type="number" id="targetScore" placeholder="目標点数" min="0" max="1000">
+                    <button onclick="addUniversity()">追加</button>
+                </div>
+                <div id="universityList" class="university-list"></div>
+            </section>
+
+            <!-- 過去問スコア入力セクション -->
+            <section class="section">
+                <h2>過去問の成績を記録</h2>
+                <div id="scoreInputArea" class="score-input-area">
+                    <p class="hint">↑ 先に志望校を追加してください</p>
+                </div>
+            </section>
+
+            <!-- 分析結果セクション -->
+            <section class="section">
+                <h2>分析結果</h2>
+                <div id="analysisResult" class="analysis-result">
+                    <p class="hint">データを入力すると結果が表示されます</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

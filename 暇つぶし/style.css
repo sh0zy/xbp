@@ -158,6 +158,23 @@ header {
   box-shadow: 0 0 12px rgba(248, 113, 113, 1);
 }
 
+/* loading state */
+.status-pill.loading {
+  color: var(--text-sub);
+  border-color: rgba(148,163,184,0.35);
+}
+.status-pill.loading .status-dot {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(90deg,var(--accent),var(--accent-alt));
+  animation: spinDot 1s linear infinite;
+}
+@keyframes spinDot {
+  0% { transform: translateY(0); opacity: 0.9 }
+  50% { transform: translateY(-2px); opacity: 1 }
+  100% { transform: translateY(0); opacity: 0.9 }
+}
+
 /* ========== theme chips ========== */
 
 .theme-row {
@@ -372,6 +389,13 @@ header {
   box-shadow:
     0 0 20px rgba(248, 250, 252, 0.96),
     0 0 36px rgba(249, 115, 22, 0.8);
+}
+
+/* disabled mic during API call */
+.mic-btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
 }
 
 /* エラー時 mic */

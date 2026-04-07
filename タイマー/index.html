@@ -1,3 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>タイマー</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="timer-app">
+      <h1>タイマー</h1>
+
+      <div class="display" id="display">00:00</div>
+
+      <div class="controls">
+        <label>分 <input type="number" id="minutes" min="0" value="0" /></label>
+        <label>秒 <input type="number" id="seconds" min="0" max="59" value="30" /></label>
+        <button id="set" class="btn">設定</button>
+      </div>
+
+      <div class="presets" id="presets">
+        <!-- preset chips rendered by JS -->
+      </div>
+
+      <div class="preset-controls">
+        <input id="preset-name" placeholder="プリセット名 (例: 25分)" />
+        <button id="save-preset" class="btn small">保存</button>
+      </div>
+
+      <div class="buttons">
+        <button id="start" class="btn primary">開始</button>
+        <button id="pause" class="btn">一時停止</button>
+        <button id="lap" class="btn">ラップ</button>
+        <button id="reset" class="btn">リセット</button>
+      </div>
+
+      <div class="laps" id="laps">
+        <h2>ラップ</h2>
+        <ol id="lap-list"></ol>
+      </div>
+
+      <div class="footer">音が出ます — ブラウザの音量を確認してください。</div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
 <!DOCTYPE html>
 <html lang="ja">
 <head>

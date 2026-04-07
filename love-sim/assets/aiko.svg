@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600">
+  <rect width="100%" height="100%" fill="#fff0f6"/>
+  <g transform="translate(200,280)">
+    <circle cx="0" cy="-80" r="70" fill="#ffb6d5" stroke="#e89" stroke-width="4"/>
+    <rect x="-70" y="0" width="140" height="200" rx="20" fill="#ffdce6" stroke="#e89" stroke-width="4"/>
+    <text x="0" y="320" font-size="36" text-anchor="middle" fill="#b03a6b">相良 愛子</text>
+  </g>
+</svg>

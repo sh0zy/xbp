@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホラーゲーム - 暗い館</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- タイトル画面 -->
+        <div id="titleScreen" class="screen active">
+            <h1>暗い館</h1>
+            <p>あなたは古い館に閉じ込められた...</p>
+            <p>逃げ出すことができるだろうか？</p>
+            <button onclick="startGame()">ゲーム開始</button>
+        </div>
+
+        <!-- ゲーム画面 -->
+        <div id="gameScreen" class="screen">
+            <div class="game-header">
+                <div class="health-bar">
+                    <div id="healthFill" class="health-fill"></div>
+                </div>
+                <div class="room-name">
+                    <p>現在地: <span id="currentRoom">玄関</span></p>
+                    <p>HP: <span id="hpValue">100</span>/100</p>
+                </div>
+            </div>
+
+            <div class="game-area">
+                <div id="gameContent" class="game-content">
+                    <h2 id="storyTitle">玄関</h2>
+                    <p id="storyText">あなたは古い館の玄関に立っている。周りは真っ暗だ。</p>
+                    <div id="ghostArea"></div>
+                </div>
+
+                <div class="choice-area">
+                    <button id="choice1" class="choice-btn" onclick="makeChoice(0)"></button>
+                    <button id="choice2" class="choice-btn" onclick="makeChoice(1)"></button>
+                    <button id="choice3" class="choice-btn" onclick="makeChoice(2)"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ゲームオーバー画面 -->
+        <div id="gameOverScreen" class="screen">
+            <h1 id="gameOverTitle">GAME OVER</h1>
+            <p id="gameOverMessage"></p>
+            <button onclick="startGame()">もう一度プレイ</button>
+            <button onclick="backToTitle()">タイトルに戻る</button>
+        </div>
+
+        <!-- ゲームクリア画面 -->
+        <div id="clearScreen" class="screen">
+            <h1>脱出成功！</h1>
+            <p id="clearMessage"></p>
+            <button onclick="startGame()">もう一度プレイ</button>
+            <button onclick="backToTitle()">タイトルに戻る</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

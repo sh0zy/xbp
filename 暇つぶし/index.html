@@ -37,9 +37,12 @@
         <div class="app-title">Wave Talk</div>
         <div class="app-subtitle">声で話す英会話AI</div>
       </div>
-      <div class="status-pill" id="status-pill">
-        <span class="status-dot"></span>
-        <span id="status-text">Idle</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div class="status-pill" id="status-pill">
+          <span class="status-dot"></span>
+          <span id="status-text">Idle</span>
+        </div>
+        <button id="settings-btn" title="Settings" aria-label="Settings" style="background:transparent;border:0;color:var(--text-sub);cursor:pointer">⚙️</button>
       </div>
     </header>
 
@@ -50,6 +53,18 @@
       <button class="chip" data-theme="business">Business</button>
       <button class="chip" data-theme="roleplay">Roleplay</button>
     </section>
+
+    <!-- roleplay selector (shown when Roleplay selected) -->
+    <div id="roleplay-row" style="display:none;margin-bottom:8px">
+      <label style="font-size:11px;color:var(--text-sub);margin-right:8px">Scenario:</label>
+      <select id="roleplay-select" style="padding:6px 8px;border-radius:8px;background:rgba(15,23,42,0.9);color:var(--text-main);border:1px solid rgba(148,163,184,0.2)">
+        <option value="airport_checkin">Airport check-in</option>
+        <option value="immigration">Immigration</option>
+        <option value="hotel_checkin">Hotel check-in</option>
+        <option value="restaurant_order">Restaurant ordering</option>
+        <option value="travel_trouble">Travel trouble</option>
+      </select>
+    </div>
 
     <!-- チャット -->
     <main class="chat" id="chat"></main>
@@ -94,6 +109,29 @@
 
       <div class="note" id="note"></div>
     </section>
+
+    <!-- settings panel -->
+    <div id="settings-panel" style="display:none;position:fixed;left:50%;top:18%;transform:translateX(-50%);background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(148,163,184,0.25);z-index:40;min-width:260px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <strong style="font-size:13px">Settings</strong>
+        <button id="settings-close" style="background:transparent;border:0;color:var(--text-sub);cursor:pointer">✖</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label style="font-size:12px;color:var(--text-sub)">Formality</label>
+        <select id="formality-select" style="padding:6px;border-radius:8px;background:rgba(15,23,42,0.9);color:var(--text-main);border:1px solid rgba(148,163,184,0.2)">
+          <option value="neutral">Neutral</option>
+          <option value="casual">Casual</option>
+          <option value="polite">Polite</option>
+        </select>
+
+        <label style="font-size:12px;color:var(--text-sub)">Level</label>
+        <select id="level-select" style="padding:6px;border-radius:8px;background:rgba(15,23,42,0.9);color:var(--text-main);border:1px solid rgba(148,163,184,0.2)">
+          <option value="A2">A2</option>
+          <option value="B1" selected>B1</option>
+          <option value="B2">B2</option>
+        </select>
+      </div>
+    </div>
 
   </div>
 

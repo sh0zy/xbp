@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消しピンゲーム</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎮 消しピンゲーム</h1>
+      <p class="subtitle">相手のピンを押し出そう！</p>
+    </header>
+
+    <div class="game-section">
+      <canvas id="game" width="800" height="500"></canvas>
+      
+      <div class="controls">
+        <div class="instruction">
+          <p><strong>操作:</strong> ドラッグしてうち放つ</p>
+        </div>
+        <button id="resetBtn" class="btn btn-primary">リセット</button>
+        <button id="helpBtn" class="btn btn-secondary">ヘルプ</button>
+      </div>
+    </div>
+
+    <div class="info-panel">
+      <div class="score-box">
+        <div class="player-score">
+          <span class="label">あなた</span>
+          <span class="value" id="playerScore">0</span>
+        </div>
+        <div class="separator">vs</div>
+        <div class="cpu-score">
+          <span class="label">CPU</span>
+          <span class="value" id="cpuScore">0</span>
+        </div>
+      </div>
+      <div class="status-box">
+        <p id="status">準備完了 - ドラッグして撃ってください</p>
+      </div>
+    </div>
+
+    <div id="helpModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>ゲーム説明</h2>
+        <ul>
+          <li>マウスをドラッグして青いピンを撃つ</li>
+          <li>相手の赤いピンを画面外に押し出す</li>
+          <li>先に3ポイント取った方が勝ち</li>
+          <li>回転とスリップの物理演算がポイント！</li>
+        </ul>
+        <button class="btn btn-primary" onclick="closeHelp()">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+:root{
+  --bg:#0f172a;
+  --card:#111827;
+  --accent:#06b6d4;
+  --text:#e6eef6;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter,Segoe UI,Meiryo,system-ui,Arial;background:linear-gradient(180deg,var(--bg),#02111a);color:var(--text);display:flex;align-items:center;justify-content:center}
+.timer-app{width:min(640px,96%);background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.06));padding:28px;border-radius:14px;box-shadow:0 10px 40px rgba(2,6,23,0.6);text-align:center}
+h1{margin:0 0 8px 0;font-size:22px}
+.display{font-size:72px;font-weight:800;letter-spacing:3px;background:linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:22px;border-radius:12px;margin-bottom:12px;color:var(--accent)}
+.controls{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:10px}
+.controls input{width:92px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:var(--text);text-align:center}
+.btn{padding:10px 14px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:var(--text);cursor:pointer;transition:all .12s ease}
+.btn.small{padding:6px 10px;font-size:13px}
+.btn.primary{background:linear-gradient(90deg,var(--accent),#0ea5b7);color:#042025;box-shadow:0 6px 18px rgba(6,182,212,0.12);transform:translateY(0)}
+.btn:hover{transform:translateY(-2px)}
+.presets{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}
+.preset-chip{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);cursor:pointer}
+.preset-chip.active{background:linear-gradient(90deg,var(--accent),#0ea5b7);color:#042025}
+.preset-controls{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.preset-controls input{min-width:160px;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:var(--text)}
+.buttons{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+.laps{margin-top:12px;text-align:left;background:rgba(255,255,255,0.02);padding:12px;border-radius:10px}
+.laps h2{margin:0 0 8px 0;font-size:14px}
+#lap-list{margin:0;padding-left:18px}
+#lap-list li{padding:6px 0;border-bottom:1px dashed rgba(255,255,255,0.03);font-size:14px}
+.footer{font-size:12px;opacity:0.8;margin-top:10px}
+
+@media (max-width:420px){.display{font-size:44px}.controls input{width:60px}}
