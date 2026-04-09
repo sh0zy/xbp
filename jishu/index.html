@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自主制作 — XBP</title>
+    <meta name="description" content="自主制作のアプリ一覧。Android APK をダウンロードできます。">
+    <meta property="og:title" content="自主制作 — XBP">
+    <meta property="og:description" content="自主制作のアプリ一覧。Android APK をダウンロードできます。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="../images/0_XBlogo.png">
+    <meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="../css/common.css">
+    <script>
+        (function(){var t=localStorage.getItem("xbp-theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");else if(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)document.documentElement.setAttribute("data-theme","dark");})();
+    </script>
+    <style>
+        .app-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+        .app-grid .content-card { display: flex; flex-direction: column; gap: 14px; }
+        .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .card-index { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; color: var(--text-faint); text-transform: uppercase; }
+        .card-type { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; }
+        .card-description { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; margin: 0; }
+        .card-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+        .card-meta span { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line-outer); background: var(--surface-muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+        .card-cta { align-self: flex-start; display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--accent-soft); background: var(--accent-soft); color: var(--accent); font-size: 0.85rem; font-weight: 600; transition: all 0.25s ease; }
+        .card-cta:hover { background: rgba(61,61,107,0.18); transform: translateY(-1px); }
+
+        .platform-note { background: var(--surface); backdrop-filter: blur(var(--blur)); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-soft), var(--shadow-inset-top); }
+        .platform-note-title { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.5rem; }
+        .platform-note p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; margin: 0; }
+
+        .download-guide { margin-top: 1.5rem; background: var(--surface); backdrop-filter: blur(var(--blur)); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-soft), var(--shadow-inset-top); }
+        .download-guide-head { margin-bottom: 1.25rem; }
+        .download-guide-head h3 { font-size: clamp(1rem, 2vw, 1.3rem); font-weight: 700; letter-spacing: -0.02em; margin: 0.4rem 0 0; }
+        .guide-steps { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; padding: 0; }
+        .guide-step { display: flex; gap: 12px; padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--line-outer); background: var(--surface-muted); }
+        .guide-step-number { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; }
+        .guide-step-title { font-size: 0.88rem; font-weight: 600; margin: 0; }
+        .guide-step-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; margin: 0.35rem 0 0; }
+
+        @media (max-width: 700px) {
+            .guide-steps { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-transition"></div>
+
+    <header class="header">
+        <a href="../index.html" class="logo-link">
+            <img src="../images/0_XBlogo.png" alt="XB Logo" class="logo" loading="lazy">
+        </a>
+        <nav class="breadcrumb">
+            <a href="../index.html">Portfolio</a>
+            <span class="sep">/</span>
+            <span>自主制作</span>
+        </nav>
+        <button class="theme-toggle" aria-label="テーマ切り替え">
+            <span class="icon-sun">☀</span>
+            <span class="icon-moon">☾</span>
+        </button>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <span class="hero-tag">05 &mdash; Independent Work</span>
+            <h1 class="hero-title">自主制作</h1>
+            <p class="hero-subtitle" style="margin-top:0.75rem; font-size:0.95rem; font-weight:300; color:var(--text-muted);">授業外で自主的に制作したアプリをまとめています。</p>
+            <div class="hero-line"></div>
+        </section>
+
+        <section class="section reveal">
+            <h2 class="section-title">アプリ一覧</h2>
+
+            <div class="platform-note reveal">
+                <p class="platform-note-title">Open on Device</p>
+                <p data-platform-note>Androidではタップ後にAPKを開いてインストール確認へ進めます。PCでは取得用リンクとして使えます。</p>
+            </div>
+
+            <div class="card-grid app-grid" data-app-grid></div>
+
+            <section class="download-guide reveal">
+                <div class="download-guide-head">
+                    <p class="platform-note-title">How to Download</p>
+                    <h3>アプリダウンロードの手順</h3>
+                </div>
+                <ol class="guide-steps">
+                    <li class="guide-step">
+                        <span class="guide-step-number">01</span>
+                        <div>
+                            <p class="guide-step-title">アプリを選ぶ</p>
+                            <p class="guide-step-text">上のカードから開きたいアプリを選び、ボタンを押します。</p>
+                        </div>
+                    </li>
+                    <li class="guide-step">
+                        <span class="guide-step-number">02</span>
+                        <div>
+                            <p class="guide-step-title">APKを保存する</p>
+                            <p class="guide-step-text">Androidではそのままダウンロード、PCではAndroid端末へ移します。</p>
+                        </div>
+                    </li>
+                    <li class="guide-step">
+                        <span class="guide-step-number">03</span>
+                        <div>
+                            <p class="guide-step-title">インストールを許可する</p>
+                            <p class="guide-step-text">初回は提供元不明のアプリのインストール許可を求められる場合があります。</p>
+                        </div>
+                    </li>
+                    <li class="guide-step">
+                        <span class="guide-step-number">04</span>
+                        <div>
+                            <p class="guide-step-title">インストールして開く</p>
+                            <p class="guide-step-text">APKを開いてインストールを完了すると、アプリを起動できます。</p>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="footer-brand">XBP</span>
+            <p class="footer-copy">&copy; <span data-current-year>2026</span> sh0zy</p>
+        </div>
+    </footer>
+
+    <button class="page-top-btn" aria-label="ページトップへ戻る">&uarr;</button>
+    <script src="../js/common.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>

@@ -4,15 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XBP Portfolio</title>
+    <meta name="description" content="sh0zy のデザインポートフォリオ。デザイン演習・デジタルファブリケーション等の作品を掲載。">
+    <meta property="og:title" content="XBP Portfolio">
+    <meta property="og:description" content="sh0zy のデザインポートフォリオ。デザイン演習・デジタルファブリケーション等の作品を掲載。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./images/0_XBlogo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="XBP Portfolio">
+    <meta name="twitter:description" content="sh0zy のデザインポートフォリオ。">
     <link rel="stylesheet" href="./css/common.css">
+    <script>
+        // Prevent flash of wrong theme
+        (function(){var t=localStorage.getItem("xbp-theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");else if(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)document.documentElement.setAttribute("data-theme","dark");})();
+    </script>
 </head>
 <body>
+    <div class="page-transition"></div>
+
     <header class="header">
         <a href="./index.html" class="logo-link">
-            <img src="./images/0_XBlogo.png" alt="XB Logo" class="logo">
+            <img src="./images/0_XBlogo.png" alt="XB Logo" class="logo" loading="lazy">
         </a>
         <nav class="header-nav">
             <span class="header-title">XBP</span>
+            <button class="theme-toggle" aria-label="テーマ切り替え">
+                <span class="icon-sun">☀</span>
+                <span class="icon-moon">☾</span>
+            </button>
         </nav>
     </header>
 
@@ -23,31 +41,49 @@
             <div class="hero-line"></div>
         </section>
 
-        <section class="section">
+        <section class="profile reveal">
+            <img src="./images/0_XBlogo.png" alt="sh0zy" class="profile-avatar" loading="lazy">
+            <div class="profile-body">
+                <h2 class="profile-name">sh0zy</h2>
+                <p class="profile-role">Designer / Developer</p>
+                <p class="profile-bio">デザイン演習やデジタルファブリケーションを通じて制作した作品をまとめたポートフォリオです。</p>
+                <div class="profile-links">
+                    <a href="https://github.com/sh0zy" class="profile-link" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal">
             <h2 class="section-title">Works</h2>
             <div class="card-grid">
-                <a href="./de12/index.html" class="card" style="--delay: 0">
+                <a href="./de12/index.html" class="card reveal reveal-delay-1" style="--delay: 0">
                     <span class="card-number">01</span>
                     <h3 class="card-title">デザイン演習 I・II</h3>
                     <p class="card-label">Design Practice I / II</p>
                     <span class="card-arrow">&rarr;</span>
                 </a>
-                <a href="./digi_fab/index.html" class="card" style="--delay: 1">
+                <a href="./digi_fab/index.html" class="card reveal reveal-delay-2" style="--delay: 1">
                     <span class="card-number">02</span>
                     <h3 class="card-title">デジタルファブリケーション</h3>
                     <p class="card-label">Digital Fabrication</p>
                     <span class="card-arrow">&rarr;</span>
                 </a>
-                <a href="./de34/index.html" class="card" style="--delay: 2">
+                <a href="./de34/index.html" class="card reveal reveal-delay-3" style="--delay: 2">
                     <span class="card-number">03</span>
                     <h3 class="card-title">デザイン演習 III・IV</h3>
                     <p class="card-label">Design Practice III / IV</p>
                     <span class="card-arrow">&rarr;</span>
                 </a>
-                <a href="./de56/index.html" class="card" style="--delay: 3">
+                <a href="./de56/index.html" class="card reveal reveal-delay-4" style="--delay: 3">
                     <span class="card-number">04</span>
                     <h3 class="card-title">デザイン演習 V・VI</h3>
                     <p class="card-label">Design Practice V / VI</p>
+                    <span class="card-arrow">&rarr;</span>
+                </a>
+                <a href="./jishu/index.html" class="card reveal reveal-delay-5" style="--delay: 4">
+                    <span class="card-number">05</span>
+                    <h3 class="card-title">自主制作</h3>
+                    <p class="card-label">Independent Work</p>
                     <span class="card-arrow">&rarr;</span>
                 </a>
             </div>
@@ -55,7 +91,13 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; 2026 sh0zy &mdash; XBP</p>
+        <div class="footer-inner">
+            <span class="footer-brand">XBP</span>
+            <p class="footer-copy">&copy; <span data-current-year>2026</span> sh0zy</p>
+        </div>
     </footer>
+
+    <button class="page-top-btn" aria-label="ページトップへ戻る">&uarr;</button>
+    <script src="./js/common.js"></script>
 </body>
 </html>
