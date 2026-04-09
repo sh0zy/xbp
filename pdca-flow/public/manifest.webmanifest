@@ -1,0 +1,27 @@
+{
+  "name": "PDCA Flow",
+  "short_name": "PDCA Flow",
+  "description": "PDCAサイクル管理アプリ",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#13131f",
+  "theme_color": "#13131f",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

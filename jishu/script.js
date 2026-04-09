@@ -63,6 +63,14 @@ var apps = [
         href: "../not today.apk",
         meta: ["Updated 2026.04"],
     },
+    {
+        id: "09",
+        type: "Android APK",
+        title: "PDCA Flow",
+        description: "PDCAサイクルを日常のタスク管理に取り入れるアプリ。Plan→Do→Check→Actの流れを可視化し、継続的な改善をサポートします。",
+        href: "../pdca.apk",
+        meta: ["3.20 MB", "Updated 2026.04"],
+    },
 ];
 
 var isAndroid = /Android/i.test(navigator.userAgent);
