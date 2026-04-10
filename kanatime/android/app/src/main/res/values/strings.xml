@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">KanaTime</string>
+    <string name="title_activity_main">KanaTime</string>
+    <string name="package_name">app.kanatime.mobile</string>
+    <string name="custom_url_scheme">app.kanatime.mobile</string>
+</resources>
