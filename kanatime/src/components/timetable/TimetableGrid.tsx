@@ -2,10 +2,17 @@ import { useCourseStore } from '@/store/courseStore';
 import { useTimetableStore } from '@/store/timetableStore';
 import { TimetableCell } from './TimetableCell';
 import { DAY_LABELS, COURSE_COLORS } from '@/types';
+import type { Course } from '@/types';
 
 const PERIODS = [1, 2, 3, 4, 5, 6, 7];
 
-export function TimetableGrid() {
+interface Props {
+  editMode: boolean;
+  onEmptyClick: (dayOfWeek: number, period: number) => void;
+  onCellEdit: (course: Course) => void;
+}
+
+export function TimetableGrid({ editMode, onEmptyClick, onCellEdit }: Props) {
   const { courses } = useCourseStore();
   const { entries } = useTimetableStore();
 
@@ -34,14 +41,17 @@ export function TimetableGrid() {
                 return c && c.dayOfWeek === dow && c.period === period;
               });
               const course = entry ? courses.find((c) => c.id === entry.courseId) : undefined;
-              const colorIdx = entry ? entries.indexOf(entry) : 0;
-              const color = entry?.customColor || COURSE_COLORS[colorIdx % COURSE_COLORS.length];
+              // 初期は統一色 (COURSE_COLORS[0])、ユーザーが変更したら customColor を使う
+              const color = entry?.customColor || COURSE_COLORS[0];
 
               return (
                 <TimetableCell
                   key={`${dow}-${period}`}
                   course={course}
                   color={color}
+                  editMode={editMode}
+                  onEmptyClick={() => onEmptyClick(dow, period)}
+                  onEdit={() => course && onCellEdit(course)}
                 />
               );
             })}

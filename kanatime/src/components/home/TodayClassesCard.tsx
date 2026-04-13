@@ -27,7 +27,7 @@ export function TodayClassesCard({ courses, entries, todayDow }: Props) {
         <EmptyState icon={BookOpen} message="今日の授業はありません" />
       ) : (
         <div className="space-y-2">
-          {todayCourses.map(({ course, entry, idx }) => (
+          {todayCourses.map(({ course, entry }) => (
             <button
               key={course.id}
               onClick={() => navigate(`/search/${course.id}`)}
@@ -35,7 +35,7 @@ export function TodayClassesCard({ courses, entries, todayDow }: Props) {
             >
               <div
                 className="w-1 h-10 rounded-full shrink-0"
-                style={{ backgroundColor: entry.customColor || COURSE_COLORS[idx % COURSE_COLORS.length] }}
+                style={{ backgroundColor: entry.customColor || COURSE_COLORS[0] }}
               />
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm truncate">{course.title}</p>

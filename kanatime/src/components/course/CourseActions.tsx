@@ -10,7 +10,7 @@ interface Props {
 
 export function CourseActions({ courseId, syllabusUrl }: Props) {
   const navigate = useNavigate();
-  const { isInTimetable, addEntry, removeEntry, entries } = useTimetableStore();
+  const { isInTimetable, addEntry, removeEntry } = useTimetableStore();
   const inTable = isInTimetable(courseId);
 
   const actions = [
@@ -19,7 +19,7 @@ export function CourseActions({ courseId, syllabusUrl }: Props) {
       icon: inTable ? Minus : Plus,
       color: inTable ? 'text-accent-red' : 'text-accent-green',
       bg: inTable ? 'bg-accent-red/10' : 'bg-accent-green/10',
-      action: () => inTable ? removeEntry(courseId) : addEntry(courseId, COURSE_COLORS[entries.length % COURSE_COLORS.length]),
+      action: () => inTable ? removeEntry(courseId) : addEntry(courseId, COURSE_COLORS[0]),
     },
     {
       label: '課題追加',

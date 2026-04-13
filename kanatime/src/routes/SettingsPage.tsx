@@ -71,6 +71,18 @@ export function SettingsPage() {
       />
 
       <SettingsGroup
+        title="大学公式情報"
+        items={[
+          {
+            label: '大学公式サイト・ウェブステーション',
+            description: '公式ログインページや履修関連へ移動',
+            right: <ChevronRight size={16} className="text-dark-400" />,
+            onClick: () => navigate('/official'),
+          },
+        ]}
+      />
+
+      <SettingsGroup
         title="データ"
         items={[
           {

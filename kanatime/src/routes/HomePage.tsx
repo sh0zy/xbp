@@ -42,7 +42,7 @@ export function HomePage() {
     return c && c.period >= currentPeriodGuess;
   });
   const nextCourse = nextEntry ? courses.find((c) => c.id === nextEntry.courseId) ?? null : null;
-  const nextColor = nextEntry ? (nextEntry.customColor || COURSE_COLORS[entries.indexOf(nextEntry) % COURSE_COLORS.length]) : '#5b8af5';
+  const nextColor = nextEntry?.customColor || COURSE_COLORS[0];
 
   // Attendance alerts
   const alerts = entries

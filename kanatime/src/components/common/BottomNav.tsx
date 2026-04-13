@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, Search, CalendarDays, ClipboardList, Settings } from 'lucide-react';
+import { Home, Search, CalendarDays, ClipboardList, Users, Settings } from 'lucide-react';
 import clsx from 'clsx';
 
 const tabs = [
@@ -7,6 +7,7 @@ const tabs = [
   { path: '/search', icon: Search, label: '検索' },
   { path: '/timetable', icon: CalendarDays, label: '時間割' },
   { path: '/tasks', icon: ClipboardList, label: '課題' },
+  { path: '/community', icon: Users, label: '交流' },
   { path: '/settings', icon: Settings, label: '設定' },
 ] as const;
 
@@ -24,12 +25,12 @@ export function BottomNav() {
               key={path}
               onClick={() => navigate(path)}
               className={clsx(
-                'flex flex-col items-center justify-center gap-0.5 w-16 h-full transition-colors',
+                'flex flex-col items-center justify-center gap-0.5 flex-1 h-full transition-colors',
                 active ? 'text-accent-blue' : 'text-dark-300 active:text-dark-100'
               )}
             >
-              <Icon size={22} strokeWidth={active ? 2.2 : 1.8} />
-              <span className="text-[10px] font-medium">{label}</span>
+              <Icon size={20} strokeWidth={active ? 2.2 : 1.8} />
+              <span className="text-[9px] font-medium">{label}</span>
             </button>
           );
         })}

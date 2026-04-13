@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+body {
+  @apply bg-nest-bg text-nest-text font-sans antialiased;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer components {
+  .nest-card {
+    @apply bg-nest-card border border-nest-border rounded-2xl shadow-card;
+  }
+  .nest-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-medium transition active:scale-[0.98];
+  }
+  .nest-btn-primary {
+    @apply nest-btn bg-nest-accent text-nest-bg hover:opacity-90;
+  }
+  .nest-btn-ghost {
+    @apply nest-btn bg-nest-surface text-nest-text border border-nest-border hover:bg-nest-card;
+  }
+  .nest-btn-danger {
+    @apply nest-btn bg-nest-danger/10 text-nest-danger border border-nest-danger/30;
+  }
+  .nest-label {
+    @apply text-xs font-semibold uppercase tracking-wider text-nest-sub;
+  }
+}

@@ -34,7 +34,7 @@ export function AddTaskModal({ open, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       <div className="relative w-full max-w-md bg-dark-800 rounded-2xl p-5 space-y-4">
         <div className="flex items-center justify-between">

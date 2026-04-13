@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/common/Badge';
 import type { Course } from '@/types';
-import { DAY_LABELS } from '@/types';
+import { DAY_LABELS, computeEasyScore, computeEasyReasons, EASY_REASON_TAGS } from '@/types';
 import type { SortKey } from '@/routes/SearchPage';
 
 interface Props {
@@ -27,6 +27,9 @@ export function CourseListItem({ course, averages, showScore }: Props) {
     : '';
 
   const ev = course.evaluation;
+  const easyScore = computeEasyScore(course);
+  const easyReasons = computeEasyReasons(course);
+  const grades = course.availableGrades ?? [1, 2, 3, 4];
 
   return (
     <button
@@ -40,7 +43,15 @@ export function CourseListItem({ course, averages, showScore }: Props) {
         </div>
         <div className="flex flex-col items-end gap-1 shrink-0">
           <Badge variant="blue">{course.credits}単位</Badge>
-          {showScore !== 'none' && scoreValue !== null && (
+          {showScore === 'easy' && (
+            <div className="flex items-center gap-1">
+              <span className={`text-lg font-bold ${easyScore >= 75 ? 'text-accent-green' : easyScore >= 60 ? 'text-accent-blue' : 'text-accent-orange'}`}>
+                {Math.round(easyScore)}
+              </span>
+              <span className="text-[10px] text-dark-400">/100</span>
+            </div>
+          )}
+          {showScore !== 'none' && showScore !== 'easy' && scoreValue !== null && (
             <div className="flex items-center gap-1">
               <span className={`text-lg font-bold ${scoreColor}`}>{scoreValue}</span>
               <span className="text-[10px] text-dark-400">/5</span>
@@ -67,16 +78,28 @@ export function CourseListItem({ course, averages, showScore }: Props) {
         </div>
       )}
 
+      {/* 楽単根拠タグ */}
+      {easyReasons.length > 0 && (
+        <div className="flex flex-wrap gap-1 mt-2">
+          {easyReasons.map((r) => (
+            <span key={r} className="text-[10px] px-1.5 py-0.5 rounded-md bg-accent-green/15 text-accent-green font-medium">
+              #{EASY_REASON_TAGS[r]}
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="flex items-center gap-2 mt-2 flex-wrap">
         <Badge>{DAY_LABELS[course.dayOfWeek]}{course.period}限</Badge>
         <Badge>{course.campus}</Badge>
         <Badge>{course.category}</Badge>
-        {showScore !== 'none' && scoreValue !== null && (
+        <Badge>{grades.length === 4 ? '全学年' : `${grades.join('・')}年`}</Badge>
+        {showScore !== 'none' && showScore !== 'easy' && scoreValue !== null && (
           <Badge variant={scoreValue >= 4 ? 'green' : scoreValue >= 3 ? 'blue' : 'orange'}>
             {scoreLabel[showScore]}
           </Badge>
         )}
-        {showScore !== 'none' && scoreValue === null && (
+        {showScore !== 'none' && showScore !== 'easy' && scoreValue === null && (
           <Badge>レビューなし</Badge>
         )}
       </div>

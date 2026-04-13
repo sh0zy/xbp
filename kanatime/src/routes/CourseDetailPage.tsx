@@ -30,8 +30,7 @@ export function CourseDetailPage() {
   if (!course) return <div className="pt-14 text-center text-dark-400">授業が見つかりません</div>;
 
   const entry = entries.find((e) => e.courseId === course.id);
-  const colorIdx = entry ? entries.indexOf(entry) : 0;
-  const color = entry?.customColor || COURSE_COLORS[colorIdx % COURSE_COLORS.length];
+  const color = entry?.customColor || COURSE_COLORS[0];
   const reviews = getForCourse(course.id);
   const averages = getAverages(course.id);
 

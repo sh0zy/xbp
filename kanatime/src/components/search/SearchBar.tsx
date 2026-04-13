@@ -4,9 +4,10 @@ interface Props {
   value: string;
   onChange: (v: string) => void;
   onFilterToggle: () => void;
+  activeCount?: number;
 }
 
-export function SearchBar({ value, onChange, onFilterToggle }: Props) {
+export function SearchBar({ value, onChange, onFilterToggle, activeCount = 0 }: Props) {
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 relative">
@@ -21,9 +22,14 @@ export function SearchBar({ value, onChange, onFilterToggle }: Props) {
       </div>
       <button
         onClick={onFilterToggle}
-        className="p-2.5 rounded-xl bg-dark-700 border border-dark-600 text-dark-300 active:text-white active:border-accent-blue"
+        className="relative p-2.5 rounded-xl bg-dark-700 border border-dark-600 text-dark-300 active:text-white active:border-accent-blue"
       >
         <SlidersHorizontal size={18} />
+        {activeCount > 0 && (
+          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full bg-accent-blue text-white text-[10px] font-bold flex items-center justify-center px-1">
+            {activeCount}
+          </span>
+        )}
       </button>
     </div>
   );

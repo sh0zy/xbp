@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一回 Arduino入門 — デザイン演習 III・IV — XBP</title>
+    <meta name="description" content="第一回：Arduinoの設定・Lチカ・明るさ測定のまとめ。">
+    <meta property="og:title" content="第一回 Arduino入門 — デザイン演習 III・IV">
+    <meta property="og:description" content="Arduinoの初期設定、Lチカ、CdSによる明るさ測定を学ぶまとめページ。">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="../../images/0_XBlogo.png">
+    <meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="../../css/common.css">
+    <script>
+        (function(){var t=localStorage.getItem("xbp-theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");else if(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)document.documentElement.setAttribute("data-theme","dark");})();
+    </script>
+    <style>
+        .lesson-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .lesson-meta span { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
+
+        .toc { display: grid; gap: 0.5rem; margin: 1.5rem 0 0; }
+        .toc a { display: flex; align-items: center; gap: 0.75rem; padding: 12px 16px; border-radius: var(--radius-md); background: var(--surface-muted); border: 1px solid var(--line-outer); color: var(--text); font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
+        .toc a:hover { background: var(--surface); transform: translateX(4px); }
+        .toc a .num { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.75rem; }
+
+        .lesson-section { margin-top: 2rem; }
+        .lesson-section h2 { font-size: 1.35rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; letter-spacing: 0.02em; }
+        .lesson-section h2 .chapter-num { display: inline-block; margin-right: 0.6rem; padding: 2px 10px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 0.7rem; font-weight: 700; vertical-align: middle; letter-spacing: 0.08em; }
+        .lesson-section h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 1.5rem 0 0.5rem; }
+        .lesson-section p { font-size: 0.92rem; line-height: 1.85; color: var(--text-muted); margin: 0.5rem 0; }
+        .lesson-section ul, .lesson-section ol { margin: 0.75rem 0 0.75rem 1.25rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.85; }
+        .lesson-section li { margin: 0.3rem 0; }
+        .lesson-section strong { color: var(--text); font-weight: 600; }
+
+        .callout { margin: 1rem 0; padding: 1rem 1.25rem; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: 0.88rem; line-height: 1.75; color: var(--text); }
+        .callout .callout-label { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.35rem; text-transform: uppercase; }
+
+        pre.code { margin: 1rem 0; padding: 1.1rem 1.25rem; background: #1a1a2e; color: #e8e8f0; border-radius: var(--radius-md); font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; font-size: 0.82rem; line-height: 1.7; overflow-x: auto; border: 1px solid rgba(255,255,255,0.04); }
+        pre.code .c-key { color: #c4a7ff; }
+        pre.code .c-fn { color: #8ae2ff; }
+        pre.code .c-num { color: #ffb86c; }
+        pre.code .c-cmt { color: #6b6b80; font-style: italic; }
+
+        .source-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line-outer); background: var(--surface-muted); color: var(--text-muted); font-size: 0.78rem; font-weight: 500; transition: all 0.2s ease; }
+        .source-link:hover { background: var(--surface); color: var(--accent); }
+        .source-link::after { content: "↗"; font-size: 0.9rem; }
+
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 1rem 0; }
+        .summary-card { padding: 1rem 1.1rem; border-radius: var(--radius-md); background: var(--surface-muted); border: 1px solid var(--line-outer); }
+        .summary-card h4 { font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+        .summary-card p { font-size: 0.85rem; color: var(--text); line-height: 1.7; margin: 0; }
+
+        .pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line-outer); }
+        .pager a { display: inline-flex; align-items: center; gap: 0.4rem; padding: 10px 18px; border-radius: 999px; background: var(--surface-muted); border: 1px solid var(--line-outer); color: var(--text); font-size: 0.85rem; font-weight: 600; transition: all 0.25s ease; }
+        .pager a:hover { background: var(--surface); transform: translateY(-2px); }
+        .pager .disabled { opacity: 0.4; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <div class="page-transition"></div>
+
+    <header class="header">
+        <a href="../../index.html" class="logo-link">
+            <img src="../../images/0_XBlogo.png" alt="XB Logo" class="logo" loading="lazy">
+        </a>
+        <nav class="breadcrumb">
+            <a href="../../index.html">Portfolio</a>
+            <span class="sep">/</span>
+            <a href="../index.html">Design III・IV</a>
+            <span class="sep">/</span>
+            <span>第一回</span>
+        </nav>
+        <button class="theme-toggle" aria-label="テーマ切り替え">
+            <span class="icon-sun">☀</span>
+            <span class="icon-moon">☾</span>
+        </button>
+    </header>
+
+    <main class="main main--narrow">
+        <section class="hero">
+            <span class="hero-tag">Lesson 01 &mdash; Arduino</span>
+            <h1 class="hero-title">第一回<br>Arduino入門</h1>
+            <div class="hero-line"></div>
+            <div class="lesson-meta">
+                <span>Arduino IDE</span>
+                <span>Lチカ</span>
+                <span>CdSセンサー</span>
+            </div>
+            <nav class="toc" aria-label="目次">
+                <a href="#ch1"><span class="num">01</span>Arduinoの設定</a>
+                <a href="#ch2"><span class="num">02</span>ArduinoでLチカ</a>
+                <a href="#ch3"><span class="num">03</span>Arduinoで明るさを測定</a>
+            </nav>
+        </section>
+
+        <section class="section reveal">
+            <div class="content-card">
+                <article class="lesson-section" id="ch1">
+                    <h2><span class="chapter-num">CH 01</span>Arduinoの設定</h2>
+                    <p>開発環境を整え、Arduino Uno をPCと接続するまでの初期セットアップ。</p>
+
+                    <h3>Arduinoとは</h3>
+                    <p>
+                        入出力ポートを備えた<strong>マイコンボード</strong>の一種。センサー値の読み込みや
+                        LED・モーターの制御など、電子工作を手軽に実現するためのプラットフォームです。
+                    </p>
+
+                    <h3>開発環境の構築</h3>
+                    <ul>
+                        <li><strong>Arduino IDE</strong> を公式サイトからダウンロード</li>
+                        <li>Mac：ZIPを解凍し、アプリケーションフォルダへ配置</li>
+                        <li>Windows：インストーラの選択肢はすべて「次へ」で進行</li>
+                    </ul>
+
+                    <h3>ボードの選択と接続</h3>
+                    <ol>
+                        <li>IDE 上で <strong>Select Board</strong> のリストボックスをクリック</li>
+                        <li>リストから <strong>Arduino Uno</strong> を選択</li>
+                        <li>表示が「Arduino Uno」に変わったことを確認</li>
+                        <li>USBケーブルで接続（Type-C のみの PC は変換アダプタを利用）</li>
+                    </ol>
+
+                    <div class="callout">
+                        <span class="callout-label">Point</span>
+                        ポートが認識されない場合は、ケーブルの抜き差し・別のUSBポート・ドライバの再インストールを順に確認する。
+                    </div>
+
+                    <a class="source-link" href="https://qiita.com/doyodoyo/items/0f3f6c3a5e09b30062a3" target="_blank" rel="noopener">Qiita 原文を読む</a>
+                </article>
+
+                <article class="lesson-section" id="ch2">
+                    <h2><span class="chapter-num">CH 02</span>ArduinoでLチカ</h2>
+                    <p>LED を繰り返し点滅させる「Lチカ」で、プログラミングの基礎を掴む。</p>
+
+                    <h3>LED の向きと配線</h3>
+                    <ul>
+                        <li>長い脚 = プラス（アノード） → <strong>ピン 13</strong></li>
+                        <li>短い脚 = マイナス（カソード） → <strong>GND</strong></li>
+                    </ul>
+
+                    <h3>基本構文</h3>
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <h4>setup()</h4>
+                            <p>起動時に1回だけ実行される初期化処理。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>loop()</h4>
+                            <p>電源が入っている間、繰り返し実行される処理。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>pinMode()</h4>
+                            <p>ピンの入出力モード（OUTPUT/INPUT）を設定。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>digitalWrite()</h4>
+                            <p>ピンを HIGH（5V）/ LOW（0V）に切り替える。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>delay(ms)</h4>
+                            <p>ミリ秒単位で待機する。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>; （セミコロン）</h4>
+                            <p>文の終わりを示す。忘れるとコンパイルエラー。</p>
+                        </div>
+                    </div>
+
+                    <h3>コード例</h3>
+<pre class="code"><span class="c-key">void</span> <span class="c-fn">setup</span>() {
+  <span class="c-fn">pinMode</span>(<span class="c-num">13</span>, OUTPUT);
+}
+
+<span class="c-key">void</span> <span class="c-fn">loop</span>() {
+  <span class="c-fn">digitalWrite</span>(<span class="c-num">13</span>, HIGH);  <span class="c-cmt">// LED点灯</span>
+  <span class="c-fn">delay</span>(<span class="c-num">500</span>);
+  <span class="c-fn">digitalWrite</span>(<span class="c-num">13</span>, LOW);   <span class="c-cmt">// LED消灯</span>
+  <span class="c-fn">delay</span>(<span class="c-num">500</span>);
+}</pre>
+
+                    <div class="callout">
+                        <span class="callout-label">Tips</span>
+                        書き込みボタンを押すと、コンパイル後に自動で Arduino へ転送される。
+                        転送後すぐに 0.5 秒間隔で点滅が始まれば成功。
+                    </div>
+
+                    <a class="source-link" href="https://qiita.com/doyodoyo/items/29598bc44cf54b3b174b" target="_blank" rel="noopener">Qiita 原文を読む</a>
+                </article>
+
+                <article class="lesson-section" id="ch3">
+                    <h2><span class="chapter-num">CH 03</span>Arduinoで明るさを測定</h2>
+                    <p>CdS（硫化カドミウム）光感応抵抗を使って、周囲の明るさを数値化する。</p>
+
+                    <h3>デジタル入力とアナログ入力</h3>
+                    <ul>
+                        <li><strong>デジタル</strong>：0V (LOW) または 5V (HIGH) の二値</li>
+                        <li><strong>アナログ</strong>：0〜5V の連続値を <strong>0〜1023</strong> に変換して読む</li>
+                    </ul>
+
+                    <h3>配線</h3>
+                    <ol>
+                        <li>Arduino 5V → <strong>10kΩ 抵抗</strong> → CdS セル → GND</li>
+                        <li>抵抗と CdS セルの接続点から <strong>A1 ピン</strong> へ分岐</li>
+                    </ol>
+
+                    <h3>コード例</h3>
+<pre class="code"><span class="c-key">int</span> val = <span class="c-num">0</span>;
+
+<span class="c-key">void</span> <span class="c-fn">setup</span>() {
+  <span class="c-fn">Serial.begin</span>(<span class="c-num">9600</span>);
+}
+
+<span class="c-key">void</span> <span class="c-fn">loop</span>() {
+  val = <span class="c-fn">analogRead</span>(<span class="c-num">1</span>);    <span class="c-cmt">// A1 から読み取り</span>
+  <span class="c-fn">Serial.println</span>(val);
+  <span class="c-fn">delay</span>(<span class="c-num">500</span>);
+}</pre>
+
+                    <div class="callout">
+                        <span class="callout-label">Observation</span>
+                        暗くなると CdS の抵抗値が上がり、シリアルモニタの数値が<strong>大きく</strong>なる。
+                        明るくなると抵抗値が下がり、数値は<strong>小さく</strong>なる。
+                    </div>
+
+                    <a class="source-link" href="https://qiita.com/doyodoyo/items/6f860e3cad6b60aff509" target="_blank" rel="noopener">Qiita 原文を読む</a>
+                </article>
+
+                <nav class="pager">
+                    <a href="../index.html">&larr; 目次へ</a>
+                    <a href="#" class="disabled">第二回（準備中） &rarr;</a>
+                </nav>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="footer-brand">XBP</span>
+            <p class="footer-copy">&copy; <span data-current-year>2026</span> sh0zy</p>
+        </div>
+    </footer>
+
+    <button class="page-top-btn" aria-label="ページトップへ戻る">&uarr;</button>
+    <script src="../../js/common.js"></script>
+</body>
+</html>

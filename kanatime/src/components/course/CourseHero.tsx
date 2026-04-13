@@ -1,5 +1,5 @@
 import type { Course } from '@/types';
-import { DAY_LABELS, PERIOD_TIMES } from '@/types';
+import { DAY_LABELS, PERIOD_TIMES, computeEasyScore, computeEasyReasons, EASY_REASON_TAGS } from '@/types';
 
 interface Props {
   course: Course;
@@ -9,6 +9,9 @@ interface Props {
 export function CourseHero({ course, color }: Props) {
   const time = PERIOD_TIMES[course.period];
   const ev = course.evaluation;
+  const easyScore = computeEasyScore(course);
+  const easyReasons = computeEasyReasons(course);
+  const grades = course.availableGrades ?? [1, 2, 3, 4];
 
   return (
     <div className="rounded-2xl p-5 relative overflow-hidden" style={{ backgroundColor: color + '20' }}>
@@ -22,6 +25,35 @@ export function CourseHero({ course, color }: Props) {
         {course.room && <span>{course.room}</span>}
         <span>{course.credits}単位</span>
         <span>{course.category}</span>
+        <span>{grades.length === 4 ? '全学年' : `${grades.join('・')}年履修可`}</span>
+      </div>
+
+      {/* 履修しやすさ (楽単度) + 根拠 */}
+      <div className="mt-4 p-3 rounded-xl bg-dark-800/40">
+        <div className="flex items-center justify-between mb-1.5">
+          <p className="text-xs text-dark-300 font-medium">履修しやすさ</p>
+          <span className={`text-sm font-bold ${easyScore >= 75 ? 'text-accent-green' : easyScore >= 60 ? 'text-accent-blue' : 'text-accent-orange'}`}>
+            {Math.round(easyScore)}/100
+          </span>
+        </div>
+        <div className="h-2 rounded-full bg-dark-700 overflow-hidden">
+          <div
+            className={easyScore >= 75 ? 'bg-accent-green h-full' : easyScore >= 60 ? 'bg-accent-blue h-full' : 'bg-accent-orange h-full'}
+            style={{ width: `${easyScore}%` }}
+          />
+        </div>
+        {easyReasons.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {easyReasons.map((r) => (
+              <span key={r} className="text-[10px] px-2 py-0.5 rounded-md bg-accent-green/15 text-accent-green font-medium">
+                #{EASY_REASON_TAGS[r]}
+              </span>
+            ))}
+          </div>
+        )}
+        <p className="text-[10px] text-dark-400 mt-2">
+          ※評価方法などから推定した参考値です。実際の難易度は担当教員・年度により異なります。
+        </p>
       </div>
 
       {/* 評価方法 */}
