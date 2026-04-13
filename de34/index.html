@@ -24,6 +24,21 @@
         @media (max-width: 700px) {
             .hero-actions { flex-direction: column; }
         }
+
+        .lesson-list { display: grid; gap: 0.75rem; margin-top: 1rem; }
+        .lesson-card { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem; border-radius: var(--radius-md); background: var(--surface-muted); border: 1px solid var(--line-outer); color: var(--text); transition: all 0.25s ease; }
+        .lesson-card:hover { background: var(--surface); transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+        .lesson-card .lesson-num { flex-shrink: 0; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.04em; }
+        .lesson-card .lesson-body { flex: 1; min-width: 0; }
+        .lesson-card .lesson-title { font-size: 0.98rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem; }
+        .lesson-card .lesson-sub { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+        .lesson-card .lesson-arrow { flex-shrink: 0; color: var(--accent); font-size: 1.1rem; }
+        .lesson-card.upcoming { opacity: 0.55; pointer-events: none; }
+        .lesson-card.upcoming .lesson-num { background: var(--text-faint); }
+
+        .section-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.75rem; }
+        .section-heading { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+        .section-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; }
     </style>
 </head>
 <body>
@@ -56,8 +71,34 @@
         </section>
 
         <section class="section reveal">
-            <div class="content-card" style="text-align:center; padding:3rem 2rem;">
-                <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.8;">デザイン演習 III・IV の演習コンテンツです。<br>自主制作アプリは<a href="../jishu/index.html" style="color:var(--accent); font-weight:600; border-bottom:1px solid var(--accent-line);">こちら</a>に移動しました。</p>
+            <div class="content-card">
+                <span class="section-label">Lessons</span>
+                <h2 class="section-heading">授業まとめ</h2>
+                <p class="section-desc">毎回の授業内容を回ごとにまとめています。</p>
+                <div class="lesson-list">
+                    <a href="01/index.html" class="lesson-card">
+                        <span class="lesson-num">01</span>
+                        <span class="lesson-body">
+                            <span class="lesson-title">第一回 &mdash; Arduino入門</span>
+                            <span class="lesson-sub">Arduinoの設定 / Lチカ / CdSで明るさ測定</span>
+                        </span>
+                        <span class="lesson-arrow">&rarr;</span>
+                    </a>
+                    <span class="lesson-card upcoming">
+                        <span class="lesson-num">02</span>
+                        <span class="lesson-body">
+                            <span class="lesson-title">第二回 &mdash; Coming Soon</span>
+                            <span class="lesson-sub">準備中</span>
+                        </span>
+                        <span class="lesson-arrow">&rarr;</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal">
+            <div class="content-card" style="text-align:center; padding:2rem;">
+                <p style="color:var(--text-muted); font-size:0.85rem; line-height:1.8;">自主制作アプリは<a href="../jishu/index.html" style="color:var(--accent); font-weight:600; border-bottom:1px solid var(--accent-line);">こちら</a>に移動しました。</p>
             </div>
         </section>
     </main>
