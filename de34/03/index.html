@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三回 Flask入門 — デザイン演習 III・IV — XBP</title>
+    <meta name="description" content="第三回：Python の Flask フレームワークの基本（インストール・構成・テンプレート文法）と、CSV を読み込んで表示するステップアップまでをまとめています。">
+    <meta property="og:title" content="第三回 Flask入門 — デザイン演習 III・IV">
+    <meta property="og:description" content="Flask の基本構成、Jinja2 テンプレートの変数・for・if、CSV を読み込んでリストとして表示する流れまでを 1 ページでまとめています。">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="../../images/0_XBlogo.png">
+    <meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="../../css/common.css">
+    <script>
+        (function(){var t=localStorage.getItem("xbp-theme");if(t==="light")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme","dark");})();
+    </script>
+    <style>
+        .lesson-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .lesson-meta span { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
+
+        .toc { display: grid; gap: 0.5rem; margin: 1.5rem 0 0; }
+        .toc a { display: flex; align-items: center; gap: 0.75rem; padding: 12px 16px; border-radius: var(--radius-md); background: var(--bg-soft); border: 1px solid var(--line); color: var(--text); font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
+        .toc a:hover { background: var(--surface); transform: translateX(4px); }
+        .toc a .num { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.75rem; }
+
+        .lesson-section { margin-top: 2rem; }
+        .lesson-section h2 { font-size: 1.35rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; letter-spacing: 0.02em; }
+        .lesson-section h2 .chapter-num { display: inline-block; margin-right: 0.6rem; padding: 2px 10px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 0.7rem; font-weight: 700; vertical-align: middle; letter-spacing: 0.08em; }
+        .lesson-section h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin: 1.5rem 0 0.5rem; }
+        .lesson-section p { font-size: 0.92rem; line-height: 1.85; color: var(--text-muted); margin: 0.5rem 0; }
+        .lesson-section ul, .lesson-section ol { margin: 0.75rem 0 0.75rem 1.25rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.85; }
+        .lesson-section li { margin: 0.3rem 0; }
+        .lesson-section strong { color: var(--text); font-weight: 600; }
+
+        .callout { margin: 1rem 0; padding: 1rem 1.25rem; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: 0.88rem; line-height: 1.75; color: var(--text); }
+        .callout .callout-label { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.35rem; text-transform: uppercase; }
+
+        pre.code { margin: 1rem 0; padding: 1.1rem 1.25rem; background: #1a1a2e; color: #e8e8f0; border-radius: var(--radius-md); font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; font-size: 0.82rem; line-height: 1.7; overflow-x: auto; border: 1px solid rgba(255,255,255,0.04); }
+        pre.code .c-key { color: #c4a7ff; }
+        pre.code .c-fn { color: #8ae2ff; }
+        pre.code .c-num { color: #ffb86c; }
+        pre.code .c-cmt { color: #6b6b80; font-style: italic; }
+        pre.code .c-str { color: #a8e6a3; }
+        pre.code .c-tag { color: #ff79c6; }
+
+        .source-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg-soft); color: var(--text-muted); font-size: 0.78rem; font-weight: 500; transition: all 0.2s ease; }
+        .source-link:hover { background: var(--surface); color: var(--accent); }
+        .source-link::after { content: "↗"; font-size: 0.9rem; }
+
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 1rem 0; }
+        .summary-card { padding: 1rem 1.1rem; border-radius: var(--radius-md); background: var(--bg-soft); border: 1px solid var(--line); }
+        .summary-card h4 { font-size: 0.78rem; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+        .summary-card p { font-size: 0.85rem; color: var(--text); line-height: 1.7; margin: 0; }
+
+        .pin-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.88rem; }
+        .pin-table th, .pin-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line); }
+        .pin-table th { background: var(--bg-soft); color: var(--text); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+        .pin-table td { color: var(--text-muted); }
+        .pin-table tr:last-child td { border-bottom: none; }
+        .pin-table .pin-name { color: var(--accent); font-weight: 600; font-family: 'SFMono-Regular', Consolas, monospace; }
+
+        .pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+        .pager a { display: inline-flex; align-items: center; gap: 0.4rem; padding: 10px 18px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--line); color: var(--text); font-size: 0.85rem; font-weight: 600; transition: all 0.25s ease; }
+        .pager a:hover { background: var(--surface); transform: translateY(-2px); }
+        .pager .disabled { opacity: 0.4; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <div class="page-transition"></div>
+
+    <header class="header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo-link" aria-label="XBP ホーム">
+                <img src="../../images/0_XBlogo.png" alt="" class="logo" loading="lazy">
+                <span class="logo-text"><strong>XBP</strong><span class="gt">x</span></span>
+            </a>
+            <span class="header-region">Portfolio · Japan</span>
+            <div class="header-actions">
+                <button class="theme-toggle" aria-label="テーマ切り替え">
+                    <span class="icon-sun">☀</span><span class="icon-moon">☾</span>
+                </button>
+                <a href="../../index.html#contact" class="header-cta">Contact</a>
+                <button class="menu-toggle" aria-label="メニュー" aria-expanded="false">
+                    <span class="menu-label">Menu</span>
+                    <span class="menu-icon"><span></span><span></span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mega-menu-backdrop"></div>
+    <aside class="mega-menu" aria-label="グローバルナビゲーション">
+        <div class="mega-menu-inner">
+            <div class="mega-menu-section">
+                <span class="mega-menu-label">Works</span>
+                <ul class="mega-menu-list">
+                    <li><a class="mega-menu-link" href="../../de12/index.html">デザイン演習 I・II</a></li>
+                    <li><a class="mega-menu-link" href="../../digi_fab/index.html">デジタルファブリケーション</a></li>
+                    <li><a class="mega-menu-link" href="../../de34/index.html">デザイン演習 III・IV</a></li>
+                    <li><a class="mega-menu-link" href="../../de56/index.html">デザイン演習 V・VI</a></li>
+                    <li><a class="mega-menu-link" href="../../jishu/index.html">自主制作</a></li>
+                </ul>
+            </div>
+            <div class="mega-menu-section">
+                <span class="mega-menu-label">About</span>
+                <ul class="mega-menu-list">
+                    <li><a class="mega-menu-link" href="../../index.html#profile">プロフィール</a></li>
+                    <li><a class="mega-menu-link" href="https://github.com/sh0zy" target="_blank" rel="noopener">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
+    <nav class="breadcrumb" aria-label="現在地">
+        <a href="../../index.html">Portfolio</a>
+        <span class="sep">/</span>
+        <a href="../index.html">Design III・IV</a>
+        <span class="sep">/</span>
+        <span>第三回</span>
+    </nav>
+
+    <main class="main">
+        <section class="hero">
+            <span class="hero-eyebrow">Lesson 03 / Flask</span>
+            <h1 class="hero-title">第三回<br><span class="accent">Flask入門</span></h1>
+            <div class="lesson-meta">
+                <span>Python</span>
+                <span>Flask</span>
+                <span>Jinja2</span>
+                <span>CSV</span>
+            </div>
+            <nav class="toc" aria-label="目次">
+                <a href="#ch1"><span class="num">01</span>Flask とは / インストール</a>
+                <a href="#ch2"><span class="num">02</span>基本構成と最小コード</a>
+                <a href="#ch3"><span class="num">03</span>テンプレート文法（変数・for・if）</a>
+                <a href="#ch4"><span class="num">04</span>Python の復習</a>
+                <a href="#ch5"><span class="num">05</span>CSV を読み込んで一覧表示</a>
+            </nav>
+        </section>
+
+        <section class="article">
+            <div>
+                <article class="lesson-section reveal" id="ch1">
+                    <h2><span class="chapter-num">CH 01</span>Flask とは / インストール</h2>
+                    <p>Flask は Python で書ける軽量な Web アプリケーションフレームワーク。「URL に来たリクエストを関数で受け取り、HTML を返す」というシンプルな仕組みで、最初の一歩に向いている。</p>
+
+                    <h3>インストール</h3>
+                    <p>ターミナルで以下を実行するだけで導入できる。</p>
+<pre class="code">pip install flask</pre>
+
+                    <h3>今回扱う 3 つの要素</h3>
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <h4>app.py</h4>
+                            <p>ルーティングと表示用データを書く Python 側のエントリーポイント。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>templates/</h4>
+                            <p>HTML テンプレートを置くフォルダ。<strong>index.html</strong> をここに配置する。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>static/</h4>
+                            <p>CSS や画像などの静的ファイル置き場。<strong>style.css</strong> はここから読み込む。</p>
+                        </div>
+                    </div>
+
+                    <div class="callout">
+                        <span class="callout-label">Point</span>
+                        Flask の世界では「<strong>Python が値を作り、HTML がそれを表示する</strong>」という役割分担が基本。データの中身は app.py、見た目は templates/ に切り分けて考える。
+                    </div>
+                </article>
+
+                <article class="lesson-section reveal" id="ch2">
+                    <h2><span class="chapter-num">CH 02</span>基本構成と最小コード</h2>
+                    <p>まずは「<code>/</code> にアクセスしたら index.html を返す」だけの最小構成を動かす。</p>
+
+                    <h3>app.py（最小）</h3>
+<pre class="code"><span class="c-key">from</span> flask <span class="c-key">import</span> Flask, render_template, request, redirect, url_for
+
+app = <span class="c-fn">Flask</span>(__name__)
+
+<span class="c-key">@app.route</span>(<span class="c-str">'/'</span>)
+<span class="c-key">def</span> <span class="c-fn">index</span>():
+    <span class="c-key">return</span> <span class="c-fn">render_template</span>(<span class="c-str">"index.html"</span>)
+
+<span class="c-key">if</span> __name__ == <span class="c-str">'__main__'</span>:
+    app.<span class="c-fn">run</span>()</pre>
+
+                    <h3>templates/index.html（最小）</h3>
+<pre class="code"><span class="c-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="c-tag">&lt;html lang=<span class="c-str">"jp"</span>&gt;</span>
+<span class="c-tag">&lt;head&gt;</span>
+    <span class="c-tag">&lt;title&gt;</span>flaskテスト<span class="c-tag">&lt;/title&gt;</span>
+    <span class="c-tag">&lt;meta</span> name=<span class="c-str">"viewport"</span> content=<span class="c-str">"width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;meta</span> charset=<span class="c-str">"UTF-8"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;link</span> rel=<span class="c-str">"stylesheet"</span> href=<span class="c-str">"../static/css/style.css"</span><span class="c-tag">&gt;</span>
+<span class="c-tag">&lt;/head&gt;</span>
+<span class="c-tag">&lt;body&gt;</span>
+    <span class="c-tag">&lt;h1&gt;</span>テスト<span class="c-tag">&lt;/h1&gt;</span>
+    <span class="c-tag">&lt;div&gt;</span>
+        てすとです。<span class="c-tag">&lt;br&gt;</span>
+    <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/body&gt;</span>
+<span class="c-tag">&lt;/html&gt;</span></pre>
+
+                    <div class="callout">
+                        <span class="callout-label">How to run</span>
+                        <code>python app.py</code> を実行すると <strong>http://127.0.0.1:5000/</strong> でローカルサーバーが立ち上がる。ブラウザでそのアドレスを開くと、index.html がそのまま表示される。
+                    </div>
+
+                    <a class="source-link" href="https://qiita.com/doyodoyo/private/c807d7473ca6f47cce3c" target="_blank" rel="noopener">Qiita 原文（Flask 基本）を読む</a>
+                </article>
+
+                <article class="lesson-section reveal" id="ch3">
+                    <h2><span class="chapter-num">CH 03</span>テンプレート文法（変数・for・if）</h2>
+                    <p>Flask のテンプレートは <strong>Jinja2</strong>。HTML の中に <code>{{ ... }}</code> や <code>{% ... %}</code> を埋め込むことで、Python 側の値や制御構造をそのまま反映できる。</p>
+
+                    <h3>① 変数を HTML に渡す</h3>
+                    <p>app.py 側で <code>render_template</code> の引数として渡し、HTML 側では <code>{{ 変数名 }}</code> で受け取る。</p>
+<pre class="code"><span class="c-cmt"># app.py</span>
+a = <span class="c-str">"こんにちは"</span>
+<span class="c-key">return</span> <span class="c-fn">render_template</span>(<span class="c-str">"index.html"</span>, txt=a)</pre>
+<pre class="code"><span class="c-cmt">&lt;!-- index.html --&gt;</span>
+<span class="c-tag">&lt;body&gt;</span>
+    <span class="c-tag">&lt;h1&gt;</span>テスト<span class="c-tag">&lt;/h1&gt;</span>
+    <span class="c-tag">&lt;div&gt;</span>
+        てすとです。<span class="c-tag">&lt;br&gt;</span>
+        {{ txt }}<span class="c-tag">&lt;br&gt;</span>
+    <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/body&gt;</span></pre>
+
+                    <h3>② for 文でくり返す</h3>
+<pre class="code"><span class="c-tag">&lt;h1&gt;</span>テスト<span class="c-tag">&lt;/h1&gt;</span>
+<span class="c-tag">&lt;div&gt;</span>
+    {% <span class="c-key">for</span> i <span class="c-key">in</span> <span class="c-fn">range</span>(<span class="c-num">10</span>) %}
+        {{ txt }} --- {{ i }}<span class="c-tag">&lt;br&gt;</span>
+    {% <span class="c-key">endfor</span> %}
+<span class="c-tag">&lt;/div&gt;</span></pre>
+
+                    <h3>③ if 文で条件分岐</h3>
+<pre class="code"><span class="c-tag">&lt;h1&gt;</span>テスト<span class="c-tag">&lt;/h1&gt;</span>
+<span class="c-tag">&lt;div&gt;</span>
+    {% <span class="c-key">for</span> i <span class="c-key">in</span> <span class="c-fn">range</span>(<span class="c-num">10</span>) %}
+        {% <span class="c-key">if</span> i%<span class="c-num">2</span>==<span class="c-num">0</span> %}
+            {{ txt }} --偶数-- {{ i }}<span class="c-tag">&lt;br&gt;</span>
+        {% <span class="c-key">else</span> %}
+            {{ txt }} --奇数-- {{ i }}<span class="c-tag">&lt;br&gt;</span>
+        {% <span class="c-key">endif</span> %}
+    {% <span class="c-key">endfor</span> %}
+<span class="c-tag">&lt;/div&gt;</span></pre>
+
+                    <h3>記法の使い分け</h3>
+                    <table class="pin-table">
+                        <thead>
+                            <tr><th>記法</th><th>用途</th><th>例</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="pin-name">{{ ... }}</td><td>値を <strong>表示</strong> する</td><td>{{ txt }}</td></tr>
+                            <tr><td class="pin-name">{% ... %}</td><td>制御構造（for / if）の<strong>開始・終了</strong></td><td>{% if x %}{% endif %}</td></tr>
+                            <tr><td class="pin-name">{# ... #}</td><td>テンプレート内コメント（出力されない）</td><td>{# memo #}</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="callout">
+                        <span class="callout-label">練習問題</span>
+                        2 つの変数 <strong>txt1 / txt2</strong> を index.html に渡し、0〜9 の for 文で <strong>偶数のときは txt1</strong>、<strong>奇数のときは txt2</strong> を表示する。
+                    </div>
+                </article>
+
+                <article class="lesson-section reveal" id="ch4">
+                    <h2><span class="chapter-num">CH 04</span>Python の復習</h2>
+                    <p>Step 2 では、テンプレートに渡すデータを Python 側で組み立てる。先にリスト操作と文字列置換を整理しておく。</p>
+
+                    <h3>リストの基本</h3>
+                    <ul>
+                        <li>1 次元リストは <code>list[i]</code> で値を取り出す</li>
+                        <li>多次元リストは <code>list[i][j]</code> のように添字を重ねる</li>
+                        <li>for 文と組み合わせて、行ごとの処理がそのまま書ける</li>
+                    </ul>
+
+                    <h3>文字列の置換</h3>
+                    <p>「ああああああああ」の <strong>あ</strong> を <strong>い</strong> に置き換える、というシンプルな例。</p>
+<pre class="code">s = <span class="c-str">"ああああああああ"</span>
+s = s.<span class="c-fn">replace</span>(<span class="c-str">"あ"</span>, <span class="c-str">"い"</span>)
+<span class="c-fn">print</span>(s)  <span class="c-cmt"># いいいいいいいい</span></pre>
+
+                    <div class="callout">
+                        <span class="callout-label">Point</span>
+                        <strong>replace</strong> はチェーン（連続適用）できる。<code>s.replace("(", "").replace(")", "")</code> のようにつないで、まとめて記号を落とすことが多い。
+                    </div>
+                </article>
+
+                <article class="lesson-section reveal" id="ch5">
+                    <h2><span class="chapter-num">CH 05</span>CSV を読み込んで一覧表示</h2>
+                    <p>最終形は「CSV から読み込んだデータをリスト化し、テンプレート側で<strong>条件によって文字列 or リンク</strong>として表示する」流れ。</p>
+
+                    <h3>app.py（CSV → リスト → テンプレートへ）</h3>
+<pre class="code"><span class="c-key">from</span> flask <span class="c-key">import</span> Flask, render_template, request, session, redirect, flash, url_for
+<span class="c-key">from</span> csv <span class="c-key">import</span> reader
+
+app = <span class="c-fn">Flask</span>(__name__)
+
+<span class="c-key">@app.route</span>(<span class="c-str">'/'</span>)
+<span class="c-key">def</span> <span class="c-fn">index</span>():
+    <span class="c-key">with</span> <span class="c-fn">open</span>(<span class="c-str">'./mmcsv.csv'</span>, <span class="c-str">'r'</span>, encoding=<span class="c-str">"utf-8"</span>) <span class="c-key">as</span> csv_file:
+        csv_reader = <span class="c-fn">reader</span>(csv_file)
+        list_mm = <span class="c-fn">list</span>(csv_reader)
+
+    <span class="c-key">for</span> data <span class="c-key">in</span> list_mm:
+        data[<span class="c-num">3</span>] = <span class="c-str">"https://www.google.com/maps?q="</span> + data[<span class="c-num">3</span>] \
+            .<span class="c-fn">replace</span>(<span class="c-str">"("</span>, <span class="c-str">""</span>) \
+            .<span class="c-fn">replace</span>(<span class="c-str">")"</span>, <span class="c-str">""</span>) \
+            .<span class="c-fn">replace</span>(<span class="c-str">" "</span>, <span class="c-str">""</span>)
+
+    <span class="c-fn">print</span>(list_mm)
+    <span class="c-key">return</span> <span class="c-fn">render_template</span>(<span class="c-str">"index.html"</span>, mmlist=list_mm)
+
+<span class="c-key">if</span> __name__ == <span class="c-str">'__main__'</span>:
+    app.<span class="c-fn">run</span>()</pre>
+
+                    <h3>index.html（最終形）</h3>
+<pre class="code"><span class="c-tag">&lt;h1&gt;</span>テスト<span class="c-tag">&lt;/h1&gt;</span>
+<span class="c-tag">&lt;div&gt;</span>
+{% <span class="c-key">for</span> data <span class="c-key">in</span> mmlist %}
+    {% <span class="c-key">if</span> data[<span class="c-num">1</span>]==<span class="c-str">"場所"</span> %}
+        {{ data[<span class="c-num">1</span>] }} <span class="c-tag">&lt;br&gt;</span>
+    {% <span class="c-key">else</span> %}
+        <span class="c-tag">&lt;a</span> href={{ data[<span class="c-num">3</span>] }} target=<span class="c-str">"_blank"</span><span class="c-tag">&gt;</span>{{ data[<span class="c-num">1</span>] }}<span class="c-tag">&lt;/a&gt;</span><span class="c-tag">&lt;br&gt;</span>
+    {% <span class="c-key">endif</span> %}
+{% <span class="c-key">endfor</span> %}
+<span class="c-tag">&lt;/div&gt;</span></pre>
+
+                    <h3>処理の流れ</h3>
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <h4>① 読み込み</h4>
+                            <p><code>open</code> + <code>csv.reader</code> で CSV を 2 次元リストに変換。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>② 整形</h4>
+                            <p>住所列の括弧と空白を <code>replace</code> で除去し、<strong>Google マップ URL</strong> を組み立てる。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>③ 受け渡し</h4>
+                            <p>整形済みリストを <code>mmlist</code> としてテンプレートへ。</p>
+                        </div>
+                        <div class="summary-card">
+                            <h4>④ 表示分岐</h4>
+                            <p>ヘッダ行（"場所"）はそのまま、データ行はリンクとして描画。</p>
+                        </div>
+                    </div>
+
+                    <div class="callout">
+                        <span class="callout-label">学んだこと</span>
+                        Flask の本質は「<strong>Python で作ったデータ</strong>を、<strong>テンプレート側の表示ロジック</strong>でどう見せるか」を切り分けて書けること。CSV → リスト → Jinja2 まで通ると、外部データを使った Web ページの最小サイクルが一通り体験できる。
+                    </div>
+
+                    <a class="source-link" href="https://qiita.com/doyodoyo/private/feb1f042076bfaf55409" target="_blank" rel="noopener">Qiita 原文（Flask step2）を読む</a>
+                </article>
+
+                <nav class="pager">
+                    <a href="../02/index.html">&larr; 第二回</a>
+                    <a href="../index.html">目次へ &rarr;</a>
+                </nav>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <span class="footer-brand-name">XBP<span class="gt">x</span></span>
+                    <p class="footer-brand-text">sh0zy のデザインポートフォリオ。手を動かして残してきた作品とプロセスをまとめています。</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/sh0zy" target="_blank" rel="noopener" aria-label="GitHub">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.18c-3.2.69-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.73-1.53-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.36-5.25 5.65.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Works</h4>
+                    <ul>
+                        <li><a href="../../de12/index.html">デザイン演習 I・II</a></li>
+                        <li><a href="../../digi_fab/index.html">デジタルファブリケーション</a></li>
+                        <li><a href="../../de34/index.html">デザイン演習 III・IV</a></li>
+                        <li><a href="../../de56/index.html">デザイン演習 V・VI</a></li>
+                        <li><a href="../../jishu/index.html">自主制作</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="../../index.html#profile">プロフィール</a></li>
+                        <li><a href="../../index.html#contact">Contact</a></li>
+                        <li><a href="https://github.com/sh0zy" target="_blank" rel="noopener">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Apps</h4>
+                    <ul>
+                        <li><a href="../../flownest.apk">FlowNest</a></li>
+                        <li><a href="../../kiwadori.apk">Kiwadori</a></li>
+                        <li><a href="../../nightback.apk">Nightback</a></li>
+                        <li><a href="../../pdca.apk">PDCA Flow</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; <span data-current-year>2026</span> sh0zy. All Rights Reserved.</span>
+                <ul class="footer-mini-links">
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                    <li><a href="https://github.com/sh0zy" target="_blank" rel="noopener">Source</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <button class="page-top-btn" aria-label="ページトップへ戻る">&uarr;</button>
+    <script src="../../js/common.js"></script>
+</body>
+</html>

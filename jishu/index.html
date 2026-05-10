@@ -12,44 +12,73 @@
     <meta name="twitter:card" content="summary">
     <link rel="stylesheet" href="../css/common.css">
     <script>
-        (function(){var t=localStorage.getItem("xbp-theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");else if(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)document.documentElement.setAttribute("data-theme","dark");})();
+        (function(){var t=localStorage.getItem("xbp-theme");if(t==="light")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme","dark");})();
     </script>
     <style>
-        .app-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-        .app-grid .content-card { display: flex; flex-direction: column; gap: 14px; }
-        .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-        .card-index { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; color: var(--text-faint); text-transform: uppercase; }
-        .card-type { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; }
-        .card-description { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; margin: 0; }
-        .card-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
-        .card-meta span { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line-outer); background: var(--surface-muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
-        .card-cta { align-self: flex-start; display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--accent-soft); background: var(--accent-soft); color: var(--accent); font-size: 0.85rem; font-weight: 600; transition: all 0.25s ease; }
-        .card-cta:hover { background: rgba(61,61,107,0.18); transform: translateY(-1px); }
+        .platform-note {
+            max-width: var(--max-width);
+            margin: 0 auto 32px;
+            padding: 20px var(--pad-x);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        .platform-note::before {
+            content: '';
+            flex-shrink: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--accent);
+        }
+        .download-guide {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: clamp(48px, 6vw, 96px) var(--pad-x);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+        @media (min-width: 880px) {
+            .download-guide { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 64px; align-items: start; }
+        }
+        .guide-steps { list-style: none; display: grid; grid-template-columns: 1fr; gap: 16px; }
+        @media (min-width: 600px) { .guide-steps { grid-template-columns: repeat(2, 1fr); } }
+        .guide-step {
+            display: flex;
+            gap: 16px;
+            padding: 22px 24px;
+            background: var(--bg-soft);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+        }
+        [data-theme="dark"] .guide-step { background: var(--surface-soft); }
+        .guide-step-num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--text);
+            color: var(--bg-base);
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .guide-step-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+        .guide-step-text { font-size: 0.86rem; color: var(--text-muted); line-height: 1.65; }
 
-        .platform-note { background: var(--surface); backdrop-filter: blur(var(--blur)); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-soft), var(--shadow-inset-top); }
-        .platform-note-title { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.5rem; }
-        .platform-note p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; margin: 0; }
-
-        .download-guide { margin-top: 1.5rem; background: var(--surface); backdrop-filter: blur(var(--blur)); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-soft), var(--shadow-inset-top); }
-        .download-guide-head { margin-bottom: 1.25rem; }
-        .download-guide-head h3 { font-size: clamp(1rem, 2vw, 1.3rem); font-weight: 700; letter-spacing: -0.02em; margin: 0.4rem 0 0; }
-        .guide-steps { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; padding: 0; }
-        .guide-step { display: flex; gap: 12px; padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--line-outer); background: var(--surface-muted); }
-        .guide-step-number { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; }
-        .guide-step-title { font-size: 0.88rem; font-weight: 600; margin: 0; }
-        .guide-step-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; margin: 0.35rem 0 0; }
-
-        .filter-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; padding: 0.5rem; background: var(--surface); backdrop-filter: blur(var(--blur)); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft), var(--shadow-inset-top); }
-        .filter-tab { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid transparent; background: transparent; color: var(--text-muted); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em; cursor: pointer; transition: all 0.2s ease; }
-        .filter-tab:hover { color: var(--text); background: var(--surface-muted); }
-        .filter-tab.is-active { background: var(--accent-soft); border-color: var(--accent-soft); color: var(--accent); }
-        .filter-tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--surface-muted); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.05em; color: var(--text-faint); }
-        .filter-tab.is-active .filter-tab-count { background: rgba(61,61,107,0.18); color: var(--accent); }
-        .empty-note { grid-column: 1 / -1; text-align: center; padding: 2rem; font-size: 0.9rem; color: var(--text-muted); }
-
-        @media (max-width: 700px) {
-            .guide-steps { grid-template-columns: 1fr; }
-            .filter-tab { font-size: 0.78rem; padding: 0 12px; }
+        .empty-note {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -57,83 +86,185 @@
     <div class="page-transition"></div>
 
     <header class="header">
-        <a href="../index.html" class="logo-link">
-            <img src="../images/0_XBlogo.png" alt="XB Logo" class="logo" loading="lazy">
-        </a>
-        <nav class="breadcrumb">
-            <a href="../index.html">Portfolio</a>
-            <span class="sep">/</span>
-            <span>自主制作</span>
-        </nav>
-        <button class="theme-toggle" aria-label="テーマ切り替え">
-            <span class="icon-sun">☀</span>
-            <span class="icon-moon">☾</span>
-        </button>
+        <div class="header-inner">
+            <a href="../index.html" class="logo-link" aria-label="XBP ホーム">
+                <img src="../images/0_XBlogo.png" alt="" class="logo" loading="lazy">
+                <span class="logo-text"><strong>XBP</strong><span class="gt">x</span></span>
+            </a>
+            <span class="header-region">Portfolio · Japan</span>
+            <div class="header-actions">
+                <button class="theme-toggle" aria-label="テーマ切り替え">
+                    <span class="icon-sun">☀</span><span class="icon-moon">☾</span>
+                </button>
+                <a href="../index.html#contact" class="header-cta">Contact</a>
+                <button class="menu-toggle" aria-label="メニュー" aria-expanded="false">
+                    <span class="menu-label">Menu</span>
+                    <span class="menu-icon"><span></span><span></span></span>
+                </button>
+            </div>
+        </div>
     </header>
+
+    <div class="mega-menu-backdrop"></div>
+    <aside class="mega-menu" aria-label="グローバルナビゲーション">
+        <div class="mega-menu-inner">
+            <div class="mega-menu-section">
+                <span class="mega-menu-label">Works</span>
+                <ul class="mega-menu-list">
+                    <li><a class="mega-menu-link" href="../de12/index.html">デザイン演習 I・II</a></li>
+                    <li><a class="mega-menu-link" href="../digi_fab/index.html">デジタルファブリケーション</a></li>
+                    <li><a class="mega-menu-link" href="../de34/index.html">デザイン演習 III・IV</a></li>
+                    <li><a class="mega-menu-link" href="../de56/index.html">デザイン演習 V・VI</a></li>
+                    <li><a class="mega-menu-link" href="../jishu/index.html">自主制作</a></li>
+                </ul>
+            </div>
+            <div class="mega-menu-section">
+                <span class="mega-menu-label">About</span>
+                <ul class="mega-menu-list">
+                    <li><a class="mega-menu-link" href="../index.html#profile">プロフィール</a></li>
+                    <li><a class="mega-menu-link" href="https://github.com/sh0zy" target="_blank" rel="noopener">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
+    <nav class="breadcrumb" aria-label="現在地">
+        <a href="../index.html">Portfolio</a>
+        <span class="sep">/</span>
+        <span>自主制作</span>
+    </nav>
 
     <main class="main">
         <section class="hero">
-            <span class="hero-tag">05 &mdash; Independent Work</span>
-            <h1 class="hero-title">自主制作</h1>
-            <p class="hero-subtitle" style="margin-top:0.75rem; font-size:0.95rem; font-weight:300; color:var(--text-muted);">授業外で自主的に制作したアプリをまとめています。</p>
-            <div class="hero-line"></div>
+            <span class="hero-eyebrow">05 / Independent Work</span>
+            <h1 class="hero-title">
+                自主<span class="accent">x</span><br>
+                制作 Apps.
+            </h1>
+            <p class="hero-lead">
+                授業外で作っているAndroidアプリをまとめています。
+                生活・集中・記録・遊びなど、暮らしの中の小さな課題に向けた12本以上のプロトタイプ。
+            </p>
         </section>
 
-        <section class="section reveal">
-            <h2 class="section-title">アプリ一覧</h2>
+        <p class="platform-note" data-platform-note>Androidではタップ後にAPKを開いてインストール確認へ進めます。PCでは取得用リンクとして使えます。</p>
 
-            <div class="platform-note reveal">
-                <p class="platform-note-title">Open on Device</p>
-                <p data-platform-note>Androidではタップ後にAPKを開いてインストール確認へ進めます。PCでは取得用リンクとして使えます。</p>
+        <section class="section">
+            <div class="section-head">
+                <div>
+                    <span class="section-eyebrow">Catalog</span>
+                    <h2 class="section-title">アプリ一覧</h2>
+                </div>
+                <p class="section-desc">カテゴリで絞り込みながら、気になるアプリのAPKを取得・起動できます。</p>
             </div>
 
-            <div class="filter-tabs reveal" data-app-tabs role="tablist" aria-label="アプリ仕分け"></div>
+            <div class="filter-tabs" data-app-tabs role="tablist" aria-label="アプリ仕分け"></div>
 
-            <div class="card-grid app-grid" data-app-grid></div>
+            <div class="card-grid" data-app-grid></div>
+        </section>
 
-            <section class="download-guide reveal">
-                <div class="download-guide-head">
-                    <p class="platform-note-title">How to Download</p>
-                    <h3>アプリダウンロードの手順</h3>
+        <section class="section section--soft">
+            <div class="download-guide">
+                <div>
+                    <span class="section-eyebrow">How to</span>
+                    <h2 class="section-title">アプリを試す手順</h2>
+                    <p class="section-desc" style="margin-top:16px;">Android端末でAPKを開く際の流れです。PCでは保存して端末に転送します。</p>
                 </div>
                 <ol class="guide-steps">
                     <li class="guide-step">
-                        <span class="guide-step-number">01</span>
+                        <span class="guide-step-num">01</span>
                         <div>
                             <p class="guide-step-title">アプリを選ぶ</p>
                             <p class="guide-step-text">上のカードから開きたいアプリを選び、ボタンを押します。</p>
                         </div>
                     </li>
                     <li class="guide-step">
-                        <span class="guide-step-number">02</span>
+                        <span class="guide-step-num">02</span>
                         <div>
                             <p class="guide-step-title">APKを保存する</p>
                             <p class="guide-step-text">Androidではそのままダウンロード、PCではAndroid端末へ移します。</p>
                         </div>
                     </li>
                     <li class="guide-step">
-                        <span class="guide-step-number">03</span>
+                        <span class="guide-step-num">03</span>
                         <div>
                             <p class="guide-step-title">インストールを許可する</p>
                             <p class="guide-step-text">初回は提供元不明のアプリのインストール許可を求められる場合があります。</p>
                         </div>
                     </li>
                     <li class="guide-step">
-                        <span class="guide-step-number">04</span>
+                        <span class="guide-step-num">04</span>
                         <div>
                             <p class="guide-step-title">インストールして開く</p>
                             <p class="guide-step-text">APKを開いてインストールを完了すると、アプリを起動できます。</p>
                         </div>
                     </li>
                 </ol>
-            </section>
+            </div>
+        </section>
+
+        <section class="cta-band">
+            <div class="cta-band-inner">
+                <div>
+                    <h2 class="cta-band-title">More work,<br>more iteration.</h2>
+                    <p class="cta-band-text">新しいアプリは随時追加していきます。リクエストやフィードバックも歓迎です。</p>
+                </div>
+                <div class="cta-band-actions">
+                    <a href="https://github.com/sh0zy" target="_blank" rel="noopener" class="btn btn--primary">GitHubへ</a>
+                    <a href="../index.html" class="btn btn--ghost">Portfolioへ戻る</a>
+                </div>
+            </div>
         </section>
     </main>
 
     <footer class="footer">
         <div class="footer-inner">
-            <span class="footer-brand">XBP</span>
-            <p class="footer-copy">&copy; <span data-current-year>2026</span> sh0zy</p>
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <span class="footer-brand-name">XBP<span class="gt">x</span></span>
+                    <p class="footer-brand-text">sh0zy のデザインポートフォリオ。手を動かして残してきた作品とプロセスをまとめています。</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/sh0zy" target="_blank" rel="noopener" aria-label="GitHub">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.18c-3.2.69-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.73-1.53-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.36-5.25 5.65.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Works</h4>
+                    <ul>
+                        <li><a href="../de12/index.html">デザイン演習 I・II</a></li>
+                        <li><a href="../digi_fab/index.html">デジタルファブリケーション</a></li>
+                        <li><a href="../de34/index.html">デザイン演習 III・IV</a></li>
+                        <li><a href="../de56/index.html">デザイン演習 V・VI</a></li>
+                        <li><a href="../jishu/index.html">自主制作</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="../index.html#profile">プロフィール</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                        <li><a href="https://github.com/sh0zy" target="_blank" rel="noopener">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Apps</h4>
+                    <ul>
+                        <li><a href="../flownest.apk">FlowNest</a></li>
+                        <li><a href="../kiwadori.apk">Kiwadori</a></li>
+                        <li><a href="../nightback.apk">Nightback</a></li>
+                        <li><a href="../pdca.apk">PDCA Flow</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; <span data-current-year>2026</span> sh0zy. All Rights Reserved.</span>
+                <ul class="footer-mini-links">
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                    <li><a href="https://github.com/sh0zy" target="_blank" rel="noopener">Source</a></li>
+                </ul>
+            </div>
         </div>
     </footer>
 
