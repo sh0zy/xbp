@@ -439,9 +439,10 @@ body.menu-open { overflow: hidden; }
     max-width: 18ch;
 }
 
-.hero-title .accent {
+.hero-title .accent { color: var(--accent); }
+
+.hero-title .accent-x {
     display: inline-block;
-    color: var(--accent);
     font-weight: 900;
     transform-origin: 50% 50%;
     animation: tipOver 1.1s cubic-bezier(0.7, 0, 0.25, 1) 1.6s both;
@@ -1609,5 +1610,5 @@ body.menu-open { overflow: hidden; }
     .hero-title .char { transform: none; opacity: 1; }
     .hero-eyebrow, .hero-lead, .hero-actions { opacity: 1; transform: none; }
     .reveal { clip-path: none; }
-    .hero-title .accent { animation: none; transform: translateY(0.1em) rotate(90deg); }
+    .hero-title .accent-x { animation: none; transform: translateY(0.1em) rotate(90deg); }
 }
