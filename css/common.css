@@ -1603,6 +1603,140 @@ body.menu-open { overflow: hidden; }
 }
 .mega-menu-link:hover::before { transform: scaleX(1); }
 
+/* ============================================================
+   RECOGNITION — Accenture awards-style section
+   ============================================================ */
+.recognition {
+    background: #000;
+    color: #fff;
+    padding: clamp(80px, 12vw, 160px) var(--pad-x);
+}
+
+.recognition-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 56px;
+}
+
+@media (min-width: 880px) {
+    .recognition-inner {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 80px;
+        align-items: start;
+    }
+}
+
+.recognition-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(40px, 6vw, 72px);
+    order: 2;
+}
+
+@media (min-width: 880px) {
+    .recognition-list { order: 2; }
+}
+
+.recognition-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    color: #fff;
+    transition: transform 0.4s var(--ease-out);
+}
+
+.recognition-card:hover { transform: translateY(-6px); }
+
+.recognition-card-art {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--rec-bg, #4a0a8c);
+    overflow: hidden;
+    border-radius: 2px;
+    transition: box-shadow 0.5s var(--ease-out), filter 0.4s var(--ease-out);
+}
+
+.recognition-card:hover .recognition-card-art {
+    box-shadow: 0 24px 60px rgba(255, 255, 255, 0.08);
+    filter: brightness(1.08);
+}
+
+.recognition-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.recognition-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.recognition-card-caption {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.4;
+}
+
+.recognition-card-sub {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.04em;
+    font-family: 'Inter', sans-serif;
+}
+
+.recognition-title {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    order: 1;
+}
+
+@media (min-width: 880px) {
+    .recognition-title {
+        order: 1;
+        position: sticky;
+        top: calc(var(--header-h) + 24px);
+    }
+}
+
+.recognition-title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.recognition-bullet {
+    flex-shrink: 0;
+    width: clamp(14px, 1.4vw, 20px);
+    height: clamp(14px, 1.4vw, 20px);
+    border-radius: 999px;
+    background: #fff;
+    margin-top: 0.45em;
+}
+
+.recognition-title h2 {
+    font-size: clamp(3rem, 9vw, 7rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+    color: #fff;
+}
+
+.recognition-title p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.75;
+    max-width: 38ch;
+    margin-left: clamp(30px, 3vw, 36px);
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
