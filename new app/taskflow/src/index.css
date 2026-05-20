@@ -10,8 +10,18 @@
   html,
   body,
   #root {
-    height: 100%;
+    min-height: 100%;
     background: #06070f;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(124, 108, 255, 0.2), transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, rgba(61, 47, 196, 0.18), transparent 55%),
+        linear-gradient(180deg, #07081280 0%, #050612 100%),
+        #05060f;
+    }
   }
 
   body {

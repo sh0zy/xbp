@@ -14,7 +14,7 @@ export default function App() {
 
   if (!onboardingDone) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', background: '#0f172a', color: '#f1f5f9', paddingTop: 'env(safe-area-inset-top)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0f172a', color: '#f1f5f9', paddingTop: 'env(safe-area-inset-top)' }}>
         <Onboarding />
       </div>
     )
@@ -22,7 +22,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', background: '#0f172a', color: '#f1f5f9', paddingTop: 'env(safe-area-inset-top)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0f172a', color: '#f1f5f9', paddingTop: 'env(safe-area-inset-top)' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddItem />} />

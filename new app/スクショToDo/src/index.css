@@ -132,3 +132,12 @@ body {
 .safe-top {
   padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
 }
+
+@media (min-width: 768px) {
+  body {
+    background:
+      radial-gradient(1400px 900px at 10% -10%, var(--theme-bg-1), transparent 60%),
+      radial-gradient(1100px 800px at 110% 110%, var(--theme-bg-2), transparent 60%),
+      var(--theme-base);
+  }
+}

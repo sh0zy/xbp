@@ -44,6 +44,39 @@ body {
 
 #root {
   min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+#root > * {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100dvh;
+}
+
+@media (min-width: 768px) {
+  body {
+    background:
+      radial-gradient(circle at 16% 6%, rgba(168, 85, 247, 0.1), transparent 42%),
+      radial-gradient(circle at 84% 94%, rgba(56, 189, 248, 0.08), transparent 42%),
+      rgb(var(--app-bg));
+  }
+  #root {
+    padding: 24px 0;
+    align-items: center;
+  }
+  #root > * {
+    min-height: calc(100dvh - 48px);
+    max-height: 920px;
+    height: calc(100dvh - 48px);
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: rgb(var(--app-bg));
+  }
 }
 
 button,

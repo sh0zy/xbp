@@ -32,7 +32,7 @@ export function AppShell() {
   }, [themeMode]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-ink-50 text-ink-800 dark:bg-ink-900 dark:text-ink-50">
+    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-ink-50 text-ink-800 shadow-none md:shadow-[0_30px_80px_rgba(15,23,42,0.18)] dark:bg-ink-900 dark:text-ink-50 dark:md:shadow-[0_30px_80px_rgba(0,0,0,0.55)]">
       <TopBar />
       <main className="flex flex-1 flex-col">
         <Outlet />
