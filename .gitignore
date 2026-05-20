@@ -1,0 +1,45 @@
+# Dependencies — never commit
+node_modules/
+**/node_modules/
+
+# Build artifacts within source projects (apps/<slug>/ ミラーは別途追跡)
+new app/*/dist/
+new app/*/.vite/
+new app/*/.next/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+vite-*.out.log
+vite-*.err.log
+
+# Environment / secrets
+.env
+.env.*
+*.local
+
+# Keystores / signing material
+*.jks
+*.keystore
+
+# Android / iOS generated
+new app/*/android/.gradle/
+new app/*/android/build/
+new app/*/android/app/build/
+new app/*/ios/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+
+# Conda / Python
+.conda/
+__pycache__/
+backup-secrets/

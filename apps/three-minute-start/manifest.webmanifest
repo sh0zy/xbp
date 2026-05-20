@@ -1,1 +1,26 @@
-{"name":"3-Minute Start","short_name":"3-Minute Start","description":"やる気ではなく最初の3分だけ動かす、行動の着火装置アプリ。","start_url":"/","display":"standalone","background_color":"#0e1320","theme_color":"#2b6df6","lang":"en","scope":"/","orientation":"portrait","icons":[{"src":"pwa-192x192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"pwa-512x512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}
+{
+  "name": "3-Minute Start",
+  "short_name": "3-Minute Start",
+  "description": "やる気ではなく最初の3分だけ動かす、行動の着火装置アプリ。",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0e1320",
+  "theme_color": "#2b6df6",
+  "lang": "en",
+  "scope": "./",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

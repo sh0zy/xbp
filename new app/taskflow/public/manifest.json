@@ -2,8 +2,8 @@
   "name": "TaskFlow",
   "short_name": "TaskFlow",
   "description": "前日の夜と当日の朝で、今日の一歩を整える。",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0a0b14",
@@ -11,13 +11,13 @@
   "lang": "ja",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "./icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
