@@ -131,7 +131,7 @@ function renderCards(items, containerSelector) {
 
         var buttons = [];
         buttons.push(
-            '<a class="app-btn app-btn--primary" href="' + escapeAttr(item.webUrl) + '">' +
+            '<a class="app-btn app-btn--primary" href="' + escapeAttr(item.webUrl) + '" target="_blank" rel="noopener noreferrer">' +
                 '<span>Webアプリを開く</span>' +
                 '<span class="app-btn-arrow">→</span>' +
             '</a>'
