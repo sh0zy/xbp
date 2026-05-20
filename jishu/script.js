@@ -1,16 +1,104 @@
+// 自主制作 アプリカタログ — new app/ 配下の8アプリ。
+// すべて xbp リポジトリの GitHub Pages 配下に同梱（apps/<slug>/）。
+// 各アプリは静的ファイルとしてビルド済み。配信先は単一の GitHub Pages のみ。
+
 var apps = [
-    { id: "01", type: "Android APK", category: "health", title: "Fit Forge", description: "自分だけのトレーニングメニューを組み立てて実行できるフィットネスアプリ。種目・セット・休憩を自由に設定し、ワークアウトの記録と振り返りまでをサポートします。", href: "../de34/apps/training-release.apk", meta: ["3.31 MB", "Updated 2026.04.04"] },
-    { id: "02", type: "Android APK", category: "focus", title: "Focus Recipe", description: "集中したい作業をレシピのようにステップ化し、タイマーと組み合わせて実行できるアプリ。作業→休憩のリズムを自分好みにカスタマイズして、生産性を高めます。", href: "../de34/apps/screen-release.apk", meta: ["3.09 MB", "Updated 2026.04.04"] },
-    { id: "03", type: "Android APK", category: "life", title: "朝支度ルート", description: "朝の準備をルーティン化して時間通りに家を出るためのアプリ。起床から出発までのタスクを順番に表示し、各ステップの所要時間をカウントダウンで管理します。", href: "../de34/apps/mor.apk", meta: ["2.90 MB", "Updated 2026.04.07"] },
-    { id: "04", type: "Android APK", category: "note", title: "Screenshot Inbox", description: "スクショを忘れ物から行動に変えるアプリ。取り込み → テキスト抽出 → 自動分類 → リマインド → 行動化まで一気通貫で管理できます。", href: "../ScreenshotInbox.apk", meta: ["3.00 MB", "React + Capacitor", "Updated 2026.04.07"] },
-    { id: "05", type: "Android APK", category: "note", title: "NoteFrame", description: "思いついたアイデアをカード形式でサッと書き留め、タグやフレームで整理できるノートアプリ。シンプルな操作で素早くメモを残し、あとから見返しやすく構造化します。", href: "../noteh.apk", meta: ["4.10 MB", "Updated 2026.04.07"] },
-    { id: "06", type: "Android APK", category: "play", title: "World Play 50", description: "50のミニチャレンジを通じて日常を冒険に変えるアプリ。散歩・観察・発見などのお題をランダムに提示し、身の回りの世界を遊びながら再発見できます。", href: "../world pla.apk", meta: ["4.30 MB", "Updated 2026.03.25"] },
-    { id: "07", type: "Android APK", category: "task", title: "3-Minute Start", description: "「まず3分だけやる」で行動のハードルを下げるアプリ。やりたいことを登録して3分タイマーをスタートするだけ。小さな一歩が習慣化につながります。", href: "../3-minite start.apk", meta: ["Updated 2026.04"] },
-    { id: "08", type: "Android APK", category: "task", title: "Not Today", description: "先延ばしにしがちなタスクを「今日はやらない」と明示的に選ぶことで、本当にやるべきことに集中できるアプリ。逆転の発想でタスク管理をシンプルにします。", href: "../not today.apk", meta: ["Updated 2026.04"] },
-    { id: "09", type: "Android APK", category: "task", title: "PDCA Flow", description: "PDCAサイクルを日常のタスク管理に取り入れるアプリ。Plan→Do→Check→Actの流れを可視化し、継続的な改善をサポートします。", href: "../pdca.apk", meta: ["3.20 MB", "Updated 2026.04"] },
-    { id: "10", type: "Android APK", category: "life", title: "FlowNest", description: "朝と夜のルーティーンをひとつにまとめて管理できるアプリ。起床から就寝までの流れを巣（ネスト）のように組み立て、毎日のリズムを整えます。", href: "../flownest.apk", meta: ["2.98 MB", "Updated 2026.04.13"] },
-    { id: "11", type: "Android APK", category: "study", title: "Kiwadori", description: "大学の単位取得をよりリアルに管理するためのアプリ。各授業の出席回数や必要回数をカウントし、「あと何回休めるか」「単位が取れるか」をきわどく見極めます。", href: "../kiwadori.apk", meta: ["3.08 MB", "Updated 2026.04.13"] },
-    { id: "12", type: "Android APK", category: "life", title: "Nightback", description: "夜のルーティーンを可視化する夜専用アプリ。就寝前にやることを一覧で並べ、進み具合をチェックしながら「帰ってから寝るまで」をスムーズに整えます。", href: "../nightback.apk", meta: ["4.41 MB", "Updated 2026.04.13"] },
+    {
+        id: "01",
+        slug: "focus-recipe",
+        type: "React + Vite + Capacitor",
+        category: "focus",
+        title: "Focus Recipe",
+        description: "「自分が一番集中できる条件」をレシピのように記録・比較できる集中支援アプリ。タイマー × メモ × 振り返りで自分専用の集中処方箋を育てます。",
+        icon: "../images/apps/focus-recipe.png",
+        webUrl: "../apps/focus-recipe/index.html",
+        apkUrl: null,
+        meta: ["React 19", "Tailwind v4", "PWA + Capacitor 8"]
+    },
+    {
+        id: "02",
+        slug: "not-today",
+        type: "React + Vite + Capacitor",
+        category: "life",
+        title: "Not Today",
+        description: "衝動買いをそっと待たせるアプリ。「今日は買わない」を一覧化して、欲しいものを冷却期間つきで眺める。本当に必要だったかを後から振り返れます。",
+        icon: "../images/apps/not-today.png",
+        webUrl: "../apps/not-today/index.html",
+        apkUrl: "../not today.apk",
+        meta: ["React 19", "Tailwind v4", "PWA"]
+    },
+    {
+        id: "03",
+        slug: "noteframe",
+        type: "React + Vite + Capacitor",
+        category: "note",
+        title: "NoteFrame",
+        description: "カード型フレームでメモを枠取りするノートアプリ。思考を“一枚絵”として残し、後から並べ替え・タグ整理ができる構造化メモ環境。",
+        icon: "../images/apps/noteframe.png",
+        webUrl: "../apps/noteframe/index.html",
+        apkUrl: null,
+        meta: ["React 19", "Tailwind v4", "Capacitor + Preferences"]
+    },
+    {
+        id: "04",
+        slug: "taskflow",
+        type: "React + Vite + Capacitor",
+        category: "task",
+        title: "TaskFlow",
+        description: "今日の一歩を、迷わずに。タスクを“流れ”として整え、最小単位から着手できるよう導くタスクアプリ。重さを感じさせない設計で続けやすい。",
+        icon: "../images/apps/taskflow.png",
+        webUrl: "../apps/taskflow/index.html",
+        apkUrl: null,
+        meta: ["React 18", "Tailwind v3", "Capacitor 6"]
+    },
+    {
+        id: "05",
+        slug: "three-minute-start",
+        type: "React + Vite + Capacitor",
+        category: "task",
+        title: "3-Minute Start",
+        description: "やる気ではなく最初の3分だけ動かす、行動の着火装置アプリ。タップしたら3分だけ始めて、続くかどうかは終わってから決められます。",
+        icon: "../images/apps/three-minute-start.png",
+        webUrl: "../apps/three-minute-start/index.html",
+        apkUrl: "../3-minite start.apk",
+        meta: ["React 19", "Tailwind v3", "Local Notifications"]
+    },
+    {
+        id: "06",
+        slug: "keshibato",
+        type: "React + Vite + Capacitor",
+        category: "play",
+        title: "ケシバト",
+        description: "放課後の机を戦場にする消しゴム対戦ゲーム。装備とフィールドを組み合わせて指弾きで勝負する、PWAでもAndroidでも動く軽量ゲーム。",
+        icon: "../images/apps/keshibato.png",
+        webUrl: "../apps/keshibato/index.html",
+        apkUrl: null,
+        meta: ["React 18", "Zustand", "PWA"]
+    },
+    {
+        id: "07",
+        slug: "screenshot-todo",
+        type: "React + Vite + Capacitor",
+        category: "note",
+        title: "スクショToDo",
+        description: "撮ったスクショを「後でやる」に変換するアプリ。画面メモを行動アイテムとして並べ、リマインドで取りこぼしを防ぎます。",
+        icon: "../images/apps/screenshot-todo.png",
+        webUrl: "../apps/screenshot-todo/index.html",
+        apkUrl: null,
+        meta: ["React 18", "Tailwind v3", "Local Notifications"]
+    },
+    {
+        id: "08",
+        slug: "english-quest-rpg",
+        type: "React + Vite + Capacitor",
+        category: "study",
+        title: "English Quest RPG",
+        description: "英会話をターン制RPGとして遊ぶ学習アプリ。音声認識でフレーズを発話し、敵を倒しながら英語フレーズを定着させる遊び心ある学習体験。",
+        icon: "../images/apps/english-quest-rpg.png",
+        webUrl: "../apps/english-quest-rpg/index.html",
+        apkUrl: null,
+        meta: ["React 18", "Tailwind v3", "Speech Recognition"]
+    }
 ];
 
 var categories = [
@@ -19,18 +107,9 @@ var categories = [
     { id: "task",  label: "タスク管理" },
     { id: "note",  label: "ノート・記録" },
     { id: "life",  label: "生活・習慣" },
-    { id: "study", label: "学習・単位" },
-    { id: "health",label: "健康・運動" },
-    { id: "play",  label: "遊び・発見" },
+    { id: "study", label: "学習" },
+    { id: "play",  label: "遊び・ゲーム" }
 ];
-
-var visualVariants = ["", "card-visual--accent", "card-visual--dark", "card-visual--accent", "", "card-visual--dark"];
-
-var isAndroid = /Android/i.test(navigator.userAgent);
-var appCtaLabel = isAndroid ? "APKを開く" : "APKを取得";
-var platformNote = isAndroid
-    ? "AndroidではカードのCTAからAPKを開き、そのままインストール確認へ進めます。"
-    : "PCではAPKを取得し、Android端末へ渡して確認できます。";
 
 function escapeAttr(value) {
     return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -45,43 +124,58 @@ function renderCards(items, containerSelector) {
         return;
     }
 
-    container.innerHTML = items
-        .map(function (item, index) {
-            var variant = visualVariants[index % visualVariants.length];
-            var metaTags = item.meta
-                .map(function (entry) { return '<span>' + entry + '</span>'; })
-                .join("");
+    container.innerHTML = items.map(function (item) {
+        var metaTags = item.meta.map(function (entry) {
+            return '<span>' + entry + '</span>';
+        }).join("");
 
-            return '<a class="card" href="' + escapeAttr(item.href) + '" data-category="' + (item.category || "") + '">' +
-                '<div class="card-visual ' + variant + '"><span class="card-visual-num">' + item.id + '</span></div>' +
-                '<div class="card-body">' +
-                    '<span class="card-tag">' + item.type + '</span>' +
-                    '<h3 class="card-title">' + item.title + '</h3>' +
-                    '<p class="card-text">' + item.description + '</p>' +
-                    '<div class="feature-band-meta" style="margin-bottom:18px;">' + metaTags + '</div>' +
-                    '<span class="card-cta">' + (item.cta || appCtaLabel) + '</span>' +
+        var buttons = [];
+        buttons.push(
+            '<a class="app-btn app-btn--primary" href="' + escapeAttr(item.webUrl) + '">' +
+                '<span>Webアプリを開く</span>' +
+                '<span class="app-btn-arrow">→</span>' +
+            '</a>'
+        );
+        if (item.apkUrl) {
+            buttons.push(
+                '<a class="app-btn app-btn--ghost" href="' + escapeAttr(item.apkUrl) + '" download>' +
+                    'APKを保存' +
+                '</a>'
+            );
+        }
+
+        return '<article class="app-card" data-category="' + escapeAttr(item.category) + '">' +
+            '<div class="app-card-head">' +
+                '<div class="app-card-icon">' +
+                    '<img src="' + escapeAttr(item.icon) + '" alt="' + escapeAttr(item.title) + ' アイコン" loading="lazy">' +
                 '</div>' +
-            '</a>';
-        })
-        .join("");
+                '<div class="app-card-id">#' + item.id + '</div>' +
+            '</div>' +
+            '<div class="app-card-body">' +
+                '<span class="app-card-tag">' + item.type + '</span>' +
+                '<h3 class="app-card-title">' + item.title + '</h3>' +
+                '<p class="app-card-text">' + item.description + '</p>' +
+                '<div class="app-card-meta">' + metaTags + '</div>' +
+            '</div>' +
+            '<div class="app-card-actions">' + buttons.join("") + '</div>' +
+        '</article>';
+    }).join("");
 }
 
 function renderTabs(containerSelector) {
     var container = document.querySelector(containerSelector);
     if (!container) return;
 
-    container.innerHTML = categories
-        .map(function (cat) {
-            var count = cat.id === "all"
-                ? apps.length
-                : apps.filter(function (a) { return a.category === cat.id; }).length;
-            var active = cat.id === "all" ? " is-active" : "";
-            return '<button type="button" class="filter-tab' + active + '" data-filter="' + cat.id + '">' +
-                       '<span>' + cat.label + '</span>' +
-                       '<span class="filter-tab-count">' + count + '</span>' +
-                   '</button>';
-        })
-        .join("");
+    container.innerHTML = categories.map(function (cat) {
+        var count = cat.id === "all"
+            ? apps.length
+            : apps.filter(function (a) { return a.category === cat.id; }).length;
+        var active = cat.id === "all" ? " is-active" : "";
+        return '<button type="button" class="filter-tab' + active + '" data-filter="' + cat.id + '">' +
+                   '<span>' + cat.label + '</span>' +
+                   '<span class="filter-tab-count">' + count + '</span>' +
+               '</button>';
+    }).join("");
 
     container.addEventListener("click", function (e) {
         var btn = e.target.closest("[data-filter]");
@@ -99,8 +193,3 @@ function renderTabs(containerSelector) {
 
 renderTabs("[data-app-tabs]");
 renderCards(apps, "[data-app-grid]");
-
-var noteElement = document.querySelector("[data-platform-note]");
-if (noteElement) {
-    noteElement.textContent = platformNote;
-}

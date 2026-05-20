@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  /* midnight (default) */
+  --theme-base: #05070d;
+  --theme-bg-1: rgba(61, 107, 255, 0.18);
+  --theme-bg-2: rgba(201, 176, 122, 0.08);
+  --theme-accent: #5a8dff;
+  --theme-accent-2: #8ab4ff;
+  --theme-accent-soft: rgba(90, 141, 255, 0.18);
+  --theme-ring: rgba(90, 141, 255, 0.35);
+  --theme-gold: #e8d9a8;
+  --theme-tint: rgba(90, 141, 255, 0.06);
+}
+
+html[data-theme="forest"] {
+  --theme-base: #061311;
+  --theme-bg-1: rgba(16, 185, 129, 0.22);
+  --theme-bg-2: rgba(52, 211, 153, 0.10);
+  --theme-accent: #10b981;
+  --theme-accent-2: #6ee7b7;
+  --theme-accent-soft: rgba(16, 185, 129, 0.22);
+  --theme-ring: rgba(52, 211, 153, 0.40);
+  --theme-gold: #d9f5d0;
+  --theme-tint: rgba(16, 185, 129, 0.08);
+}
+
+html[data-theme="wine"] {
+  --theme-base: #130811;
+  --theme-bg-1: rgba(244, 63, 94, 0.22);
+  --theme-bg-2: rgba(201, 176, 122, 0.14);
+  --theme-accent: #f43f5e;
+  --theme-accent-2: #fda4af;
+  --theme-accent-soft: rgba(244, 63, 94, 0.22);
+  --theme-ring: rgba(244, 63, 94, 0.40);
+  --theme-gold: #f6d67a;
+  --theme-tint: rgba(244, 63, 94, 0.08);
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 800px at 10% -10%, var(--theme-bg-1), transparent 60%),
+    radial-gradient(1000px 700px at 110% 110%, var(--theme-bg-2), transparent 60%),
+    var(--theme-base);
+  color: #e6e8ef;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Top hero accent overlay — visible even behind cards */
+#root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(600px 400px at 50% -5%, var(--theme-bg-1), transparent 70%),
+    radial-gradient(400px 400px at 100% 100%, var(--theme-bg-2), transparent 70%);
+  z-index: 0;
+}
+
+#root > * {
+  position: relative;
+  z-index: 1;
+}
+
+@layer components {
+  .glass {
+    @apply border backdrop-blur-xl shadow-glass;
+    background: color-mix(in srgb, var(--theme-tint) 70%, rgba(255,255,255,0.02));
+    border-color: rgba(255, 255, 255, 0.07);
+  }
+  .glass-strong {
+    @apply border backdrop-blur-2xl shadow-glass;
+    background: color-mix(in srgb, var(--theme-tint) 90%, rgba(255,255,255,0.04));
+    border-color: rgba(255, 255, 255, 0.09);
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3
+      text-white font-medium active:scale-[0.98] transition;
+    background: linear-gradient(to bottom, var(--theme-accent-2), var(--theme-accent));
+    box-shadow: 0 8px 24px -8px var(--theme-ring);
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3
+      bg-white/[0.04] border border-white/[0.08] text-white/90 active:scale-[0.98] transition;
+  }
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3
+      text-ink-950 font-semibold active:scale-[0.98] transition;
+    background: linear-gradient(to bottom, var(--theme-gold), color-mix(in srgb, var(--theme-gold) 70%, black));
+    box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--theme-gold) 60%, transparent);
+  }
+  .input {
+    @apply w-full rounded-2xl bg-white/[0.04] border border-white/[0.08]
+      px-4 py-3 text-white placeholder:text-white/30 outline-none transition;
+  }
+  .input:focus {
+    border-color: var(--theme-ring);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1.5
+      text-xs font-medium bg-white/[0.05] border border-white/[0.08] text-white/80;
+  }
+  .chip-active {
+    background: var(--theme-accent-soft);
+    border-color: var(--theme-ring);
+    color: var(--theme-accent-2);
+  }
+  .card {
+    @apply glass rounded-3xl p-4;
+  }
+  .themed-text { color: var(--theme-accent-2); }
+  .themed-bg { background: var(--theme-accent-soft); }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.safe-bottom {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 88px);
+}
+.safe-top {
+  padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
+}

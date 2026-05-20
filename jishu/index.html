@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>自主制作 — XBP</title>
-    <meta name="description" content="自主制作のアプリ一覧。Android APK をダウンロードできます。">
+    <meta name="description" content="自主制作のアプリ一覧。Webブラウザですぐに試せる8本のプロトタイプを掲載しています。">
     <meta property="og:title" content="自主制作 — XBP">
-    <meta property="og:description" content="自主制作のアプリ一覧。Android APK をダウンロードできます。">
+    <meta property="og:description" content="自主制作のアプリ一覧。Webブラウザですぐに試せる8本のプロトタイプ。">
     <meta property="og:type" content="website">
     <meta property="og:image" content="../images/0_XBlogo.png">
     <meta name="twitter:card" content="summary">
@@ -34,6 +34,184 @@
             border-radius: 999px;
             background: var(--accent);
         }
+
+        /* === App grid (new) === */
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--pad-x);
+        }
+        @media (min-width: 720px) { .app-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1100px) { .app-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .app-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: transform 0.35s var(--ease), border-color 0.25s var(--ease), box-shadow 0.35s var(--ease);
+            color: var(--text);
+        }
+        .app-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--text);
+            box-shadow: var(--shadow-md);
+        }
+
+        .app-card-head {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 28px 28px 0;
+        }
+        .app-card-icon {
+            width: 96px;
+            height: 96px;
+            border-radius: 22px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f4f4f0 0%, #e6e6dc 100%);
+            box-shadow: 0 12px 28px -16px rgba(0,0,0,0.35);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        [data-theme="dark"] .app-card-icon {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2c2c2c 100%);
+        }
+        .app-card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .app-card-id {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--text-faint);
+            padding: 6px 12px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+        }
+
+        .app-card-body {
+            display: flex;
+            flex-direction: column;
+            padding: 22px 28px 8px;
+            flex: 1;
+        }
+        .app-card-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 10px;
+        }
+        .app-card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            line-height: 1.25;
+            margin-bottom: 12px;
+        }
+        .app-card-text {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+            flex: 1;
+        }
+        .app-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+        .app-card-meta span {
+            font-size: 0.72rem;
+            color: var(--text-faint);
+            padding: 4px 10px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .app-card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0 28px 28px;
+        }
+        .app-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border-radius: 999px;
+            text-decoration: none;
+            border: 1px solid var(--line);
+            transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--ease);
+            cursor: pointer;
+            line-height: 1;
+        }
+        .app-btn--primary {
+            background: var(--text);
+            color: var(--bg-base);
+            border-color: var(--text);
+        }
+        .app-btn--primary:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .app-btn--primary .app-btn-arrow {
+            transition: transform 0.2s var(--ease);
+        }
+        .app-btn--primary:hover .app-btn-arrow { transform: translateX(4px); }
+        .app-btn--ghost {
+            background: transparent;
+            color: var(--text);
+        }
+        .app-btn--ghost:hover {
+            border-color: var(--text);
+            transform: translateY(-1px);
+        }
+        .app-btn--disabled {
+            color: var(--text-faint);
+            border-style: dashed;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .app-btn-badge {
+            font-size: 0.62rem;
+            padding: 2px 6px;
+            border-radius: 999px;
+            background: var(--text-faint);
+            color: var(--bg-base);
+            letter-spacing: 0.06em;
+        }
+
+        .empty-note {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
         .download-guide {
             max-width: var(--max-width);
             margin: 0 auto;
@@ -72,14 +250,6 @@
         }
         .guide-step-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
         .guide-step-text { font-size: 0.86rem; color: var(--text-muted); line-height: 1.65; }
-
-        .empty-note {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 48px 24px;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
     </style>
 </head>
 <body>
@@ -142,12 +312,13 @@
                 制作 Apps.
             </h1>
             <p class="hero-lead">
-                授業外で作っているAndroidアプリをまとめています。
-                生活・集中・記録・遊びなど、暮らしの中の小さな課題に向けた12本以上のプロトタイプ。
+                React + Vite + Capacitor で作った 8 本のプロトタイプ。
+                Web ブラウザですぐに試せて、Android アプリとしても動きます。
+                生活・集中・タスク・学習・遊びまで、暮らしの中の小さな課題に向き合ったアプリ群です。
             </p>
         </section>
 
-        <p class="platform-note" data-platform-note>Androidではタップ後にAPKを開いてインストール確認へ進めます。PCでは取得用リンクとして使えます。</p>
+        <p class="platform-note" data-platform-note>カードの「Webアプリを開く」からブラウザでそのまま試せます。Android端末ならホーム画面に追加してアプリのように起動できます。</p>
 
         <section class="section">
             <div class="section-head">
@@ -155,48 +326,48 @@
                     <span class="section-eyebrow">Catalog</span>
                     <h2 class="section-title">アプリ一覧</h2>
                 </div>
-                <p class="section-desc">カテゴリで絞り込みながら、気になるアプリのAPKを取得・起動できます。</p>
+                <p class="section-desc">カテゴリで絞り込みながら、気になるアプリを Web 上で起動できます。各アプリは独立した React + Vite + Capacitor プロジェクトです。</p>
             </div>
 
             <div class="filter-tabs" data-app-tabs role="tablist" aria-label="アプリ仕分け"></div>
 
-            <div class="card-grid" data-app-grid></div>
+            <div class="app-grid" data-app-grid></div>
         </section>
 
         <section class="section section--soft">
             <div class="download-guide">
                 <div>
                     <span class="section-eyebrow">How to</span>
-                    <h2 class="section-title">アプリを試す手順</h2>
-                    <p class="section-desc" style="margin-top:16px;">Android端末でAPKを開く際の流れです。PCでは保存して端末に転送します。</p>
+                    <h2 class="section-title">アプリの使い方</h2>
+                    <p class="section-desc" style="margin-top:16px;">ブラウザでそのまま遊べますが、Androidに最適化されているのでホーム画面追加もおすすめです。</p>
                 </div>
                 <ol class="guide-steps">
                     <li class="guide-step">
                         <span class="guide-step-num">01</span>
                         <div>
                             <p class="guide-step-title">アプリを選ぶ</p>
-                            <p class="guide-step-text">上のカードから開きたいアプリを選び、ボタンを押します。</p>
+                            <p class="guide-step-text">上のカードから気になるアプリの「Webアプリを開く」をタップ／クリック。</p>
                         </div>
                     </li>
                     <li class="guide-step">
                         <span class="guide-step-num">02</span>
                         <div>
-                            <p class="guide-step-title">APKを保存する</p>
-                            <p class="guide-step-text">Androidではそのままダウンロード、PCではAndroid端末へ移します。</p>
+                            <p class="guide-step-title">ブラウザで起動</p>
+                            <p class="guide-step-text">GitHub Pages 経由でそのまま React アプリが立ち上がります。インストール不要。</p>
                         </div>
                     </li>
                     <li class="guide-step">
                         <span class="guide-step-num">03</span>
                         <div>
-                            <p class="guide-step-title">インストールを許可する</p>
-                            <p class="guide-step-text">初回は提供元不明のアプリのインストール許可を求められる場合があります。</p>
+                            <p class="guide-step-title">ホーム画面に追加</p>
+                            <p class="guide-step-text">Android Chromeなら「ホーム画面に追加」でアプリのように常駐できます（PWA対応）。</p>
                         </div>
                     </li>
                     <li class="guide-step">
                         <span class="guide-step-num">04</span>
                         <div>
-                            <p class="guide-step-title">インストールして開く</p>
-                            <p class="guide-step-text">APKを開いてインストールを完了すると、アプリを起動できます。</p>
+                            <p class="guide-step-title">APKでも入れたい場合</p>
+                            <p class="guide-step-text">該当カードにAPKリンクがあれば直接インストール可能。Webと完全に同じ機能が動きます。</p>
                         </div>
                     </li>
                 </ol>
@@ -250,10 +421,14 @@
                 <div class="footer-col">
                     <h4>Apps</h4>
                     <ul>
-                        <li><a href="../flownest.apk">FlowNest</a></li>
-                        <li><a href="../kiwadori.apk">Kiwadori</a></li>
-                        <li><a href="../nightback.apk">Nightback</a></li>
-                        <li><a href="../pdca.apk">PDCA Flow</a></li>
+                        <li><a href="../apps/focus-recipe/index.html">Focus Recipe</a></li>
+                        <li><a href="../apps/not-today/index.html">Not Today</a></li>
+                        <li><a href="../apps/noteframe/index.html">NoteFrame</a></li>
+                        <li><a href="../apps/taskflow/index.html">TaskFlow</a></li>
+                        <li><a href="../apps/three-minute-start/index.html">3-Minute Start</a></li>
+                        <li><a href="../apps/keshibato/index.html">ケシバト</a></li>
+                        <li><a href="../apps/screenshot-todo/index.html">スクショToDo</a></li>
+                        <li><a href="../apps/english-quest-rpg/index.html">English Quest RPG</a></li>
                     </ul>
                 </div>
             </div>

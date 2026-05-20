@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">English Quest RPG</string>
+    <string name="title_activity_main">English Quest RPG</string>
+    <string name="package_name">com.kota.englishquestrpg</string>
+    <string name="custom_url_scheme">com.kota.englishquestrpg</string>
+</resources>

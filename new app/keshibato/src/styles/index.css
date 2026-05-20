@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Segoe UI', Roboto, 'Noto Sans JP', sans-serif;
+  background: #1a1e26;
+}
+
+button {
+  font-family: inherit;
+}
+
+svg {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ===== 落下演出 =====
+ * Piece.tsx が piece-fall + fall-(left|right|up|down) クラスを付与する。
+ * 端にぐらつき→押し出し→回転縮小フェードの流れを1本のCSSにまとめている。
+ * 端から落ちたとき 700ms で自然に視界外へ消えるように最終 opacity=0。 */
+@keyframes piece-fall-base {
+  0% {
+    opacity: 1;
+    filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.5));
+  }
+  15% {
+    opacity: 1;
+    filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.5));
+  }
+  100% {
+    opacity: 0;
+    filter: drop-shadow(0 20px 6px rgba(0, 0, 0, 0));
+  }
+}
+
+.piece-fall {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: piece-fall-base 700ms cubic-bezier(0.4, 0.1, 0.9, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* 端ごとのぐらつき→傾き→落下 keyframes。
+ * 同じ長さ(700ms)で回転量と移動方向だけ差し替える。 */
+@keyframes tilt-left {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+  12%  { transform: translate(1px, 0) rotate(6deg) scale(1); }
+  24%  { transform: translate(-3px, 1px) rotate(-10deg) scale(1); }
+  40%  { transform: translate(-10px, 6px) rotate(-30deg) scale(0.95); }
+  100% { transform: translate(-48px, 60px) rotate(-220deg) scale(0.55); }
+}
+@keyframes tilt-right {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+  12%  { transform: translate(-1px, 0) rotate(-6deg) scale(1); }
+  24%  { transform: translate(3px, 1px) rotate(10deg) scale(1); }
+  40%  { transform: translate(10px, 6px) rotate(30deg) scale(0.95); }
+  100% { transform: translate(48px, 60px) rotate(220deg) scale(0.55); }
+}
+@keyframes tilt-up {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+  12%  { transform: translate(0, 1px) rotate(4deg) scale(1); }
+  24%  { transform: translate(1px, -3px) rotate(-8deg) scale(1); }
+  40%  { transform: translate(2px, -12px) rotate(-18deg) scale(0.95); }
+  100% { transform: translate(6px, -66px) rotate(-260deg) scale(0.55); }
+}
+@keyframes tilt-down {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+  12%  { transform: translate(0, -1px) rotate(-4deg) scale(1); }
+  24%  { transform: translate(-1px, 3px) rotate(8deg) scale(1); }
+  40%  { transform: translate(-2px, 12px) rotate(18deg) scale(0.95); }
+  100% { transform: translate(-6px, 66px) rotate(260deg) scale(0.55); }
+}
+
+.piece-fall.fall-left  { animation-name: piece-fall-base, tilt-left; }
+.piece-fall.fall-right { animation-name: piece-fall-base, tilt-right; }
+.piece-fall.fall-up    { animation-name: piece-fall-base, tilt-up; }
+.piece-fall.fall-down  { animation-name: piece-fall-base, tilt-down; }
+.piece-fall.fall-left,
+.piece-fall.fall-right,
+.piece-fall.fall-up,
+.piece-fall.fall-down {
+  animation-duration: 700ms, 700ms;
+  animation-timing-function: cubic-bezier(0.4, 0.1, 0.9, 1), cubic-bezier(0.3, 0.1, 0.8, 1.05);
+  animation-fill-mode: forwards, forwards;
+}
+
+/* 落下直前のぐらつき(盤面端で耐える瞬間) */
+@keyframes wobble-edge {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-4deg); }
+  75%      { transform: rotate(4deg); }
+}
+.piece-wobble {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wobble-edge 240ms ease-in-out 1;
+}
+
+/* 小さな落下パーティクル(Piece.tsx の<circle>に付与) */
+@keyframes spark-fade {
+  0%   { opacity: 0.9; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0;   transform: translate(var(--sx, 0px), var(--sy, 0px)) scale(0.2); }
+}
+.fall-spark {
+  animation: spark-fade 500ms ease-out forwards;
+}

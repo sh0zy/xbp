@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-display: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body: "Hiragino Sans", "Yu Gothic", "Noto Sans CJK JP", "Meiryo", "Segoe UI", sans-serif;
+}
+
+:root {
+  --app-bg: 9 11 18;
+  --app-surface: 15 18 28;
+  --app-text: 242 245 249;
+  --app-muted: 154 163 175;
+}
+
+:root[data-theme='light'] {
+  --app-bg: 245 247 252;
+  --app-surface: 255 255 255;
+  --app-text: 15 23 42;
+  --app-muted: 71 85 105;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  min-height: 100%;
+  background: rgb(var(--app-bg));
+}
+
+body {
+  min-height: 100dvh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top, rgba(124, 58, 237, 0.08), transparent 36%),
+    radial-gradient(circle at bottom, rgba(56, 189, 248, 0.05), transparent 30%),
+    rgb(var(--app-bg));
+  color: rgb(var(--app-text));
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+select {
+  cursor: pointer;
+}
+
+select {
+  appearance: none;
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.34);
+  color: white;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

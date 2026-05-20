@@ -1,0 +1,88 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.7.2'
+        classpath 'com.google.gms:google-services:4.4.2'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+apply from: "variables.gradle"
+
+def localBuildRoot = new File(System.getProperty("user.home"), ".gradle/english-quest-rpg-android-build")
+def staleOneDriveGeneratedDirs = [
+    new File(rootDir, "build"),
+    new File(rootDir, "app/build"),
+    new File(rootDir, "app/release")
+]
+
+tasks.register("scrubOneDriveGeneratedOutputs") {
+    group = "cleanup"
+    description = "Removes stale Android generated folders that OneDrive can lock as reparse points."
+
+    doLast {
+        staleOneDriveGeneratedDirs.each { staleDir ->
+            if (staleDir.exists()) {
+                if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+                    def target = staleDir.absolutePath.replace("'", "''")
+                    def script = """
+                        \$target = '${target}'
+                        if (Test-Path -LiteralPath \$target) {
+                          Get-ChildItem -LiteralPath \$target -Force -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+                            try { \$_.Attributes = 'Normal' } catch {}
+                          }
+                          Get-Item -LiteralPath \$target -Force | ForEach-Object {
+                            try { \$_.Attributes = 'Directory' } catch {}
+                          }
+                          Remove-Item -LiteralPath \$target -Recurse -Force -ErrorAction Stop
+                        }
+                    """
+
+                    exec {
+                        commandLine "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script
+                    }
+                } else {
+                    delete staleDir
+                }
+            }
+        }
+    }
+}
+
+allprojects {
+    def projectBuildName = project.path == ":" ? "root" : project.path.substring(1).replace(':', File.separator)
+    buildDir = new File(localBuildRoot, projectBuildName)
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    dependsOn tasks.named("scrubOneDriveGeneratedOutputs")
+    delete localBuildRoot
+}
+
+gradle.projectsEvaluated {
+    allprojects {
+        tasks.matching { task ->
+            task.name == "clean" ||
+                task.name.startsWith("assemble") ||
+                task.name.startsWith("bundle") ||
+                task.name.startsWith("install")
+        }.configureEach { task ->
+            if (task.name != "scrubOneDriveGeneratedOutputs") {
+                task.dependsOn rootProject.tasks.named("scrubOneDriveGeneratedOutputs")
+            }
+        }
+    }
+}

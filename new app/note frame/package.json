@@ -1,0 +1,42 @@
+{
+  "name": "noteframe",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Capacitor-ready mobile-first note app built with React, Vite, Tailwind CSS, and TypeScript.",
+  "engines": {
+    "node": ">=20.18.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "android:sync": "npm run build && npx cap sync android",
+    "android:open": "npx cap open android",
+    "assets:generate": "npx @capacitor/assets generate --assetPath assets"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.3.0",
+    "@capacitor/cli": "^8.3.0",
+    "@capacitor/core": "^8.3.0",
+    "@capacitor/preferences": "^8.0.1",
+    "@fontsource/manrope": "^5.2.8",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.7.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.14.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^25.5.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.6"
+  }
+}
