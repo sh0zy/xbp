@@ -1,0 +1,15 @@
+{
+  "name": "23:58 Campus",
+  "short_name": "23:58",
+  "description": "深夜の大学を舞台にした2D探索ホラーゲーム",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#05050F",
+  "theme_color": "#05050F",
+  "icons": [
+    { "src": "./icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "./icons/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">23:58 Campus</string>
+    <string name="title_activity_main">23:58 Campus</string>
+    <string name="package_name">com.kouta.horror2358campus</string>
+    <string name="custom_url_scheme">com.kouta.horror2358campus</string>
+</resources>
